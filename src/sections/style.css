@@ -1,0 +1,49 @@
+.fw-400{
+    font-weight: 400;
+}
+.fw-500{
+    font-weight: 500;
+}
+.fw-600{
+    font-weight: 600;
+}
+.fw-700{
+    font-weight: 700;
+}
+.fw-800{
+    font-weight: 800;
+}
+.fw-900{
+    font-weight: 900;
+}
+.fw-1000{
+    font-weight: 1000;
+}
+
+
+/* text */
+.text-11{
+    font-size: 11px;
+    line-height: 16px;
+}
+
+.text-12{
+    font-size: 12.5px;
+    line-height: 15px;
+}
+.text-14{
+    font-size: 14px;
+    line-height: 24px;
+
+}
+.text-16{
+    font-size: 16x;
+}
+.text-32{
+    font-size: 32x;
+    line-height: 36px;
+    font-weight: 500;
+}
+.letspacing-1{
+letter-spacing: .7px;
+}

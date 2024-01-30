@@ -1,0 +1,352 @@
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { Store as InfoStore } from "react-notifications-component";
+import axios from "axios";
+const root_url = "http://127.0.0.1:8000/apiv1/shop/";
+// const root_url =   "https://iswebcode2.pythonanywhere.com/apiv1/shop/";
+
+const createAlert = (data) => {
+  return InfoStore.addNotification({
+    title: data.title,
+    message: data.message,
+    type: data.type,
+    insert: "top",
+    container: "top-right",
+    animationIn: ["animate__animated animate__fadeIn"],
+    animationOut: ["animate__animated animate__fadeOut"],
+    dismiss: {
+      duration: 5000,
+    },
+  });
+};
+
+const initialState = {
+  cart_updating: false,
+  cartMessage: "",
+  items: [],
+  count: 0,
+  total_amount: 0,
+  userId: "",
+};
+
+export const addToCartdb = createAsyncThunk(
+  "cart/addToCartdb",
+  async ({ payload, token }, { rejectWithValue, getState }) => {
+    console.log("payload");
+    console.log(payload);
+    const cart = getState().cart;
+
+    if (token) {
+      console.log(cart);
+      let product_;
+      let exist = cart.items.filter((item) => {
+        console.log(item.product_id === payload.product_id);
+        return item.product_id === payload.product_id;
+      });
+
+      product_ = { ...payload };
+      if (exist.length) {
+        product_.count = parseInt(payload.count) + parseInt(exist[0].count);
+      }
+
+      try {
+        let item = await axios.post(`${root_url}cart/`, product_, {
+          headers: { Authorization: `bearer ${token}` },
+        });
+        if (item.status === 200) {
+          return payload;
+        }
+      } catch (error) {
+        console.log(error);
+        createAlert({
+          title: "Network Error",
+          type: "danger",
+          message: "Please be sure are connected to an Internet",
+        });
+        return rejectWithValue({
+          message: "Please be sure are connected to an Internet",
+        });
+      }
+    }
+    return payload;
+  }
+);
+export const removeFromCartdb = createAsyncThunk(
+  "cart/removeFromCartdb",
+  async ({ payload, token }, { rejectWithValue, getState }) => {
+    const cart = getState().cart;
+
+    if (token) {
+      console.log(cart);
+      let product_;
+      let exist = cart.items.filter((item) => {
+        console.log(item.product_id === payload.product_id);
+        return item.product_id === payload.product_id;
+      });
+
+      product_ = { ...payload };
+
+      console.log(product_);
+      if (exist.length) {
+        // product_.count = parseInt(payload.count) + parseInt(exist[0].count);
+
+        try {
+          console.log("bbefpr");
+          console.log(product_);
+          let item = await axios.delete(
+            `${root_url}cart/`,
+            {
+              headers: { Authorization: `bearer ${token}` },
+              data:product_
+            },
+           
+          );
+          if (item.data.status) {
+            return exist[0];
+          }
+        } catch (error) {
+          console.log(error);
+          createAlert({
+            title: "Network Error",
+            type: "danger",
+            message: "Please be sure are connected to an Internet",
+          });
+          return rejectWithValue({
+            message: "Please be sure are connected to an Internet",
+          });
+        }
+      }
+    }
+    return payload;
+  }
+);
+export const decreaseCartdb=createAsyncThunk(
+  "decreaseCartdb/cart",(payload,{rejectWithValue,dispatch})=>{
+    dispatch(reduceItemFromCart(payload.product))
+
+  }
+)
+
+export const cartSlice = createSlice({
+  initialState,
+  name: "cart",
+  reducers: {
+    addToCart: (state, action) => {
+      const addItemCount = (count) => {
+        state.count += count;
+      };
+      const total_price = (price) => {
+        state.total_amount += price;
+      };
+
+      if (state.items.length) {
+        let existingItem;
+        let index;
+        state.items = state.items.filter((item, i) => {
+          if (item.name === action.payload.payload.name) {
+            existingItem = item;
+            index = i;
+          }
+          // state.count = -item.count;
+          return item.name !== action.payload.payload.name;
+        });
+        if (existingItem?.name) {
+          existingItem.count += action.payload.payload.count;
+          state.items.splice(index, 0, existingItem);
+          addItemCount(action.payload.payload.count);
+          total_price(
+            action.payload.payload.count * action.payload.payload.price
+          );
+        } else {
+          state.items.push(action.payload.payload);
+          addItemCount(action.payload.payload.count);
+          total_price(
+            action.payload.payload.count * action.payload.payload.price
+          );
+        }
+      } else {
+        state.items.push(action.payload.payload);
+        addItemCount(action.payload.payload.count);
+        total_price(
+          action.payload.payload.count * action.payload.payload.price
+        );
+      }
+
+      // state.count = state.count + action.payload.payload.count;
+    },
+    removeFromCart: (state, action) => {
+      const removeItemCount = (count) => {
+        state.count -= count;
+      };
+
+      const minus_price = (price) => {
+        state.total_amount -= price;
+      };
+
+      if (state.items.length) {
+        let existingItem;
+        state.items = state.items.filter((item, i) => {
+          if (item.name === action.payload.payload.name) {
+            existingItem = item;
+          }
+          // state.count = -item.count;
+          return item.name !== action.payload.name;
+        });
+        if (existingItem?.count) {
+          // existingItem.count -= action.payload.count;
+          // state.items.push(existingItem);
+          removeItemCount(action.payload.count);
+          minus_price(action.payload.price * action.payload.count);
+        } else {
+          // removeItemCount(action.payload.count);
+        }
+      } else {
+        createAlert({
+          message: "Can't remove item from an Empty cart",
+          type: "danger",
+          title: "Cart Error",
+        });
+      }
+    },
+    reduceItemFromCart: (state, action) => {
+      const removeItemCount = (count) => {
+        state.count -= count;
+      };
+      const minus_price = (price) => {
+        state.total_amount -= price;
+      };
+
+      if (state.items.length) {
+        let existingItem;
+        let index;
+        state.items = state.items.filter((item, i) => {
+          if (item.name === action.payload.name) {
+            existingItem = item;
+            index = i;
+          }
+          // state.count = -item.count;
+          return item.name !== action.payload.name;
+        });
+        if (existingItem?.count > 1) {
+          existingItem.count -= 1;
+          state.items.splice(index, 0, existingItem);
+          minus_price(existingItem.price);
+          removeItemCount(1);
+        } else {
+          removeItemCount(1);
+          minus_price(action.payload.price);
+        }
+      } else {
+        createAlert({
+          message: "Can't remove item from an Empty cart",
+          type: "danger",
+          title: "Cart Error",
+        });
+      }
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(addToCartdb.pending, (state) => {});
+    builder.addCase(addToCartdb.rejected, (state, action) => {
+      console.log(action);
+    });
+    builder.addCase(addToCartdb.fulfilled, (state, action) => {
+      const addItemCount = (count) => {
+        state.count += count;
+      };
+      console.log(action.payload);
+      const total_price = (price) => {
+        state.total_amount += price;
+      };
+
+      if (state.items.length) {
+        let existingItem;
+        let index;
+        state.items = state.items.filter((item, i) => {
+          if (item.name === action.payload.name) {
+            existingItem = item;
+            index = i;
+          }
+          // state.count = -item.count;
+          return item.product_id !== action.payload.product_id;
+        });
+        if (existingItem?.name) {
+          existingItem.count += action.payload.count;
+          state.items.splice(index, 0, existingItem);
+          addItemCount(action.payload.count);
+          total_price(action.payload.count * action.payload.price);
+        } else {
+          state.items.push(action.payload);
+
+          addItemCount(action.payload.count);
+          total_price(action.payload.count * action.payload.price);
+        }
+      } else {
+        state.items.push(action.payload);
+        addItemCount(action.payload.count);
+        total_price(action.payload.count * action.payload.price);
+      }
+
+      // state.count = state.count + action.payload.count;
+    });
+    //  remove from db
+    builder.addCase(removeFromCartdb.pending, (state) => {});
+    builder.addCase(removeFromCartdb.rejected, (state, action) => {
+      console.log(action);
+    });
+    builder.addCase(removeFromCartdb.fulfilled, (state, action) => {
+      const removeItemCount = (count) => {
+        state.count -= count;
+      };
+
+      const minus_price = (price) => {
+        state.total_amount -= price;
+      };
+
+      if (state.items.length) {
+        let existingItem;
+        state.items = state.items.filter((item, i) => {
+          if (item.name === action.payload.name) {
+            existingItem = item;
+          }
+          // state.count = -item.count;
+          return item.name !== action.payload.name;
+        });
+        if (existingItem?.count) {
+          // existingItem.count -= action.payload.count;
+          // state.items.push(existingItem);
+          removeItemCount(action.payload.count);
+          minus_price(action.payload.price * action.payload.count);
+        } else {
+          // removeItemCount(action.payload.count);
+        }
+      } else {
+        createAlert({
+          message: "Can't remove item from an Empty cart",
+          type: "danger",
+          title: "Cart Error",
+        });
+      }
+
+      // state.count = state.count + action.payload.count;
+    });
+
+    // Adding to cart
+  },
+});
+
+export const getCart = createAsyncThunk(
+  "cart/getcart",
+  async (userId, { extra }) => {
+    // TODO get cart items using the userId  and return it or return rejectWithValue
+  }
+);
+export const decreaseCart = createAsyncThunk(
+  "cart/decreaseCart",
+  async (userData, { extra, rejectWithValue, dispatch }) => {
+    // dispatch( reduceItemFromCart(userData))
+  }
+);
+
+export const { addToCart, removeFromCart, reduceItemFromCart } =
+  cartSlice.actions;
+export default cartSlice.reducer;

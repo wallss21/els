@@ -226,13 +226,16 @@ export const Jewellery_material = [
 ];
 
 export const landing_video = "https://player.vimeo.com/video/877708658";
-export const mainNav_featuredImages=[
-  {name:"jewelry",img:"https://www.wallacebishop.com.au/cdn/shop/collections/Category-Jewellery-Gemstone-Morganite_2c3d3ed9-c085-4220-a0b2-f4b84d448ab8_1400x.jpg?v=1619650949"},
-  {name:"ENGAGEMENT RINGS",img:"https://www.wallacebishop.com.au/cdn/shop/collections/Category-Engagement-Rings-Shape_1400x.jpg?v=1619743009"},
-  {name:"WEDDING RINGS",img:""},
-  {name:"WATCHES",img:""},
-  {name:"COLLECTIONS",img:""},
-]
+export const mainNav_featuredImages = {
+  jewelry:
+    "https://www.wallacebishop.com.au/cdn/shop/collections/Category-Jewellery-Gemstone-Morganite_2c3d3ed9-c085-4220-a0b2-f4b84d448ab8_1400x.jpg?v=1619650949",
+  engagement:
+    "https://www.wallacebishop.com.au/cdn/shop/collections/Category-Engagement-Rings-Shape_1400x.jpg?v=1619743009",
+  wedding:
+    "https://www.wallacebishop.com.au/cdn/shop/collections/wedding-rings-and-bands-wallace-bishop_1400x.jpg?v=1689664443",
+  watches:
+    "https://www.wallacebishop.com.au/cdn/shop/collections/watches-wallace-bishop_1400x.jpg?v=1689664443",
+};
 
 export const products = [
   {

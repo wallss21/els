@@ -1,7 +1,13 @@
 import React, { useEffect } from "react";
 import "./products.css";
 import Header from "../../components/shared/header";
-import { Link, NavLink, useParams, useSearchParams } from "react-router-dom";
+import {
+  Link,
+  NavLink,
+  useLocation,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import { Jewellery_material } from "../../assets/data";
 import Footer from "../../components/shared/footer";
 
@@ -31,6 +37,8 @@ function Products() {
 
   // const dispatch=useDispatc()
 
+ 
+
   useEffect(() => {
     const price_range = [
       searchParams.get("minV") ? searchParams.get("minV") : "min",
@@ -51,11 +59,16 @@ function Products() {
     // dispatch(filterProduct({ filter: filter?.split("-"), page: current_page }));
   }, [dispatch, category, searchParams, current_page]);
 
+
   useEffect(() => {
     window.scrollTo(0, 0);
+   
   }, [searchParams]);
 
-  useEffect(() => {});
+  useEffect(() => {
+    
+
+  });
 
   const navlinks = [
     "Automatic",
@@ -67,12 +80,14 @@ function Products() {
     "Women's Watches",
   ];
 
+
+
   return (
     <div className="">
       <Header />
       {/* <Landing /> */}
       <section>
-        <CategoryBanner data={{}} />
+        <CategoryBanner />
         {/* <div className=" overflow-x-auto lg:flex justify-center pt-3 pb-2 lg:pb-5 no-scrollbar border-b border-gray-300">
           <ul className="flex md:p-0 lg:mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-3 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
             {navlinks.map((link, index) => {
@@ -110,8 +125,8 @@ function Products() {
                 return <Product id={product.product_id} product={product} />;
               })}
             </div>
-           
-          <Pagination
+
+            <Pagination
               availablepage={Math.ceil(displaylist?.count / 24)}
               current_page={current_page}
             />

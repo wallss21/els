@@ -26,7 +26,7 @@ function CategoryBanner() {
       
       <div 
      
-      className="py-32 bg-center overlay"   >
+      className="py-20 lg:py-32 bg-center overlay"   >
         
         <p className="text-5xl text-white font-mont font-meduim  text-center">
           {data.title}

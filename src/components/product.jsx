@@ -63,7 +63,9 @@ function Product({ product, id }) {
             alt=""
             srcSet=""
           />
+          {product.discount_percent>0&&( <span className="text-red-600   absolute top-1 right-1 float-end px-2 py-2 bg-red-100">{product.discount_percent}% off </span>)}
           <div className="hidden w-full z-[100]  absolute bottom-2 add_to_cart_btn   ">
+
             <p className="hidden lg:block">
               <p
                 onClick={(e) => {
@@ -75,7 +77,7 @@ function Product({ product, id }) {
                   });
                   dispatch(
                     addToCartdb({
-                      payload: { ...product, count:1 },
+                      payload: { ...product, count: 1 },
                       token: token,
                     })
                   );
@@ -103,7 +105,7 @@ function Product({ product, id }) {
             );
           }}
         >
-          <div className="title mt-5 mb-1">
+          <div className="title  mb-1">
             <Title
               text_s={"text-xs"}
               color={"text-gray-600"}
@@ -111,9 +113,15 @@ function Product({ product, id }) {
             />
           </div>
           <p className="name lg:px-3 text-sm font-mont mt-2">{product.name}</p>
+          {product.discount_avail && product.discount_percent > 0 && (
+              <span className="prices text-base font-mont text-red-600 line-through ">
+                ${numeral(product.price).format()}
+              </span>
+            )}
           <div className="">
+           
             <span className="prices  text-base font-mont ">
-              ${numeral(product.price).format()}
+              ${numeral(product.display_price).format()}
             </span>
           </div>
         </div>

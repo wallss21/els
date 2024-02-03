@@ -4,8 +4,8 @@ import { Store as InfoStore } from "react-notifications-component";
 
 // import  jwt from "jsonwebtoken";
 
-// const root_url = "http://127.0.0.1:8000/apiv1/accounts/";
-const root_url = "https://walse.pythonanywhere.com/apiv1/shop/collections/";
+const root_url = "http://127.0.0.1:8000/apiv1/accounts/";
+// const root_url = "https://walse.pythonanywhere.com/apiv1/shop/collections/";
 
 
 const createAlert = (data) => {
@@ -264,7 +264,7 @@ export const userSlice = createSlice({
       state.isLoading = false;
       createAlert({
         message:
-          "An e-mail has been sent to your address with instructions to recover your password.",
+          "An e-mail has been sent to you. Please follow the instr=uction to reaet your password.",
         type: "info",
         title: "password Recovery",
       });

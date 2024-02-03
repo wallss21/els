@@ -2,25 +2,21 @@ import React, { useEffect } from "react";
 import "./products.css";
 import Header from "../../components/shared/header";
 import {
-  Link,
-  NavLink,
-  useLocation,
+
   useParams,
   useSearchParams,
 } from "react-router-dom";
-import { Jewellery_material } from "../../assets/data";
 import Footer from "../../components/shared/footer";
 
 import { useDispatch, useSelector } from "react-redux";
 import {
-  filterProduct,
   getJewellery,
 } from "../../features/products/product_listSlice";
 import Product from "../../components/product";
-import Landing from "../../sections/landing";
-import { Plus } from "../../components/icons";
+// import Landing from "../../sections/landing";
+// import { Plus } from "../../components/icons";
 import Pagination from "../../components/pagination";
-import PriceRange from "../../components/price_range";
+// import PriceRange from "../../components/price_range";
 import CategoryBanner from "../../sections/categoryBanner";
 import Sidefilter from "./sidefilter";
 
@@ -70,16 +66,7 @@ function Products() {
 
   });
 
-  const navlinks = [
-    "Automatic",
-    "Quartz",
-    "Chronograph",
-    "Analogue",
-    "Digital",
-    "Men's Watches",
-    "Women's Watches",
-  ];
-
+  
 
 
   return (
@@ -88,30 +75,7 @@ function Products() {
       {/* <Landing /> */}
       <section>
         <CategoryBanner />
-        {/* <div className=" overflow-x-auto lg:flex justify-center pt-3 pb-2 lg:pb-5 no-scrollbar border-b border-gray-300">
-          <ul className="flex md:p-0 lg:mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-3 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-            {navlinks.map((link, index) => {
-              return (
-                <li
-                  key={index}
-                  onMouseOver={(e) => {}}
-                  onMouseLeave={(e) => {}}
-                  className=""
-                >
-                  <NavLink
-                    to={`/collections/${link
-                      .toLowerCase()
-                      .replace(" ", "-")
-                      .replace("'", "")}`}
-                    className="py-3 px-3 font-mont font-light text-[#282828] hover:text-white active:bg-[#282828] active:no-underline hover:no-underline hover:bg-[#282828] rounded   "
-                  >
-                    {link}
-                  </NavLink>
-                </li>
-              );
-            })}
-          </ul>
-        </div> */}
+      
 
         <div className="lg:grid grid-cols-12 gap-x-6 container  mx-auto px-5 lg:px-0 ">
           {/* sidebar */}
@@ -119,7 +83,7 @@ function Products() {
 
           {/* main page */}
           <div className=" xl:col-span-10 col-span-9">
-            <span>Total {displaylist.count}</span>
+            <p className="py-7 font-mont text-sm font-semibold">Total Items  {displaylist.count}</p>
             <div className="grid grid-cols-2 xl:grid-cols-3 gap-5 py-10">
               {displaylist?.results?.map((product) => {
                 return <Product id={product.product_id} product={product} />;

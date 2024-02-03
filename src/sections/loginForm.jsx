@@ -61,7 +61,7 @@ function LoginForm() {
                 type={"password"}
               />
               <div className="input_group  lg:w-4/12 md:w-6/12 w-full  flex justify-end">
-                <Link to={"/account/recovery"}>
+                <Link to={"/accounts/recovery"}>
                   <span className="text-xs font-light font-mont text-[#282828] underline underline-offset-4">
                     forgot password ?
                   </span>

@@ -16,18 +16,17 @@ import Checkout from "./pages/product/checkout";
 
 export const router = createBrowserRouter([
   {
-    path: "/products/checkout/confirm",
+    path: "/products/checkout/",
     element: <AuthRequired />,
     children: [{ index: true, element: <Checkout />, path: "" }],
   },
-  { path: "/products/checkout/", element: <Checkout /> },
   { path: "/products/:product_name", element: <ProductDetail /> },
   { path: "/collections/:category", element: <Products /> },
   { path: "/collections", element: <Collections /> },
 
   { path: "/account/register", element: <Register /> },
-  { path: "/account/login", element: <Login /> },
-  { path: "/account/recovery", element: <Recovery /> },
+  { path: "/accounts/login", element: <Login /> },
+  { path: "/accounts/recovery", element: <Recovery/> },
   { path: "/accounts/recovery/:email/:time", element: <ToNewPassword /> },
   { path: "/accounts/recovery/reset-password", element: <NewPassword /> },
 

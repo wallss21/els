@@ -46,8 +46,8 @@ function AuthRequired() {
   if (user.authenticated === false) {
     return (
       <Navigate
-        to={"/account/login"}
-        state={{ from: location }}
+        to={"/accounts/login"}
+        state={{ from: location ,other:location.state}}
         replace={false}
       />
     );

@@ -19,7 +19,7 @@ function Login() {
       </div>
     );
   }
-  return <Navigate to={from} replace />;
+  return <Navigate to={from} state={location.state.other} replace />;
 }
 
 export default Login;

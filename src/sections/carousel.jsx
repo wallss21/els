@@ -84,7 +84,7 @@ export function MoCarousel() {
 
 export function ProductCarousel({ imgs }) {
   return (
-    <div className="prduct_carousel">
+    <div className="prduct_carousel ">
       <Carousel
         statusFormatter={() => false}
         className=""
@@ -103,7 +103,7 @@ export function ProductCarousel({ imgs }) {
           return (
             <div className="bg-gray-300 mx-auto">
               <img
-                className="lg:w-11/12 bg-blend-multiply "
+                className="lg:w-10/12 bg-blend-multiply "
                 src={img}
                 alt="..."
               />

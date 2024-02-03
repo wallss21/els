@@ -4,6 +4,7 @@ import { router as adminRouter } from "./router_admin";
 import { RouterProvider } from "react-router-dom";
 import { ReactNotifications } from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
+import Header from "./components/shared/header";
 
 function App() {
   // let host = window.location.hostname;

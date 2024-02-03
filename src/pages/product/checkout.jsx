@@ -1,7 +1,5 @@
 import React from "react";
-import Header from "../../components/shared/header";
-import { GoPlus } from "react-icons/go";
-import { Minus } from "../../components/icons";
+
 import { Link, useLocation } from "react-router-dom";
 import numeral from "numeral";
 import { Title } from "../../components/text";

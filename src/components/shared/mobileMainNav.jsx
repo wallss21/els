@@ -17,7 +17,7 @@ function MobileMainNav({ isNavOpen, setIsNavOpen, mobile_ref, navlinks }) {
 
   useEffect(() => {
     dispatch(checkIfUserLogin());
-  });
+  },[dispatch]);
 
   return (
     <div className="">

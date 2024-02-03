@@ -4,7 +4,7 @@ import "./style.css";
 
 function Gshock() {
   return (
-    <section className="bg-white py-10 lg:py-20">
+    <section className="bg-white py-10 lg:py-10">
       <div className="lg:grid grid-cols-11 mx-auto container w-10/12 lg:mt-20  gap-x-16 items-center ">
         <div className="img col-span-5">
           <img

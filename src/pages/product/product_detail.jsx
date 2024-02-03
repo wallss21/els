@@ -122,10 +122,10 @@ const AddToCart = ({ className, product }) => {
 
 const Content = ({ product }) => {
   return (
-    <div className="lg:grid grid-cols-12  lg:gap-x-10 pt-8">
+    <div className="lg:grid grid-cols-12   lg:gap-x-10 pt-8">
       <div className=" col-span-7">
         <div className="imgs  self-center  gap-x-2 bg-white  ml-auto pt-2 pb-3 lg:pb-8 rounded  ">
-          <div className="img_preview col-span-10  lg:order-2  w-11/12 mx-auto ">
+          <div className="img_preview col-span-10 lg:order-2  w-10/12 mx-auto ">
             <ProductCarousel imgs={`${product.img1},${product.img2}`} />
           </div>
         </div>

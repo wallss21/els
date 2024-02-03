@@ -1,74 +1,104 @@
 import React, { useState } from "react";
-import Header from "../../components/shared/header";
-import LoginForm from "../../sections/loginForm";
-import Footer from "../../components/shared/footer";
-import FormInput from "../../components/input";
-import { useDispatch, useSelector } from "react-redux";
-import { recoverAccount, showAlert } from "../../features/auth/authSlice";
-import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { login, recoverAccount, showAlert } from "../../features/auth/authSlice";
+import FormInput from "../../components/input";
+import { useForm } from "react-hook-form";
 import Spinner from "../../components/spinner";
+import { Title } from "../../components/text";
+import Header from "../../components/shared/header";
 
 function Recovery() {
   const { register, handleSubmit } = useForm();
   const isLoading = useSelector((state) => state.auth.isLoading);
-  const dispatch = useDispatch();
 
+  const dispatch = useDispatch();
   const onSubmit = (e) => {
-    console.log(e);
-    if (e.Email === "") {
-      dispatch(
+    if (e.Email.trim() === "")
+      return dispatch(
         showAlert({
-          message: "Email Required",
+          message: "Email field is required",
           type: "danger",
-          title: "Password Recovery",
+          title: "Authentication",
         })
       );
-      return;
-    }
-    dispatch(recoverAccount({ email: e.Email }));
+
+   
+    dispatch(recoverAccount({ email: e.Email}));
   };
 
   return (
-    <div className=" ">
-      <Header />
-      <div className="p headings text-5xl font-mont tracking-tight font-normal  text-center pt-20">
-        Recover password
-      </div>
-      <form
-        className="py-20 px-10 flex flex-col justify-center items-center "
-        action="/"
-        onSubmit={handleSubmit(onSubmit)}
-        method="post"
-      >
-        <div className="mb-5 font-mont lg:w-4/12 md:w-6/12 ">
-          Please Enter your registered Email
-        </div>
-        <FormInput label={"Email"} register={register} type={"email"} />
-
-        <div className="formgroup lg:w-4/12 md:w-6/12 w-full mt-3 ">
-          <button
-            disabled={isLoading}
-            type="submit"
-            class="bg-[#282828] w-full text-white py-3 text-lg text-center"
+   <div className="">
+    <Header/>
+     <section>
+      <div className="main">
+        <div className="px-5 lg:px-0 container mx-auto t">
+          <div className="text-center">
+            {" "}
+            <h3 className="mt-16 pb-5 text-[44px] font-[500] font-mont ">
+              Login
+            </h3>
+            <p className="font-mont text-sm pb-10">
+              Please enter your registered e-mail
+            </p>
+          </div>
+          <form
+            action="/"
+            onSubmit={handleSubmit(onSubmit)}
+            className="w-full pb-10"
+            method="post"
           >
-            {isLoading ? <Spinner /> : " Reset Password"}
-          </button>
-
-          <p className="text-xs font-mont  mt-3">
-            Remember your password? &nbsp;
-            <Link
-              to={"/account/login"}
-              className="underline underline-offset-4"
-            >
-              Back to login
-            </Link>
-          </p>
+            <div className="inputs flex  flex-col justify-center items-center  ">
+              <FormInput register={register} label={"Email"} type={"email"} />
+              
+             
+              <button 
+              disabled={isLoading}
+                type="submit"
+                className=" lg:w-4/12 md:w-6/12 w-full mt-3 py-4 uppercase bg-[#282828] "
+              >
+                {isLoading ? (
+                  <Spinner  />
+                ) : (
+                  <Title
+                    title={"Recover Password"}
+                    text_s={"text-sm "}
+                    color={"text-white"}
+                  />
+                )}
+              </button>
+              <p className="text-sm font-light font-mont mt-5">
+               Remember password?  &nbsp;
+                <Link
+                  to={"/accounts/login"}
+                  className="underline underline-offset-2 pl-1 accent-[#282828]                    "
+                >
+                 Back to login
+                </Link>
+              </p>
+            </div>
+          </form>
         </div>
-      </form>
-      <Footer />
-    </div>
+      </div>
+    </section>
+   </div>
   );
 }
 
 export default Recovery;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

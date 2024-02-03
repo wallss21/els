@@ -4,19 +4,15 @@ import Footer from "../components/shared/footer";
 import Header from "../components/shared/header";
 import Cto from "../sections/cto";
 import Gshock from "../sections/gshock";
-import Landing from "../sections/landing";
 import Showcase from "../sections/showcase";
 import Product from "../components/product";
 import { useEffect } from "react";
-import {
-  featureProducts,
-  getTopProduct,
-} from "../features/products/product_listSlice";
+import { featureProducts } from "../features/products/product_listSlice";
 import MyCarousel, { MoCarousel } from "../sections/carousel";
 import { Title } from "../components/text";
 
 function Home() {
-  const topProducts = useSelector((state) => state.products.topProducts);
+  // const topProducts = useSelector((state) => state.products.topProducts);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(featureProducts());
@@ -34,7 +30,7 @@ function Home() {
           <Title title={"Favourite"} text_s={"text-2xl mb-6 "} fw={400} />
         </div>
         <div className="grid grid-cols-2 lg:grid-cols-5 gap-y-10  gap-x-3 lg:gap-5 ">
-          {topProducts.map((product, id) => (
+          {/* {topProducts.map((product, id) => (
             <div className="border-gray-200 border rounded-md shadow-md relative">
               {product.new_arrival && (
                 <span class="bg-[#2828] absolute z-30 text-white text-xs font-medium me-2 px-2.5 py-0.5 ">
@@ -48,7 +44,7 @@ function Home() {
               )}
               <Product id={id} product={product} />
             </div>
-          ))}
+          ))} */}
         </div>
       </div>
       <div className="repair mt-20 relative lg:h-[60vh]  h-[50vh] overflow-hidden flex items-center justify-center ">

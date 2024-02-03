@@ -18,7 +18,6 @@ import { Title } from "../components/text";
 function Home() {
   const topProducts = useSelector((state) => state.products.topProducts);
   const dispatch = useDispatch();
-  console.log(topProducts[1]);
   useEffect(() => {
     dispatch(featureProducts());
   }, [dispatch]);

@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { Store as InfoStore } from "react-notifications-component";
 import axios from "axios";
-const root_url = "http://127.0.0.1:8000/apiv1/shop/";
-// const root_url = "https://walse.pythonanywhere.com/apiv1/shop/collections/";
+// const root_url = "http://127.0.0.1:8000/apiv1/shop/";
+const root_url = "https://walse.pythonanywhere.com/apiv1/shop/collections/";
 
 
 

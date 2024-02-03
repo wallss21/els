@@ -47,7 +47,7 @@ function MobileMainNav({ isNavOpen, setIsNavOpen, mobile_ref, navlinks }) {
                   <Link
                     state={{ from: location }}
                     className="text-[#282828]"
-                    to={"/account/login"}
+                    to={"/accounts/login"}
                     replace
                   >
                     <p

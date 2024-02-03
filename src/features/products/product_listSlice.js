@@ -45,9 +45,15 @@ export const featureProducts = createAsyncThunk(
   "products/featuredProducts",
   async (payload, { dispatch, rejectWithValue }) => {
     try {
-      let { data } = await axios.get(`${root_url}featured_products`);
-      console.log(data)
-      return data;
+      let res= await axios.get(`${root_url}featured_products`);
+      console.log(`${root_url}featured_products`)
+      if(res.status===200){
+
+        console.log(res.data)
+        return res.data;
+      }
+      rejectWithValue({ message: "Please try Again" });
+
     } catch (error) {
       rejectWithValue({ message: "Please try Again" });
     }

@@ -9,10 +9,8 @@ export const navSlice = createSlice({
   initialState,
   reducers: {
     addToNav: (state, action) => {
-      console.log(action);
     },
     remove: (state, action) => {
-      console.log(action);
     },
   },
 });

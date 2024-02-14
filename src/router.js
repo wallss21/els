@@ -24,7 +24,7 @@ export const router = createBrowserRouter([
   { path: "/collections/:category", element: <Products /> },
   { path: "/collections", element: <Collections /> },
 
-  { path: "/account/register", element: <Register /> },
+  { path: "/accounts/register", element: <Register /> },
   { path: "/accounts/login", element: <Login /> },
   { path: "/accounts/recovery", element: <Recovery/> },
   { path: "/accounts/recovery/:email/:time", element: <ToNewPassword /> },

@@ -8,7 +8,6 @@ function PriceRange() {
   const location = useLocation();
   const parsed = queryString.parse(location.search);
   const navigate = useNavigate();
-  console.log(location);
 
   return (
     <div className="">

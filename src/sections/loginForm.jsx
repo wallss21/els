@@ -15,22 +15,11 @@ function LoginForm() {
   const onSubmit = (e) => {
     console.log(e);
     if (e.Email.trim() === "")
-      return dispatch(
-        showAlert({
-          message: "Email field is required",
-          type: "danger",
-          title: "Authentication",
-        })
-      );
+      return;
 
     if (e.Password.trim() === "")
-      return dispatch(
-        showAlert({
-          message: "Password field is required",
-          type: "danger",
-          title: "Authentication",
-        })
-      );
+      return 
+    
     dispatch(login({ email: e.Email, password: e.Password }));
   };
 
@@ -85,7 +74,7 @@ function LoginForm() {
               <p className="text-sm font-light font-mont mt-5">
                 New customer?
                 <Link
-                  to={"/account/register"}
+                  to={"/accounts/register"}
                   className="underline underline-offset-2 pl-1 accent-[#282828]                    "
                 >
                   Create an account

@@ -4,9 +4,8 @@ import { Store as InfoStore } from "react-notifications-component";
 
 // import  jwt from "jsonwebtoken";
 
-// const root_url = "http://127.0.0.1:8000/apiv1/accounts/";
-const root_url = "https://walse.pythonanywhere.com/apiv1/accounts/";
-
+const root_url = "http://127.0.0.1:8000/apiv1/accounts/";
+// const root_url = "https://walse.pythonanywhere.com/apiv1/accounts/";
 
 const createAlert = (data) => {
   return InfoStore.addNotification({
@@ -27,7 +26,7 @@ const initialState = {
   isLoading: null,
   error: null,
   authenticated: null,
-  userDetails:null,
+  userDetails: null,
   userMessage: "",
   userMessageType: "",
 };
@@ -86,8 +85,6 @@ export const checkIfUserLogin = createAsyncThunk(
   }
 );
 
-
-
 // bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
 // mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm
 export const register = createAsyncThunk(
@@ -117,7 +114,6 @@ export const recoverAccount = createAsyncThunk(
   async (userData, { extra, rejectWithValue }) => {
     try {
       let res = await axios.post(`${root_url}recovery/`, userData);
-      console.log(res);
       if (res.data.message) {
         return rejectWithValue({
           message: " Account not Found",
@@ -161,7 +157,7 @@ export const resetPassword = createAsyncThunk(
 );
 
 // userAuth Slice/reducers/extraReducers
-// 
+//
 export const userSlice = createSlice({
   initialState,
   name: "auth",
@@ -183,11 +179,10 @@ export const userSlice = createSlice({
     });
     builder.addCase(checkIfUserLogin.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.userDetails =  action.payload ;
+      state.userDetails = action.payload;
       state.authenticated = true;
     });
     builder.addCase(checkIfUserLogin.rejected, (state, action) => {
-      console.log("failed");
       state.isLoading = false;
       state.authenticated = false;
       state.error = action.error.message;
@@ -198,7 +193,7 @@ export const userSlice = createSlice({
     });
     builder.addCase(login.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.userDetails =  action.payload.access ;
+      state.userDetails = action.payload.access;
       state.authenticated = true;
       localStorage.setItem("userToken", action.payload.access);
 
@@ -240,6 +235,7 @@ export const userSlice = createSlice({
 
     // ###########
     // ###########
+    // REGISTER
     builder.addCase(register.pending, (state) => {
       state.isLoading = true;
     });
@@ -248,6 +244,11 @@ export const userSlice = createSlice({
       state.userMessage = `Welcome ${action.payload.first_name} ${action.payload.last_name} your account was created successfull`;
       state.userMessageType = "success";
       state.new_reg = true;
+      createAlert({
+        type: "success",
+        message: "Registration Successful Please login to continue",
+        title: "Authentication",
+      });
     });
     builder.addCase(register.rejected, (state, action) => {
       state.isLoading = false;

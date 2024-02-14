@@ -13,7 +13,7 @@ function Register() {
 
   if (!auth) {
     return justReg ? (
-      <Navigate to={"/account/login"} />
+      <Navigate to={"/accounts/login"} />
     ) : (
       <div className="page bg-white">
         <Header />

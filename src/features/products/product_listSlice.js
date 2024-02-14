@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { products } from "../../assets/data";
 import axios from "axios";
-// const root_url = "http://127.0.0.1:8000/apiv1/shop/collections/";
-const root_url = "https://walse.pythonanywhere.com/apiv1/shop/collections/";
+const root_url = "http://127.0.0.1:8000/apiv1/shop/collections/";
+// const root_url = "https://walse.pythonanywhere.com/apiv1/shop/collections/";
 
 const initialState = {
   isLoading: false,
@@ -32,10 +32,13 @@ export const getProductDetail = createAsyncThunk(
   async (payload, { extra, rejectWithValue }) => {
     let url = `${root_url}products/${payload}?}`;
     try {
-      let { data } = await axios.get(url);
-      return data;
+      let res = await axios.get(url);
+      if (res.status===200){
+
+        return res.data;
+      }
+      return rejectWithValue({ message: "error" })
     } catch (error) {
-      console.log(error);
       return rejectWithValue({ message: "error" });
     }
   }
@@ -46,7 +49,6 @@ export const featureProducts = createAsyncThunk(
   async (payload, { dispatch, rejectWithValue }) => {
     try {
       let res= await axios.get(`${root_url}featured_products`);
-      console.log(`${root_url}featured_products`)
       if(res.status===200){
 
         console.log(res.data)

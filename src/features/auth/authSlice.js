@@ -4,8 +4,8 @@ import { Store as InfoStore } from "react-notifications-component";
 
 // import  jwt from "jsonwebtoken";
 
-// const root_url = "http://127.0.0.1:8000/apiv1/accounts/";
-const root_url = "https://walse.pythonanywhere.com/apiv1/shop/collections/";
+const root_url = "http://127.0.0.1:8000/apiv1/accounts/";
+// const root_url = "https://walse.pythonanywhere.com/apiv1/shop/collections/";
 
 
 const createAlert = (data) => {

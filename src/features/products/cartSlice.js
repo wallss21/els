@@ -1,10 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { Store as InfoStore } from "react-notifications-component";
 import axios from "axios";
-// const root_url = "http://127.0.0.1:8000/apiv1/shop/";
-const root_url = "https://walse.pythonanywhere.com/apiv1/shop/collections/";
-
-
+const root_url = "http://127.0.0.1:8000/apiv1/shop/";
+// const root_url = "https://walse.pythonanywhere.com/apiv1/shop/collections/";
 
 const createAlert = (data) => {
   return InfoStore.addNotification({
@@ -30,13 +28,25 @@ const initialState = {
   userId: "",
 };
 
+const add_remove_from_localStorage = (item, action) =>
+  new Promise(async (resolve, reject) => {
+    console.log(item);
+    let cart = await localStorage.getItem("proCart");
+    if (cart === null) {
+      cart = [];
+    }
+    if (action === "add") {
+    } else if (action === "remove") {
+    } else if (action === "decrease") {
+    }
+    console.log(cart);
+  });
+
 export const addToCartdb = createAsyncThunk(
   "cart/addToCartdb",
   async ({ payload, token }, { rejectWithValue, getState }) => {
-    console.log("payload");
-    console.log(payload);
     const cart = getState().cart;
-
+    add_remove_from_localStorage(payload, "add");
     if (token) {
       console.log(cart);
       let product_;
@@ -69,6 +79,9 @@ export const addToCartdb = createAsyncThunk(
         });
       }
     }
+
+    // localStorage.setItem();
+
     return payload;
   }
 );
@@ -94,14 +107,10 @@ export const removeFromCartdb = createAsyncThunk(
         try {
           console.log("bbefpr");
           console.log(product_);
-          let item = await axios.delete(
-            `${root_url}cart/`,
-            {
-              headers: { Authorization: `bearer ${token}` },
-              data:product_
-            },
-           
-          );
+          let item = await axios.delete(`${root_url}cart/`, {
+            headers: { Authorization: `bearer ${token}` },
+            data: product_,
+          });
           if (item.data.status) {
             return exist[0];
           }
@@ -121,12 +130,12 @@ export const removeFromCartdb = createAsyncThunk(
     return payload;
   }
 );
-export const decreaseCartdb=createAsyncThunk(
-  "decreaseCartdb/cart",(payload,{rejectWithValue,dispatch})=>{
-    dispatch(reduceItemFromCart(payload.product))
-
+export const decreaseCartdb = createAsyncThunk(
+  "decreaseCartdb/cart",
+  (payload, { rejectWithValue, dispatch }) => {
+    dispatch(reduceItemFromCart(payload.product));
   }
-)
+);
 
 export const cartSlice = createSlice({
   initialState,
@@ -247,10 +256,9 @@ export const cartSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    // Adding to cart
     builder.addCase(addToCartdb.pending, (state) => {});
-    builder.addCase(addToCartdb.rejected, (state, action) => {
-      console.log(action);
-    });
+    builder.addCase(addToCartdb.rejected, (state, action) => {});
     builder.addCase(addToCartdb.fulfilled, (state, action) => {
       const addItemCount = (count) => {
         state.count += count;
@@ -287,7 +295,7 @@ export const cartSlice = createSlice({
         addItemCount(action.payload.count);
         total_price(action.payload.count * action.payload.price);
       }
-
+      localStorage.setItem("proCart", JSON.stringify(state));
       // state.count = state.count + action.payload.count;
     });
     //  remove from db
@@ -328,11 +336,9 @@ export const cartSlice = createSlice({
           title: "Cart Error",
         });
       }
-
+      localStorage.setItem("proCart", JSON.stringify(state));
       // state.count = state.count + action.payload.count;
     });
-
-    // Adding to cart
   },
 });
 

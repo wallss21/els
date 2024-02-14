@@ -111,7 +111,7 @@ function RegisterForm() {
                   className="underline underline-offset-2 pl-1
           accent-[#282828]
               "
-                  to={"/account/login"}
+                  to={"/accounts/login"}
                 >
                   Login
                 </Link>

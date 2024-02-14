@@ -6,6 +6,7 @@ import { addToCart, addToCartdb } from "../features/products/cartSlice";
 import numeral from "numeral";
 import { useToaster } from "rsuite";
 import { message } from "./shared/notification";
+import { GoDotFill } from "react-icons/go";
 
 function Product({ product, id }) {
   const dispatch = useDispatch();
@@ -63,9 +64,12 @@ function Product({ product, id }) {
             alt=""
             srcSet=""
           />
-          {product.discount_percent>0&&( <span className="text-red-600   absolute top-1 right-1 float-end px-2 py-2 bg-red-100">{product.discount_percent}% off </span>)}
+          {product.discount_percent > 0 && (
+            <span className="text-red-600   absolute top-1 right-1 float-end px-2 py-2 bg-red-100">
+              {product.discount_percent}% off{" "}
+            </span>
+          )}
           <div className="hidden w-full z-[100]  absolute bottom-2 add_to_cart_btn   ">
-
             <p className="hidden lg:block">
               <p
                 onClick={(e) => {
@@ -112,17 +116,26 @@ function Product({ product, id }) {
               title={"El Classic Jewelry"}
             />
           </div>
-          <p className="name lg:px-3 text-sm font-mont mt-2">{product.name}</p>
+          <p className="name lg:px-3 text-sm text-start font-mont mt-2">
+            {product.name}
+          </p>
           {product.discount_avail && product.discount_percent > 0 && (
-              <span className="prices text-base font-mont text-red-600 line-through ">
-                ${numeral(product.price).format()}
-              </span>
-            )}
-          <div className="">
-           
+            <span className="prices text-base font-mont text-red-600 line-through ">
+              ${numeral(product.price).format()}
+            </span>
+          )}
+          <div className="pt-2">
             <span className="prices  text-base font-mont ">
               ${numeral(product.display_price).format()}
             </span>
+            {product.number_in_stock < 4 && (
+              <div className="pb-3 py-2 flex items-center space-x-2">
+                <GoDotFill color="#f14b4b"/>
+                <span class=" absolute z-30 text-[#f14b4b] text-xs font-medium me-2 px-2.5  ">
+                  <Title title={`Hurry ${product.number_in_stock} Left`} color={"text-[#f14b4b]"}/>
+                </span>
+              </div>
+            )}
           </div>
         </div>
       </div>

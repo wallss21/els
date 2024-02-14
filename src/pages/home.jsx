@@ -6,13 +6,19 @@ import Cto from "../sections/cto";
 import Gshock from "../sections/gshock";
 import Showcase from "../sections/showcase";
 import Product from "../components/product";
-import { useEffect } from "react";
-import { featureProducts } from "../features/products/product_listSlice";
+import { useEffect, useState } from "react";
 import MyCarousel, { MoCarousel } from "../sections/carousel";
 import { Title } from "../components/text";
+import { featureProducts } from "../features/products/product_listSlice";
 
 function Home() {
-  const topProducts = useSelector((state) => state.products.topProducts);
+  const topProductss = useSelector((state) => state.products.topProducts);
+  const [topProducts, setTopproducts] = useState([]);
+
+  useEffect(() => {
+    setTopproducts(topProductss);
+  }, [topProductss]);
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(featureProducts());
@@ -27,7 +33,7 @@ function Home() {
       </div>
       <div className="container mt-10 mx-auto px-2 lg:px-0">
         <div className="header_title">
-          <Title title={"Favourite"} text_s={"text-2xl mb-6 "} fw={400} />
+          <p className="text-[#282828] font-medium py-2 ">Save More</p>
         </div>
         <div className="grid grid-cols-2 lg:grid-cols-5 gap-y-10  gap-x-3 lg:gap-5 ">
           {topProducts.map((product, id) => (
@@ -37,11 +43,7 @@ function Home() {
                   New Arrival
                 </span>
               )}
-              {product.number_in_stock < 4 && (
-                <span class="bg-[#ed300a] absolute z-30 text-[#282828] text-xs font-medium me-2 px-2.5 py-0.5 ">
-                  Low in Stock
-                </span>
-              )}
+
               <Product id={id} product={product} />
             </div>
           ))}

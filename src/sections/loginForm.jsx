@@ -19,7 +19,7 @@ function LoginForm() {
 
     if (e.Password.trim() === "")
       return 
-    
+
     dispatch(login({ email: e.Email, password: e.Password }));
   };
 
@@ -33,7 +33,7 @@ function LoginForm() {
               Login
             </h3>
             <p className="font-mont text-sm pb-10">
-              Please enter your e-mail and password:
+             Please login to continue:
             </p>
           </div>
           <form

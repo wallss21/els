@@ -3,23 +3,8 @@ import { router } from "./router";
 import { RouterProvider } from "react-router-dom";
 import { ReactNotifications } from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
-import Header from "./components/shared/header";
 
 function App() {
-  // let host = window.location.hostname;
-  // let protocol = window.location.protocol;
-  // let parts = host.split(".");
-  // let subdomain = "";
-  // // If we get more than 3 parts, then we have a subdomain
-  // // INFO: This could be 4, if you have a co.uk TLD or something like that.
-  // if (parts.length >= 2) {
-  //   subdomain = parts[0];
-  //   console.log(subdomain);
-  //   // Remove the subdomain from the parts list
-  //   // parts.splice(0, 1);
-  //   // Set the location to the new url
-  //   // window.location = protocol + "//" + parts.join(".") + "/" + subdomain;
-  // }
   return (
     <div>
       <ReactNotifications />
@@ -27,15 +12,5 @@ function App() {
     </div>
   );
 }
-  // subdomain === "admin" ? (
-  //   <div>
-  //     <ReactNotifications />
-  //     <RouterProvider
-  //       router={adminRouter}
-  //       fallbackElement={<p>Loading...</p>}
-  //     />
-  //   </div>
-  // ) :
-  
 
 export default App;

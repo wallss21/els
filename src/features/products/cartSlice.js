@@ -48,7 +48,6 @@ export const addToCartdb = createAsyncThunk(
     const cart = getState().cart;
     add_remove_from_localStorage(payload, "add");
     if (token) {
-      console.log(cart);
       let product_;
       let exist = cart.items.filter((item) => {
         console.log(item.product_id === payload.product_id);
@@ -60,24 +59,8 @@ export const addToCartdb = createAsyncThunk(
         product_.count = parseInt(payload.count) + parseInt(exist[0].count);
       }
 
-      try {
-        let item = await axios.post(`${root_url}cart/`, product_, {
-          headers: { Authorization: `bearer ${token}` },
-        });
-        if (item.status === 200) {
-          return payload;
-        }
-      } catch (error) {
-        console.log(error);
-        createAlert({
-          title: "Network Error",
-          type: "danger",
-          message: "Please be sure are connected to an Internet",
-        });
-        return rejectWithValue({
-          message: "Please be sure are connected to an Internet",
-        });
-      }
+      return payload;
+
     }
 
     // localStorage.setItem();

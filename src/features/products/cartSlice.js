@@ -32,7 +32,7 @@ const add_remove_from_localStorage = (items) => {
   if (localStorage.getItem("cartItems")) {
     localStorage.removeItem("cartItems");
   }
-  localStorage.setItem("cartItems",JSON.stringify(items));
+  localStorage.setItem("cartItems", JSON.stringify(items));
 };
 
 export const addToCartdb = createAsyncThunk(
@@ -60,8 +60,6 @@ export const addToCartdb = createAsyncThunk(
 export const removeFromCartdb = createAsyncThunk(
   "cart/removeFromCartdb",
   async ({ payload, token }, { rejectWithValue, getState }) => {
-
-  
     return payload;
   }
 );

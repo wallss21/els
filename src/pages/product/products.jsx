@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import "./products.css";
 import Header from "../../components/shared/header";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import Footer from "../../components/shared/footer";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -13,6 +13,7 @@ import Pagination from "../../components/pagination";
 // import PriceRange from "../../components/price_range";
 import CategoryBanner from "../../sections/categoryBanner";
 import Sidefilter from "./sidefilter";
+import { Button } from "../../components/text";
 
 function Products() {
   const dispatch = useDispatch();
@@ -51,12 +52,21 @@ function Products() {
     window.scrollTo(0, 0);
   }, [searchParams]);
 
-
-
-const NotFoundCategory=()=>{
-  
-}
-
+  const NotFoundCategory = () => {
+    const navigate = useNavigate();
+    return (
+      <div className="empty flex flex-col h-[50vh] justify-center items-center">
+        <p className="capitalize"> Category Not found</p>
+        <p
+          onClick={() => {
+            navigate("/collections/jewellery");
+          }}
+        >
+          <Button title={"CONTINUE SHOPING"}></Button>
+        </p>
+      </div>
+    );
+  };
 
   return (
     <div className="">
@@ -64,28 +74,30 @@ const NotFoundCategory=()=>{
       {/* <Landing /> */}
       <section>
         <CategoryBanner />
+        {displaylist.count <= 0 && <NotFoundCategory />}
+        {displaylist?.count > 0 && (
+          <div className="lg:grid grid-cols-12 gap-x-6 container  mx-auto px-5 lg:px-0 ">
+            {/* sidebar */}
+            <Sidefilter />
 
-        <div className="lg:grid grid-cols-12 gap-x-6 container  mx-auto px-5 lg:px-0 ">
-          {/* sidebar */}
-         { displaylist?.count>0&&(<Sidefilter />)}
+            {/* main page */}
+            <div className=" xl:col-span-10 col-span-9">
+              <p className="py-7 font-mont text-sm font-semibold">
+                Total Items {displaylist.count}
+              </p>
+              <div className="grid grid-cols-2 xl:grid-cols-3 gap-5 py-10">
+                {displaylist?.results?.map((product) => {
+                  return <Product id={product.product_id} product={product} />;
+                })}
+              </div>
 
-          {/* main page */}
-          <div className=" xl:col-span-10 col-span-9">
-            <p className="py-7 font-mont text-sm font-semibold">
-              Total Items {displaylist.count}
-            </p>
-            <div className="grid grid-cols-2 xl:grid-cols-3 gap-5 py-10">
-              {displaylist?.results?.map((product) => {
-                return <Product id={product.product_id} product={product} />;
-              })}
+              <Pagination
+                availablepage={Math.ceil(displaylist?.count / 24)}
+                current_page={current_page}
+              />
             </div>
-
-            <Pagination
-              availablepage={Math.ceil(displaylist?.count / 24)}
-              current_page={current_page}
-            />
           </div>
-        </div>
+        )}
       </section>
       <Footer />
     </div>

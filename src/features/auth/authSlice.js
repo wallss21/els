@@ -132,23 +132,16 @@ export const resetPassword = createAsyncThunk(
   "auth/resetPassword",
   async (userData, { extra, rejectWithValue }) => {
     if (userData.route.email === "" || userData.route.time === "") return;
-    if (
-      userData.password1 === "" ||
-      userData.password2 === "" ||
-      userData.password1 !== userData.password2
-    ) {
-      return;
-    }
+
     try {
       let res = await axios.post(
-        `${root_url}/recovery/${userData.route.email}/${userData.route.time}/`,
+        `${root_url}recovery/${userData.route.email}/${userData.route.time}/`,
         { password: userData.password1 }
       );
       console.log(res);
-      if (res.data.status) return { status: "success" };
+      if (res.status === 200) return { status: "success" };
       return rejectWithValue({ status: res.data.message });
     } catch (error) {
-      console.log(error);
       if (error.response?.data.message)
         return rejectWithValue({ status: error.response.data.message });
       return rejectWithValue({ status: "failed" });
@@ -273,11 +266,8 @@ export const userSlice = createSlice({
     builder.addCase(recoverAccount.rejected, (state, action) => {
       state.isLoading = false;
       createAlert({
-        message:
-          action.payload && action.payload.message
-            ? action.payload.message
-            : "Email doest Exist",
-        type: "warning",
+        message: "Please try again Something went wrong",
+        type: "danger",
         title: "Password Recovery",
       });
       state.userMessage = state.userMessageType = "error";
@@ -288,13 +278,21 @@ export const userSlice = createSlice({
       state.isLoading = true;
     });
     builder.addCase(resetPassword.fulfilled, (state, action) => {
-      state.userMessage = action.payload.message;
-      state.userMessageType = action.payload.type;
+      createAlert({
+        type: "success",
+        title: "Password Reset",
+        message: "Password reset succesfull!!",
+      });
+      // state.userMessageType = action.payload.type;
       state.isLoading = false;
     });
     builder.addCase(resetPassword.rejected, (state, action) => {
-      state.userMessage = action.error.message;
-      state.userMessageType = "error";
+      createAlert({
+        type: "danger",
+        title: "Password Reset",
+        message: "Link Expired",
+      });
+
       state.isLoading = false;
     });
   },

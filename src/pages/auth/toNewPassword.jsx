@@ -4,6 +4,7 @@ import { Navigate, useLocation } from "react-router-dom";
 
 function ToNewPassword() {
   const location = useLocation();
+  console.log(location)
 
   return (
     <Navigate

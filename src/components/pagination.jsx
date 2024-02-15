@@ -11,7 +11,7 @@ function Pagination({ current_page, availablepage }) {
     return `?${queryString.stringify(parsed)}`;
   };
 
-  return (
+  return availablepage? (
     <div className=" my-16 mx-auto flex justify-center items-center flex-nowrap">
       <div className="pagination  border py-3   border-gray-300">
         {current_page > 1 && (
@@ -114,7 +114,7 @@ function Pagination({ current_page, availablepage }) {
         )}
       </div>
     </div>
-  );
+  ):(<></>)
 }
 
 export default Pagination;

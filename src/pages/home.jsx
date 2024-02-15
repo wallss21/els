@@ -12,6 +12,7 @@ import { Title } from "../components/text";
 import { featureProducts } from "../features/products/product_listSlice";
 
 function Home() {
+  console.log(JSON.parse( localStorage.getItem("cartItems")))
   const topProductss = useSelector((state) => state.products.topProducts);
   const [topProducts, setTopproducts] = useState([]);
 

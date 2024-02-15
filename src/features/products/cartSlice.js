@@ -19,7 +19,7 @@ const createAlert = (data) => {
   });
 };
 
-const initialState = {
+const initialState = JSON.parse(localStorage.getItem("cartItems")) || {
   cart_updating: false,
   cartMessage: "",
   items: [],
@@ -28,25 +28,17 @@ const initialState = {
   userId: "",
 };
 
-const add_remove_from_localStorage = (item, action) =>
-  new Promise(async (resolve, reject) => {
-    console.log(item);
-    let cart = await localStorage.getItem("proCart");
-    if (cart === null) {
-      cart = [];
-    }
-    if (action === "add") {
-    } else if (action === "remove") {
-    } else if (action === "decrease") {
-    }
-    console.log(cart);
-  });
+const add_remove_from_localStorage = (items) => {
+  if (localStorage.getItem("cartItems")) {
+    localStorage.removeItem("cartItems");
+  }
+  localStorage.setItem("cartItems",JSON.stringify(items));
+};
 
 export const addToCartdb = createAsyncThunk(
   "cart/addToCartdb",
   async ({ payload, token }, { rejectWithValue, getState }) => {
     const cart = getState().cart;
-    add_remove_from_localStorage(payload, "add");
     if (token) {
       let product_;
       let exist = cart.items.filter((item) => {
@@ -60,10 +52,7 @@ export const addToCartdb = createAsyncThunk(
       }
 
       return payload;
-
     }
-
-    // localStorage.setItem();
 
     return payload;
   }
@@ -120,6 +109,19 @@ export const decreaseCartdb = createAsyncThunk(
   }
 );
 
+export const getCart = createAsyncThunk(
+  "cart/getcart",
+  async (userId, { extra }) => {
+    // TODO get cart items using the userId  and return it or return rejectWithValue
+  }
+);
+export const decreaseCart = createAsyncThunk(
+  "cart/decreaseCart",
+  async (userData, { extra, rejectWithValue, dispatch }) => {
+    // dispatch( reduceItemFromCart(userData))
+  }
+);
+
 export const cartSlice = createSlice({
   initialState,
   name: "cart",
@@ -164,7 +166,8 @@ export const cartSlice = createSlice({
           action.payload.payload.count * action.payload.payload.price
         );
       }
-
+      console.log(state);
+      add_remove_from_localStorage(state, "setItem");
       // state.count = state.count + action.payload.payload.count;
     },
     removeFromCart: (state, action) => {
@@ -236,6 +239,8 @@ export const cartSlice = createSlice({
           title: "Cart Error",
         });
       }
+      let ls = JSON.parse(JSON.stringify(state));
+      add_remove_from_localStorage(ls);
     },
   },
   extraReducers: (builder) => {
@@ -246,7 +251,6 @@ export const cartSlice = createSlice({
       const addItemCount = (count) => {
         state.count += count;
       };
-      console.log(action.payload);
       const total_price = (price) => {
         state.total_amount += price;
       };
@@ -278,8 +282,8 @@ export const cartSlice = createSlice({
         addItemCount(action.payload.count);
         total_price(action.payload.count * action.payload.price);
       }
-      localStorage.setItem("proCart", JSON.stringify(state));
-      // state.count = state.count + action.payload.count;
+      let ls = JSON.parse(JSON.stringify(state));
+      add_remove_from_localStorage(ls);
     });
     //  remove from db
     builder.addCase(removeFromCartdb.pending, (state) => {});
@@ -319,25 +323,12 @@ export const cartSlice = createSlice({
           title: "Cart Error",
         });
       }
-      localStorage.setItem("proCart", JSON.stringify(state));
+      let ls = JSON.parse(JSON.stringify(state));
+      add_remove_from_localStorage(ls);
       // state.count = state.count + action.payload.count;
     });
   },
 });
 
-export const getCart = createAsyncThunk(
-  "cart/getcart",
-  async (userId, { extra }) => {
-    // TODO get cart items using the userId  and return it or return rejectWithValue
-  }
-);
-export const decreaseCart = createAsyncThunk(
-  "cart/decreaseCart",
-  async (userData, { extra, rejectWithValue, dispatch }) => {
-    // dispatch( reduceItemFromCart(userData))
-  }
-);
-
-export const { addToCart, removeFromCart, reduceItemFromCart } =
-  cartSlice.actions;
+export const { reduceItemFromCart } = cartSlice.actions;
 export default cartSlice.reducer;

@@ -83,7 +83,7 @@ function Cart({ showCart, showCartSideEffect }) {
               {cartItemsCount ? (
                 cartItems.map((item) => {
                   return (
-                    <div className="item lg:grid grid-cols-10 flex border-b-2 bg-slate-50   border-b-gray-50 pb-2 lg:px-3  pt-8 justify-between items-center gap-x-4 text-xs font-mont ">
+                    <div key={item.id} className="item lg:grid grid-cols-10 flex border-b-2 bg-slate-50   border-b-gray-50 pb-2 lg:px-3  pt-8 justify-between items-center gap-x-4 text-xs font-mont ">
                       <div className="product_img col-span-4">
                         <img
                           className="mix-blend-multiply"

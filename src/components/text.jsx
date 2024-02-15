@@ -14,7 +14,7 @@ function Title({color=null,title,fw,text_s}) {
 
 export  function Button({ title }) {
     return (
-      <button class="inline-flex text-white mt-8 py-[1.1rem] px-10 bg-[#282828] font-medium text-sm">
+      <button className="inline-flex text-white mt-8 py-[1.1rem] px-10 bg-[#282828] font-medium text-sm">
         {title}
       </button>
     );

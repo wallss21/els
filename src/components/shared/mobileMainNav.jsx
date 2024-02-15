@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import CloseIcon from "../closeIcon";
 import queryString from "query-string";
@@ -17,7 +17,7 @@ function MobileMainNav({ isNavOpen, setIsNavOpen, mobile_ref, navlinks }) {
 
   useEffect(() => {
     dispatch(checkIfUserLogin());
-  },[dispatch]);
+  }, [dispatch]);
 
   return (
     <div className="">
@@ -37,8 +37,7 @@ function MobileMainNav({ isNavOpen, setIsNavOpen, mobile_ref, navlinks }) {
             <div className="avatar px-5   flex flex-col items-center">
               {userDetails ? (
                 <div className="tit uppercase">
-                  <Link>
-                  </Link>
+                  <Link></Link>
                   <Avatar circle />
                   <Title title={"Username"} />
                 </div>
@@ -69,35 +68,37 @@ function MobileMainNav({ isNavOpen, setIsNavOpen, mobile_ref, navlinks }) {
                 console.log(isNavOpen);
               }}
               type="button"
-              class="inline-flex items-center p-2 w-10 h-10 justify-center "
+              className="inline-flex items-center p-2 w-10 h-10 justify-center "
             >
               <CloseIcon />
 
-              <span class="sr-only">Close main menu</span>
+              <span className="sr-only">Close main menu</span>
             </button>
           </div>
-          <ul class="flex px-5 flex-col  md:p-0 font-medium border-b border-gray-100 rounded-lg  md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white ">
+          <ul className="flex px-5 flex-col  md:p-0 font-medium border-b border-gray-100 rounded-lg  md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white ">
             {navlinks.map((link_, index) => {
               return (
                 <li
                   key={index}
                   onClick={(e) => {
                     e.currentTarget.lastElementChild.classList.toggle("hidden");
-                    e.currentTarget.firstElementChild.lastElementChild.classList.toggle("flipIcon")
+                    e.currentTarget.firstElementChild.lastElementChild.classList.toggle(
+                      "flipIcon"
+                    );
 
                     e.stopPropagation();
                   }}
                   className=" border-b border-b-gray-200 transition-all ease-linear duration-100"
                 >
-                  <button class="w-full pt-4 text-lg pb-4 pl-3 font-mont font-[18px]  rounded  flex justify-between  ">
+                  <button className="w-full pt-4 text-lg pb-4 pl-3 font-mont font-[18px]  rounded  flex justify-between  ">
                     {link_.navlink.toUpperCase()}
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
-                      stroke-width="1.5"
+                      strokeWidth="1.5"
                       stroke="currentColor"
-                      class="h-4 w-4"
+                      className="h-4 w-4"
                     >
                       <path
                         strokeLinecap="round"
@@ -110,14 +111,15 @@ function MobileMainNav({ isNavOpen, setIsNavOpen, mobile_ref, navlinks }) {
                     <div className="mx-auto pl-2  pb-5 container  text-start justify-start space-y-3">
                       {link_.sublinks.map((obj, indx) => {
                         return (
-                          <div className="drop">
+                          <div key={indx} className="drop">
                             <div
-                              key={indx}
                               onClick={(e) => {
                                 e.currentTarget.parentElement.lastElementChild.classList.toggle(
                                   "hidden"
                                 );
-                                e.currentTarget.firstElementChild.classList.toggle("flipIcon")
+                                e.currentTarget.firstElementChild.classList.toggle(
+                                  "flipIcon"
+                                );
 
                                 e.stopPropagation();
                               }}
@@ -128,9 +130,9 @@ function MobileMainNav({ isNavOpen, setIsNavOpen, mobile_ref, navlinks }) {
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
                                 viewBox="0 0 24 24"
-                                stroke-width="1.5"
+                                strokeWidth="1.5"
                                 stroke="currentColor"
-                                class="h-4 w-4"
+                                className="h-4 w-4"
                               >
                                 <path
                                   strokeLinecap="round"
@@ -141,8 +143,8 @@ function MobileMainNav({ isNavOpen, setIsNavOpen, mobile_ref, navlinks }) {
                             </div>
                             <ul className="hidden   pl-3 ">
                               {obj.sub.map((link, w) => {
-                                parsed.filter = link
-                                parsed.page="1"
+                                parsed.filter = link;
+                                parsed.page = "1"
                                   .toLowerCase()
                                   .trim()
                                   .replaceAll("'", "")
@@ -152,17 +154,18 @@ function MobileMainNav({ isNavOpen, setIsNavOpen, mobile_ref, navlinks }) {
                                     key={w}
                                     className="mt-3 mb-4 txt-[#282828] font-mont font-normal  text-xs"
                                   >
-                                    <Link className="text-[#282828]  "
-                                    onClick={()=> setIsNavOpen(false)}
-                                    to={`/collections${`/${link_.navlink
-                                      .toLowerCase()
-                                      .trim()
-                                      .replaceAll("'", "")
-                                      .replaceAll(" ", "-")}?filter=${link
-                                      .toLowerCase()
-                                      .trim()
-                                      .replaceAll("'", "")
-                                      .replaceAll(" ", "-")}`}`}
+                                    <Link
+                                      className="text-[#282828]  "
+                                      onClick={() => setIsNavOpen(false)}
+                                      to={`/collections${`/${link_.navlink
+                                        .toLowerCase()
+                                        .trim()
+                                        .replaceAll("'", "")
+                                        .replaceAll(" ", "-")}?filter=${link
+                                        .toLowerCase()
+                                        .trim()
+                                        .replaceAll("'", "")
+                                        .replaceAll(" ", "-")}`}`}
                                     >
                                       {link}
                                     </Link>

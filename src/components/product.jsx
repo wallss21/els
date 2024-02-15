@@ -70,7 +70,7 @@ function Product({ product, id }) {
             </span>
           )}
           <div className="hidden w-full z-[100]  absolute bottom-2 add_to_cart_btn   ">
-            <p className="hidden lg:block">
+            <div className="hidden lg:block">
               <p
                 onClick={(e) => {
                   toaster.push(message("success", { ...product }), {
@@ -92,7 +92,7 @@ function Product({ product, id }) {
               >
                 + Add to Cart
               </p>
-            </p>
+            </div>
           </div>
         </div>
       </div>
@@ -131,7 +131,7 @@ function Product({ product, id }) {
             {product.number_in_stock < 4 && (
               <div className="pb-3 py-2 flex items-center space-x-2">
                 <GoDotFill color="#f14b4b"/>
-                <span class=" absolute z-30 text-[#f14b4b] text-xs font-medium me-2 px-2.5  ">
+                <span className=" absolute z-30 text-[#f14b4b] text-xs font-medium me-2 px-2.5  ">
                   <Title title={`Hurry ${product.number_in_stock} Left`} color={"text-[#f14b4b]"}/>
                 </span>
               </div>

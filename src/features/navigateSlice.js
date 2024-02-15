@@ -16,6 +16,6 @@ export const navSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const {} = navSlice.actions;
+// export const {} = navSlice.actions;
 
 export default navSlice.reducer;

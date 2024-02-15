@@ -16,12 +16,10 @@ export const getJewellery = createAsyncThunk(
   "products/getJewellery",
   async (payload, { extra, rejectWithValue }) => {
     let url = `${root_url}${payload.category}?page=${payload.current_page}&filter=${payload.filters}&price_max=${payload.maxv}&price-min=${payload.minv}`;
-    console.log(url);
     try {
       let { data } = await axios.get(url);
       return data;
     } catch (error) {
-      console.log(error);
       return rejectWithValue({ message: "error" });
     }
   }
@@ -51,7 +49,6 @@ export const featureProducts = createAsyncThunk(
       let res= await axios.get(`${root_url}featured_products`);
       if(res.status===200){
 
-        console.log(res.data)
         return res.data;
       }
       rejectWithValue({ message: "Please try Again" });
@@ -214,7 +211,6 @@ export const productListSlice = createSlice({
 
     all_products: (state, action) => {
       state.products = products.sort(() => Math.random() - 0.5);
-      console.log(state.products);
       // pagination
       let page =
         action.payload.page === 1

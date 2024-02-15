@@ -14,10 +14,10 @@ function DesktopNav({ navlinks }) {
 
   return (
     <div
-      class="items-center justify-center hidden w-full md:flex md:w-auto md:order-1 py-[1.1rem] overflow-x-hidden shadow-sm "
+      className="items-center justify-center hidden w-full md:flex md:w-auto md:order-1 py-[1.1rem] overflow-x-hidden shadow-sm "
       id="navbar-sticky"
     >
-      <ul class="flex flex-col md:p-0  font-medium borer border-gray-100 rounded-lg  md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white ">
+      <ul className="flex flex-col md:p-0  font-medium borer border-gray-100 rounded-lg  md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white ">
         {navlinks.map((link_, index) => {
           return (
             <li

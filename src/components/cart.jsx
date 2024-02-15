@@ -1,17 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import CartIcon from "./cartIcon";
 import CloseIcon from "./closeIcon";
 import { Button, Text, Title } from "./text";
 import { Link, useNavigate } from "react-router-dom";
-import { Minus, Plus } from "./icons";
+import { Minus } from "./icons";
 import { useDispatch, useSelector } from "react-redux";
-import IncreamentDecreamentQuantity from "./increament_decreament_quantity";
 import {
-  addToCart,
   addToCartdb,
   decreaseCartdb,
-  reduceItemFromCart,
-  removeFromCart,
   removeFromCartdb,
 } from "../features/products/cartSlice";
 import numeral from "numeral";
@@ -40,7 +36,7 @@ function Cart({ showCart, showCartSideEffect }) {
   const cartItems = useSelector((state) => state.cart.items);
   let cartItemsCount = useSelector((state) => state.cart.count);
   const total_amount = useSelector((state) => state.cart.total_amount);
-  const token=useSelector(state=>state.auth.userDetails)
+  const token = useSelector((state) => state.auth.userDetails);
   // console.log(cartItems);
 
   useEffect(() => {
@@ -83,7 +79,10 @@ function Cart({ showCart, showCartSideEffect }) {
               {cartItemsCount ? (
                 cartItems.map((item) => {
                   return (
-                    <div key={item.id} className="item lg:grid grid-cols-10 flex border-b-2 bg-slate-50   border-b-gray-50 pb-2 lg:px-3  pt-8 justify-between items-center gap-x-4 text-xs font-mont ">
+                    <div
+                      key={item.id}
+                      className="item lg:grid grid-cols-10 flex border-b-2 bg-slate-50   border-b-gray-50 pb-2 lg:px-3  pt-8 justify-between items-center gap-x-4 text-xs font-mont "
+                    >
                       <div className="product_img col-span-4">
                         <img
                           className="mix-blend-multiply"
@@ -108,7 +107,12 @@ function Cart({ showCart, showCartSideEffect }) {
                             <span
                               className="cursor-pointer p-3"
                               onClick={() => {
-                                dispatch(decreaseCartdb({product:item,token:token}));
+                                dispatch(
+                                  decreaseCartdb({
+                                    product: item,
+                                    token: token,
+                                  })
+                                );
                               }}
                             >
                               <Minus />
@@ -120,7 +124,12 @@ function Cart({ showCart, showCartSideEffect }) {
                             <span
                               className="p-3 cursor-pointer"
                               onClick={() => {
-                                dispatch(addToCartdb({payload:{ ...item, count: 1 },token:token}));
+                                dispatch(
+                                  addToCartdb({
+                                    payload: { ...item, count: 1 },
+                                    token: token,
+                                  })
+                                );
                               }}
                             >
                               <GoPlus size={18} strokeWidth={0.1} />
@@ -128,7 +137,12 @@ function Cart({ showCart, showCartSideEffect }) {
                           </p>
                           <p
                             onClick={() => {
-                              dispatch(removeFromCartdb({payload:item,token:token}));
+                              dispatch(
+                                removeFromCartdb({
+                                  payload: item,
+                                  token: token,
+                                })
+                              );
                             }}
                             className="text-xs  capitalize underline  cursor-pointer underline-offset-1"
                           >
@@ -143,7 +157,7 @@ function Cart({ showCart, showCartSideEffect }) {
                 <EmptyCart showCartSideEffect={showCartSideEffect} />
               )}
             </div>
-            {cartItems.length>0 && (
+            {cartItems.length > 0 && (
               <div className="button border-t border-gray-300">
                 <div className="top flex justify-between text-sm py-4 px-5">
                   <Link>

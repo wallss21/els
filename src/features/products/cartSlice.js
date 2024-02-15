@@ -60,45 +60,8 @@ export const addToCartdb = createAsyncThunk(
 export const removeFromCartdb = createAsyncThunk(
   "cart/removeFromCartdb",
   async ({ payload, token }, { rejectWithValue, getState }) => {
-    const cart = getState().cart;
 
-    if (token) {
-      console.log(cart);
-      let product_;
-      let exist = cart.items.filter((item) => {
-        console.log(item.product_id === payload.product_id);
-        return item.product_id === payload.product_id;
-      });
-
-      product_ = { ...payload };
-
-      console.log(product_);
-      if (exist.length) {
-        // product_.count = parseInt(payload.count) + parseInt(exist[0].count);
-
-        try {
-          console.log("bbefpr");
-          console.log(product_);
-          let item = await axios.delete(`${root_url}cart/`, {
-            headers: { Authorization: `bearer ${token}` },
-            data: product_,
-          });
-          if (item.data.status) {
-            return exist[0];
-          }
-        } catch (error) {
-          console.log(error);
-          createAlert({
-            title: "Network Error",
-            type: "danger",
-            message: "Please be sure are connected to an Internet",
-          });
-          return rejectWithValue({
-            message: "Please be sure are connected to an Internet",
-          });
-        }
-      }
-    }
+  
     return payload;
   }
 );

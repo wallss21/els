@@ -73,18 +73,7 @@ function Product({ product, id }) {
             <div className="hidden lg:block">
               <p
                 onClick={(e) => {
-                  toaster.push(message("success", { ...product }), {
-                    label: "topStart",
-                    value: "topStart",
-                    placement: "topEnd",
-                    duration: 2000,
-                  });
-                  dispatch(
-                    addToCartdb({
-                      payload: { ...product, count: 1 },
-                      token: token,
-                    })
-                  );
+                  dispatch(addToCart({ item: { ...product, count: 1 } }));
                   e.stopPropagation();
                   e.preventDefault();
                 }}
@@ -119,20 +108,23 @@ function Product({ product, id }) {
           <p className="name lg:px-3 text-sm text-start font-mont mt-2">
             {product.name}
           </p>
-          {product.discount_avail && product.discount_percent > 0 && (
+          {
             <span className="prices text-base font-mont text-red-600 line-through ">
               ${numeral(product.price).format()}
             </span>
-          )}
+          }
           <div className="pt-2">
             <span className="prices  text-base font-mont ">
               ${numeral(product.display_price).format()}
             </span>
             {product.number_in_stock < 4 && (
               <div className="pb-3 py-2 flex items-center space-x-2">
-                <GoDotFill color="#f14b4b"/>
+                <GoDotFill color="#f14b4b" />
                 <span className=" absolute z-30 text-[#f14b4b] text-xs font-medium me-2 px-2.5  ">
-                  <Title title={`Hurry ${product.number_in_stock} Left`} color={"text-[#f14b4b]"}/>
+                  <Title
+                    title={`Hurry ${product.number_in_stock} Left`}
+                    color={"text-[#f14b4b]"}
+                  />
                 </span>
               </div>
             )}

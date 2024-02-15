@@ -38,22 +38,7 @@ const add_remove_from_localStorage = (items) => {
 export const addToCartdb = createAsyncThunk(
   "cart/addToCartdb",
   async ({ payload, token }, { rejectWithValue, getState }) => {
-    const cart = getState().cart;
-    if (token) {
-      let product_;
-      let exist = cart.items.filter((item) => {
-        console.log(item.product_id === payload.product_id);
-        return item.product_id === payload.product_id;
-      });
-
-      product_ = { ...payload };
-      if (exist.length) {
-        product_.count = parseInt(payload.count) + parseInt(exist[0].count);
-      }
-
-      return payload;
-    }
-
+   
     return payload;
   }
 );
@@ -63,12 +48,7 @@ export const removeFromCartdb = createAsyncThunk(
     return payload;
   }
 );
-export const decreaseCartdb = createAsyncThunk(
-  "decreaseCartdb/cart",
-  (payload, { rejectWithValue, dispatch }) => {
-    dispatch(reduceItemFromCart(payload.product));
-  }
-);
+
 
 export const getCart = createAsyncThunk(
   "cart/getcart",
@@ -99,37 +79,37 @@ export const cartSlice = createSlice({
         let existingItem;
         let index;
         state.items = state.items.filter((item, i) => {
-          if (item.name === action.payload.payload.name) {
+          if (item.name === action.payload.item.name) {
             existingItem = item;
             index = i;
           }
           // state.count = -item.count;
-          return item.name !== action.payload.payload.name;
+          return item.name !== action.payload.item.name;
         });
         if (existingItem?.name) {
-          existingItem.count += action.payload.payload.count;
+          existingItem.count += action.payload.item.count;
           state.items.splice(index, 0, existingItem);
-          addItemCount(action.payload.payload.count);
+          addItemCount(action.payload.item.count);
           total_price(
-            action.payload.payload.count * action.payload.payload.price
+            action.payload.item.count * action.payload.item.display_price
           );
         } else {
-          state.items.push(action.payload.payload);
-          addItemCount(action.payload.payload.count);
+          state.items.push(action.payload.item);
+          addItemCount(action.payload.item.count);
           total_price(
-            action.payload.payload.count * action.payload.payload.price
+            action.payload.item.count * action.payload.item.display_price
           );
         }
       } else {
-        state.items.push(action.payload.payload);
-        addItemCount(action.payload.payload.count);
+        state.items.push(action.payload.item);
+        addItemCount(action.payload.item.count);
         total_price(
-          action.payload.payload.count * action.payload.payload.price
+          action.payload.item.count * action.payload.item.display_price
         );
       }
       console.log(state);
       add_remove_from_localStorage(state, "setItem");
-      // state.count = state.count + action.payload.payload.count;
+      // state.count = state.count + action.payload.item.count;
     },
     removeFromCart: (state, action) => {
       const removeItemCount = (count) => {
@@ -143,7 +123,7 @@ export const cartSlice = createSlice({
       if (state.items.length) {
         let existingItem;
         state.items = state.items.filter((item, i) => {
-          if (item.name === action.payload.payload.name) {
+          if (item.name === action.payload.item.name) {
             existingItem = item;
           }
           // state.count = -item.count;
@@ -166,6 +146,7 @@ export const cartSlice = createSlice({
       }
     },
     reduceItemFromCart: (state, action) => {
+      console.log(action.payload)
       const removeItemCount = (count) => {
         state.count -= count;
       };
@@ -177,21 +158,21 @@ export const cartSlice = createSlice({
         let existingItem;
         let index;
         state.items = state.items.filter((item, i) => {
-          if (item.name === action.payload.name) {
+          if (item.name === action.payload.item.name) {
             existingItem = item;
             index = i;
           }
           // state.count = -item.count;
-          return item.name !== action.payload.name;
+          return item.name !== action.payload.item.name;
         });
         if (existingItem?.count > 1) {
           existingItem.count -= 1;
           state.items.splice(index, 0, existingItem);
-          minus_price(existingItem.price);
+          minus_price(existingItem.display_price);
           removeItemCount(1);
-        } else {
+        } else if(existingItem?.count === 1) {
           removeItemCount(1);
-          minus_price(action.payload.price);
+          minus_price(action.payload.display_price);
         }
       } else {
         createAlert({
@@ -215,7 +196,7 @@ export const cartSlice = createSlice({
       const total_price = (price) => {
         state.total_amount += price;
       };
-
+console.log(state.total_amount)
       if (state.items.length) {
         let existingItem;
         let index;
@@ -231,17 +212,17 @@ export const cartSlice = createSlice({
           existingItem.count += action.payload.count;
           state.items.splice(index, 0, existingItem);
           addItemCount(action.payload.count);
-          total_price(action.payload.count * action.payload.price);
+          total_price(action.payload.count * action.payload.display_price);
         } else {
           state.items.push(action.payload);
 
           addItemCount(action.payload.count);
-          total_price(action.payload.count * action.payload.price);
+          total_price(action.payload.count * action.payload.display_price);
         }
       } else {
         state.items.push(action.payload);
         addItemCount(action.payload.count);
-        total_price(action.payload.count * action.payload.price);
+        total_price(action.payload.count * action.payload.display_price);
       }
       let ls = JSON.parse(JSON.stringify(state));
       add_remove_from_localStorage(ls);
@@ -273,7 +254,7 @@ export const cartSlice = createSlice({
           // existingItem.count -= action.payload.count;
           // state.items.push(existingItem);
           removeItemCount(action.payload.count);
-          minus_price(action.payload.price * action.payload.count);
+          minus_price(action.payload.display_price * action.payload.count);
         } else {
           // removeItemCount(action.payload.count);
         }
@@ -291,5 +272,5 @@ export const cartSlice = createSlice({
   },
 });
 
-export const { reduceItemFromCart } = cartSlice.actions;
+export const { reduceItemFromCart,addToCart } = cartSlice.actions;
 export default cartSlice.reducer;

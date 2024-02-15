@@ -53,7 +53,7 @@ function Footer() {
               fs={"text-sm font-light"}
               moreClass={"text-white "}
               data={
-                "Australian, family-owned jewellers since 1917, specialising in diamonds, gold, jewellery, watches and giftware."
+                "United State, family-owned jewellers since 1983, specialising in diamonds, gold, jewellery, watches and giftware."
               }
             />
           </div>

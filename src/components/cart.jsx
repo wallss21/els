@@ -7,7 +7,7 @@ import { Minus } from "./icons";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addToCartdb,
-  decreaseCartdb,
+  reduceItemFromCart,
   removeFromCartdb,
 } from "../features/products/cartSlice";
 import numeral from "numeral";
@@ -97,7 +97,7 @@ function Cart({ showCart, showCartSideEffect }) {
                         <div className="flex flex-col lg:flex-row lg:gap-x-8 gap-y-5">
                           <p className="name">{item.name}</p>
                           <div className="product_price  text-base">
-                            ${numeral(item.price * item.count).format()}
+                            ${numeral(item.display_price * item.count).format()}
                           </div>
                         </div>
 
@@ -108,8 +108,8 @@ function Cart({ showCart, showCartSideEffect }) {
                               className="cursor-pointer p-3"
                               onClick={() => {
                                 dispatch(
-                                  decreaseCartdb({
-                                    product: item,
+                                  reduceItemFromCart({
+                                    item: {...item,count:1},
                                     token: token,
                                   })
                                 );

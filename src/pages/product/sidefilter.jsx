@@ -16,7 +16,7 @@ import { Plus } from "../../components/icons";
 import PriceRange from "../../components/price_range";
 import queryString from "query-string";
 
-function Sidefilter({ plus }) {
+function Sidefilter({ visibility }) {
   const location = useLocation();
   const navigate = useNavigate();
   const parsed = queryString.parse(location.search);
@@ -30,7 +30,9 @@ function Sidefilter({ plus }) {
   };
 
   return (
-    <div className="sidebar overflow-y-auto no-scrollbar sticky top-10 h-[90vh]  hidden lg:block  col-span-3 xl:col-span-2">
+    <div
+      className={` sidebar overflow-y-auto no-scrollbar sticky top-10 h-[90vh]  hidden lg:block  col-span-3 xl:col-span-2`}
+    >
       <div className="title">
         <p className="text-2xl font-mont font-medium mt-10">Filter</p>
       </div>

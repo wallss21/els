@@ -1,17 +1,11 @@
 import React, { useEffect } from "react";
 import "./products.css";
 import Header from "../../components/shared/header";
-import {
-
-  useParams,
-  useSearchParams,
-} from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import Footer from "../../components/shared/footer";
 
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getJewellery,
-} from "../../features/products/product_listSlice";
+import { getJewellery } from "../../features/products/product_listSlice";
 import Product from "../../components/product";
 // import Landing from "../../sections/landing";
 // import { Plus } from "../../components/icons";
@@ -33,8 +27,6 @@ function Products() {
 
   // const dispatch=useDispatc()
 
- 
-
   useEffect(() => {
     const price_range = [
       searchParams.get("minV") ? searchParams.get("minV") : "min",
@@ -55,18 +47,15 @@ function Products() {
     // dispatch(filterProduct({ filter: filter?.split("-"), page: current_page }));
   }, [dispatch, category, searchParams, current_page]);
 
-
   useEffect(() => {
     window.scrollTo(0, 0);
-   
   }, [searchParams]);
 
-  useEffect(() => {
-    
 
-  });
 
+const NotFoundCategory=()=>{
   
+}
 
 
   return (
@@ -75,15 +64,16 @@ function Products() {
       {/* <Landing /> */}
       <section>
         <CategoryBanner />
-      
 
         <div className="lg:grid grid-cols-12 gap-x-6 container  mx-auto px-5 lg:px-0 ">
           {/* sidebar */}
-          <Sidefilter />
+         { displaylist?.count>0&&(<Sidefilter />)}
 
           {/* main page */}
           <div className=" xl:col-span-10 col-span-9">
-            <p className="py-7 font-mont text-sm font-semibold">Total Items  {displaylist.count}</p>
+            <p className="py-7 font-mont text-sm font-semibold">
+              Total Items {displaylist.count}
+            </p>
             <div className="grid grid-cols-2 xl:grid-cols-3 gap-5 py-10">
               {displaylist?.results?.map((product) => {
                 return <Product id={product.product_id} product={product} />;

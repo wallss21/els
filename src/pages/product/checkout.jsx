@@ -91,7 +91,7 @@ function Checkout() {
           </div>
         </div>
       </div>
-      <div className="grid sm:px-5 lg:grid-cols-12 lg:w-11/12 mx-auto lg:gap-x-5 space-y-5  justify-between items-start ">
+      <div className="lg:grid sm:px-5 lg:grid-cols-12 lg:w-11/12   lg:gap-x-5 space-y-5 mx-auto  justify-between items-start ">
         <div className="px-4 pt-8 lg:col-span-7">
           <p className="text-xl font-medium">Order Summary</p>
           <p className="text-gray-400">
@@ -99,21 +99,26 @@ function Checkout() {
           </p>
           <div className="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-6">
             {products.map((product) => (
-              <div className="flex flex-col rounded-lg bg-white sm:flex-row">
-                <img
-                  className="m-2 h-24 w-28 rounded-md border object-cover object-center"
-                  src={product.img1}
-                  alt={product.name}
-                />
-                <div className="flex w-full flex-col px-4 py-4">
-                  <span className="font-semibold w-9/12">{product.name}</span>
-                  <span className="float-right text-gray-400">
-                    42EU - 8.5US
+              <div className="flex justify-center items-center rounded-lg bg-white ">
+                <div className="inline-flex relative ">
+                  <img
+                    className="m-2 h-24 w-28 rounded-md border object-cover object-center"
+                    src={product.img1}
+                    alt={product.name}
+                  />
+                  <div class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-[#282828] border-2 border-white rounded-full top-4 end-0 dark:border-gray-900">
+                    {product.count}
+                  </div>
+                </div>
+
+                <div className="flex w-full flex-col px-5 py-2">
+                  <span className="font-light text-sm lg:w-9/12">
+                    {product.name}
                   </span>
-                  <p className="text-lg font-bold">
+
+                  <p className="font-bold">
                     ${numeral(product.price).format()}
                   </p>
-                  <hr />
                 </div>
               </div>
             ))}
@@ -121,6 +126,14 @@ function Checkout() {
 
           <p className="mt-8 text-lg font-medium">Shipping Methods</p>
           <form className="mt-5 grid gap-6">
+
+{/* SHIPPING ADDRESS INPUT FIELD */}
+
+<div className="form_group">
+  <label htmlFor="state" >State</label>
+  <input type="text" name="state" id="state" className="border " />
+</div>
+
             <div className="relative">
               <input
                 className="peer hidden"

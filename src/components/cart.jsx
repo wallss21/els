@@ -8,7 +8,8 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   addToCartdb,
   reduceItemFromCart,
-  removeFromCartdb,
+  removeFromCart,
+ 
 } from "../features/products/cartSlice";
 import numeral from "numeral";
 import { GoPlus } from "react-icons/go";
@@ -96,12 +97,12 @@ function Cart({ showCart, showCartSideEffect }) {
                         </div>
                         <div className="flex flex-col lg:flex-row lg:gap-x-8 ">
                           <p className="name">{item.name}</p>
-                          <div className="product_price  text-base">
+                          <div className="product_price pt-1  text-base">
                             ${numeral(item.display_price * item.count).format()}
                           </div>
                         </div>
 
-                        <div className="bttm flex gap-x-8 items-end pt-4">
+                        <div className="bttm flex gap-x-8 items-end pt-2">
                           {/* <IncreamentDecreamentQuantity /> */}
                           <p className="flex gap-x-6 items-center w-fit  border self-center border-gray-300 ">
                             <span
@@ -138,13 +139,13 @@ function Cart({ showCart, showCartSideEffect }) {
                           <p
                             onClick={() => {
                               dispatch(
-                                removeFromCartdb({
-                                  payload: item,
+                                removeFromCart({
+                                  item: item,
                                   token: token,
                                 })
                               );
                             }}
-                            className="text-xs  capitalize underline  cursor-pointer underline-offset-1"
+                            className="text-[10px]  capitalize underline  cursor-pointer underline-offset-1"
                           >
                             remove
                           </p>

@@ -69,7 +69,7 @@ const AddToCart = ({ className, product }) => {
               <Title title={"ADD TO Cart"} color={"text-white"} />
             </button>
             <div className="flex justify-stretch gap-x-4 gap-y-4">
-              <button className="inline-flex basis-10/12 text-[#282828] bg-slate-100  border border-gray-100 ripple-bg-blue-300 text-lg uppercase  justify-center items-center">
+              <button className="inline-flex basis-10/12 text-[#282828] bg-slate-100  border border-gray-100 ripple-bg-slate-50 text-lg uppercase  justify-center items-center">
                 <Title title={"Pay With "} color={"text-[#282828]"} /> &nbsp; &nbsp;
                 <svg
                   height="50"

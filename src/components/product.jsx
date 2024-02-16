@@ -1,18 +1,14 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import { Title } from "./text";
-import { useDispatch, useSelector } from "react-redux";
-import { addToCart, addToCartdb } from "../features/products/cartSlice";
+import { useDispatch,  } from "react-redux";
+import { addToCart,  } from "../features/products/cartSlice";
 import numeral from "numeral";
-import { useToaster } from "rsuite";
-import { message } from "./shared/notification";
 import { GoDotFill } from "react-icons/go";
 
 function Product({ product, id }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const toaster = useToaster();
-  const token = useSelector((state) => state.auth.userDetails);
 
   return (
     <div key={id} className="product mb-3">

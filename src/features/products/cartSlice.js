@@ -127,15 +127,19 @@ export const cartSlice = createSlice({
             existingItem = item;
           }
           // state.count = -item.count;
-          return item.name !== action.payload.name;
+          return item.name !== action.payload.item.name;
         });
         if (existingItem?.count) {
           // existingItem.count -= action.payload.count;
           // state.items.push(existingItem);
-          removeItemCount(action.payload.count);
-          minus_price(action.payload.price * action.payload.count);
+          removeItemCount(action.payload.item.count);
+          minus_price(action.payload.item.price * action.payload.item.count);
         } else {
-          // removeItemCount(action.payload.count);
+          createAlert({
+            message: "Item not found",
+            type: "danger",
+            title: "Cart Error",
+          });
         }
       } else {
         createAlert({
@@ -272,5 +276,5 @@ console.log(state.total_amount)
   },
 });
 
-export const { reduceItemFromCart,addToCart } = cartSlice.actions;
+export const { reduceItemFromCart,addToCart,removeFromCart } = cartSlice.actions;
 export default cartSlice.reducer;

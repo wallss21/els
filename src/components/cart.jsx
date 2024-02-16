@@ -139,8 +139,7 @@ function Cart({ showCart, showCartSideEffect }) {
                             onClick={() => {
                               dispatch(
                                 removeFromCart({
-                                  item: item,
-                                  token: token,
+                                  item: {...item,}
                                 })
                               );
                             }}

@@ -115,7 +115,7 @@ export const cartSlice = createSlice({
           // existingItem.count -= action.payload.count;
           // state.items.push(existingItem);
           removeItemCount(action.payload.item.count);
-          minus_price(action.payload.item.price * action.payload.item.count);
+          minus_price(action.payload.display_item.price * action.payload.item.count);
         } else {
           createAlert({
             message: "Item not found",
@@ -134,7 +134,6 @@ export const cartSlice = createSlice({
       add_remove_from_localStorage(ls);
     },
     reduceItemFromCart: (state, action) => {
-      console.log(action.payload);
       const removeItemCount = (count) => {
         state.count -= count;
       };
@@ -155,9 +154,9 @@ export const cartSlice = createSlice({
         });
         if (existingItem?.count > 1) {
           existingItem.count -= 1;
-          state.items.splice(index, 0, existingItem);
           minus_price(existingItem.display_price);
           removeItemCount(1);
+          state.items.splice(index, 0, existingItem);
         } else if (existingItem?.count === 1) {
           removeItemCount(1);
           minus_price(action.payload.display_price);

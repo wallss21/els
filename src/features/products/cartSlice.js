@@ -35,21 +35,6 @@ const add_remove_from_localStorage = (items) => {
   localStorage.setItem("cartItems", JSON.stringify(items));
 };
 
-export const addToCartdb = createAsyncThunk(
-  "cart/addToCartdb",
-  async ({ payload, token }, { rejectWithValue, getState }) => {
-   
-    return payload;
-  }
-);
-export const removeFromCartdb = createAsyncThunk(
-  "cart/removeFromCartdb",
-  async ({ payload, token }, { rejectWithValue, getState }) => {
-    return payload;
-  }
-);
-
-
 export const getCart = createAsyncThunk(
   "cart/getcart",
   async (userId, { extra }) => {
@@ -151,7 +136,7 @@ export const cartSlice = createSlice({
       add_remove_from_localStorage(ls);
     },
     reduceItemFromCart: (state, action) => {
-      console.log(action.payload)
+      console.log(action.payload);
       const removeItemCount = (count) => {
         state.count -= count;
       };
@@ -175,7 +160,7 @@ export const cartSlice = createSlice({
           state.items.splice(index, 0, existingItem);
           minus_price(existingItem.display_price);
           removeItemCount(1);
-        } else if(existingItem?.count === 1) {
+        } else if (existingItem?.count === 1) {
           removeItemCount(1);
           minus_price(action.payload.display_price);
         }
@@ -190,92 +175,9 @@ export const cartSlice = createSlice({
       add_remove_from_localStorage(ls);
     },
   },
-  extraReducers: (builder) => {
-    // Adding to cart
-    builder.addCase(addToCartdb.pending, (state) => {});
-    builder.addCase(addToCartdb.rejected, (state, action) => {});
-    builder.addCase(addToCartdb.fulfilled, (state, action) => {
-      const addItemCount = (count) => {
-        state.count += count;
-      };
-      const total_price = (price) => {
-        state.total_amount += price;
-      };
-console.log(state.total_amount)
-      if (state.items.length) {
-        let existingItem;
-        let index;
-        state.items = state.items.filter((item, i) => {
-          if (item.name === action.payload.name) {
-            existingItem = item;
-            index = i;
-          }
-          // state.count = -item.count;
-          return item.product_id !== action.payload.product_id;
-        });
-        if (existingItem?.name) {
-          existingItem.count += action.payload.count;
-          state.items.splice(index, 0, existingItem);
-          addItemCount(action.payload.count);
-          total_price(action.payload.count * action.payload.display_price);
-        } else {
-          state.items.push(action.payload);
-
-          addItemCount(action.payload.count);
-          total_price(action.payload.count * action.payload.display_price);
-        }
-      } else {
-        state.items.push(action.payload);
-        addItemCount(action.payload.count);
-        total_price(action.payload.count * action.payload.display_price);
-      }
-      let ls = JSON.parse(JSON.stringify(state));
-      add_remove_from_localStorage(ls);
-    });
-    //  remove from db
-    builder.addCase(removeFromCartdb.pending, (state) => {});
-    builder.addCase(removeFromCartdb.rejected, (state, action) => {
-      console.log(action);
-    });
-    builder.addCase(removeFromCartdb.fulfilled, (state, action) => {
-      const removeItemCount = (count) => {
-        state.count -= count;
-      };
-
-      const minus_price = (price) => {
-        state.total_amount -= price;
-      };
-
-      if (state.items.length) {
-        let existingItem;
-        state.items = state.items.filter((item, i) => {
-          if (item.name === action.payload.name) {
-            existingItem = item;
-          }
-          // state.count = -item.count;
-          return item.name !== action.payload.name;
-        });
-        if (existingItem?.count) {
-          // existingItem.count -= action.payload.count;
-          // state.items.push(existingItem);
-          removeItemCount(action.payload.count);
-          minus_price(action.payload.display_price * action.payload.count);
-        } else {
-          // removeItemCount(action.payload.count);
-        }
-      } else {
-        createAlert({
-          message: "Can't remove item from an Empty cart",
-          type: "danger",
-          title: "Cart Error",
-        });
-      }
-      let ls = JSON.parse(JSON.stringify(state));
-      add_remove_from_localStorage(ls);
-      // state.count = state.count + action.payload.count;
-    });
-  },
+  extraReducers: (builder) => {},
 });
 
-export const { reduceItemFromCart,addToCart,removeFromCart } = cartSlice.actions;
+export const { reduceItemFromCart, addToCart, removeFromCart } =
+  cartSlice.actions;
 export default cartSlice.reducer;

@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Minus } from "./icons";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  addToCart,
   addToCartdb,
   reduceItemFromCart,
   removeFromCart,
@@ -111,7 +112,6 @@ function Cart({ showCart, showCartSideEffect }) {
                                 dispatch(
                                   reduceItemFromCart({
                                     item: {...item,count:1},
-                                    token: token,
                                   })
                                 );
                               }}
@@ -126,9 +126,8 @@ function Cart({ showCart, showCartSideEffect }) {
                               className="p-1 cursor-pointer"
                               onClick={() => {
                                 dispatch(
-                                  addToCartdb({
-                                    payload: { ...item, count: 1 },
-                                    token: token,
+                                  addToCart({
+                                    item: { ...item, count: 1 },
                                   })
                                 );
                               }}

@@ -62,7 +62,7 @@ function Cart({ showCart, showCartSideEffect }) {
             <div className="header flex justify-between  px-10 py-6 border-b border-gray-200">
               <div className="left flex gap-x-4">
                 <CartIcon />
-                <p>{cartItemsCount ? cartItemsCount : 0}</p>
+                <p>{cartItemsCount ? cartItemsCount : 0} {cartItemsCount>1?"items":"item"}</p>
               </div>
               <button
                 className=""
@@ -81,7 +81,7 @@ function Cart({ showCart, showCartSideEffect }) {
                   return (
                     <div
                       key={item.id}
-                      className="item lg:grid grid-cols-10 flex border-b-2 bg-slate-50   border-b-gray-50 pb-2 lg:px-3  pt-8 justify-between items-center gap-x-4 text-xs font-mont "
+                      className="item lg:grid grid-cols-10 flex border-b-2 bg-slate-50   border-b-gray-100 lg:px-3  justify-between items-center gap-x-4 text-xs font-mont "
                     >
                       <div className="product_img col-span-4">
                         <img
@@ -94,7 +94,7 @@ function Cart({ showCart, showCartSideEffect }) {
                         <div className="brand self-start">
                           {/* <img className="w-9" src={item.initial_img} alt="" /> */}
                         </div>
-                        <div className="flex flex-col lg:flex-row lg:gap-x-8 gap-y-5">
+                        <div className="flex flex-col lg:flex-row lg:gap-x-8 ">
                           <p className="name">{item.name}</p>
                           <div className="product_price  text-base">
                             ${numeral(item.display_price * item.count).format()}
@@ -105,7 +105,7 @@ function Cart({ showCart, showCartSideEffect }) {
                           {/* <IncreamentDecreamentQuantity /> */}
                           <p className="flex gap-x-6 items-center w-fit  border self-center border-gray-300 ">
                             <span
-                              className="cursor-pointer p-3"
+                              className="cursor-pointer p-[10px]"
                               onClick={() => {
                                 dispatch(
                                   reduceItemFromCart({
@@ -122,7 +122,7 @@ function Cart({ showCart, showCartSideEffect }) {
                               {item.count}
                             </span>
                             <span
-                              className="p-3 cursor-pointer"
+                              className="p-1 cursor-pointer"
                               onClick={() => {
                                 dispatch(
                                   addToCartdb({

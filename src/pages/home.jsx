@@ -29,13 +29,12 @@ function Home() {
         <MyCarousel />
         <MoCarousel />
       </div>
-      <div className="container mt-10 mx-auto px-2 lg:px-0">
-        <div className="header_title">
-          <p className="text-[#282828] font-medium py-2 ">Save More</p>
-        </div>
-        <div className="grid grid-cols-2 lg:grid-cols-5 gap-y-10  gap-x-3 lg:gap-5 ">
+      <div className="container mt-5 mx-auto lg:px-0">
+        <div className="header_title py-3 text-center">
+          <Title title={" most loved Treasures"}/>       </div>
+        <div className="grid grid-cols-2 lg:grid-cols-5 gap-y-10 px-2 gap-x-3 lg:gap-5 ">
           {topProducts.map((product, ) => (
-            <div key={product.id} className="border-gray-200 border px-2 rounded-md shadow-md relative">
+            <div key={product.id} className="border-gray-200 border  rounded-md shadow-md relative">
               {product.new_arrival && (
                 <span className="bg-[#2828] absolute z-30 text-white text-xs font-medium me-2 px-2.5 py-0.5 ">
                   New Arrival

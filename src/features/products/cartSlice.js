@@ -29,9 +29,7 @@ const initialState = JSON.parse(localStorage.getItem("cartItems")) || {
 };
 
 const add_remove_from_localStorage = (items) => {
-  if (localStorage.getItem("cartItems")) {
-    localStorage.removeItem("cartItems");
-  }
+    localStorage.removeItem("cartItems");  
   localStorage.setItem("cartItems", JSON.stringify(items));
 };
 

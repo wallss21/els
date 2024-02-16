@@ -53,7 +53,7 @@ function Footer() {
               fs={"text-sm font-light"}
               moreClass={"text-white "}
               data={
-                "United State, family-owned jewellers since 1983, specialising in diamonds, gold, jewellery, watches and giftware."
+                "America's Most Trusted Jeweler since 1983, specializing in diamonds, gold, jewelry, watches, and giftware"
               }
             />
           </div>

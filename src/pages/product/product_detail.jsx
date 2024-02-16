@@ -62,7 +62,7 @@ const AddToCart = ({ className, product }) => {
           <div className="add_to_cart space-y-4  pt-3">
             <button
               onClick={() =>
-                dispatch(addToCart({payload:{ ...product, count: item_count }}))
+                dispatch(addToCart({item:{ ...product, count: item_count }}))
               }
               className="inline-flex ripple-bg-neutral-700 text-white bg-[#282828] border-0  text-lg uppercase py-5  justify-center w-full"
             >

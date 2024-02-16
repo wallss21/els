@@ -92,12 +92,13 @@ export const productListSlice = createSlice({
     });
     builder.addCase(featureProducts.rejected, (state,action) => {
       state.isLoading = false;
-      state.product = {};
+      state.product = [];
       // TODO display a retry message for the user to refresh the page for the product to come up
     });
     builder.addCase(featureProducts.fulfilled, (state,action) => {
       state.isLoading = false;
-      state.topProducts = []
+      state.topProducts = action.payload
+      console.log(typeof action.payload)
     });
   },
   initialState,

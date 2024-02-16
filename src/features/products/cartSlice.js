@@ -107,9 +107,8 @@ export const cartSlice = createSlice({
           action.payload.item.count * action.payload.item.display_price
         );
       }
-      console.log(state);
-      add_remove_from_localStorage(state, "setItem");
-      // state.count = state.count + action.payload.item.count;
+      let ls = JSON.parse(JSON.stringify(state));
+      add_remove_from_localStorage(ls);
     },
     removeFromCart: (state, action) => {
       const removeItemCount = (count) => {
@@ -148,6 +147,8 @@ export const cartSlice = createSlice({
           title: "Cart Error",
         });
       }
+      let ls = JSON.parse(JSON.stringify(state));
+      add_remove_from_localStorage(ls);
     },
     reduceItemFromCart: (state, action) => {
       console.log(action.payload)

@@ -289,8 +289,8 @@ export const userSlice = createSlice({
     builder.addCase(resetPassword.rejected, (state, action) => {
       createAlert({
         type: "danger",
-        title: "Password Reset",
-        message: "Link Expired",
+        title: "Password Reset ",
+        message: "Something went wrong, Please try again",
       });
 
       state.isLoading = false;

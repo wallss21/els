@@ -108,10 +108,10 @@ function Product({ product, id }) {
           <p className="name lg:px-3 text-sm text-start font-mont mt-2">
             {product.name}
           </p>
-          {
-            <span className="prices text-base font-mont text-red-600 line-through ">
+          {product.display_price!==product.price &&
+           ( <span className="prices text-base font-mont text-red-600 line-through ">
               ${numeral(product.price).format()}
-            </span>
+            </span>)
           }
           <div className="pt-2">
             <span className="prices  text-base font-mont ">

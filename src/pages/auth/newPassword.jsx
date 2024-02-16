@@ -2,15 +2,18 @@ import React, { useState } from "react";
 import Header from "../../components/shared/header";
 import FormInput from "../../components/input";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { resetPassword } from "../../features/auth/authSlice";
+
 import { Title } from "../../components/text";
+import Spinner from "../../components/spinner";
 
 function NewPassword() {
   const location = useLocation();
   let from = location.state?.from?.pathname || "/";
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const isLoading = useSelector((state) => state.auth.isLoading);
 
   const [pass, setPass] = useState({ password1: "", password2: "" });
   const [error, setError] = useState({ err1: "", err2: "", gerror: "" });
@@ -58,14 +61,17 @@ function NewPassword() {
     <div>
       <Header />
       <section className="bg-white">
-        <div className="container mx-auto max-w-screen-lg">
+        <div className="container mx-auto max-w-screen-lg px-5">
           <form
             className="min-h-[80vh] w-full flex flex-col items-center justify-center"
             onSubmit={handleSubmit}
             action="/"
             method="post"
           >
-            <p className="text-2xl font-mont font-semibold tex-center text-[#282828] pb-5"> Reset Password</p>
+            <p className="text-2xl font-mont font-semibold tex-center text-[#282828] pb-5">
+              {" "}
+              Reset Password
+            </p>
 
             <div className="input_group lg:w-4/12 md:w-6/12 mb-4 w-full">
               {/* <label htmlFor={id}>{name}</label> */}
@@ -102,7 +108,11 @@ function NewPassword() {
                 type="submit"
                 className="bg-[#282828] w-full py-4 px-10 mt-5 "
               >
-                <Title title={"Reset Password"} color={"text-white"} />
+                {isLoading ? (
+                  <Spinner />
+                ) : (
+                  <Title title={"Reset Password"} color={"text-white"} />
+                )}
               </button>
             </div>
           </form>

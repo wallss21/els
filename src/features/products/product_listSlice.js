@@ -97,7 +97,7 @@ export const productListSlice = createSlice({
     });
     builder.addCase(featureProducts.fulfilled, (state,action) => {
       state.isLoading = false;
-      state.topProducts = action.payload
+      state.topProducts = []
     });
   },
   initialState,

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import numeral from "numeral";
@@ -7,17 +7,26 @@ import { Panel, PanelGroup, Placeholder } from "rsuite";
 import { BiLock } from "react-icons/bi";
 import BillingAddFormInput from "../../components/billing_address_input";
 import Payment from "../../components/payment";
+import queryString from "query-string";
 
 function Checkout() {
   const location = useLocation();
-  const products = location.state.items;
+  let products = location.state.items;
   const total_price = location.state.total_amount;
   const navigate=useNavigate()
+  const query=queryString.parse(location.search)
 
   const handleSubmit = (e) => {
     console.log(e);
-    navigate("/products/checkout/", { state: {page:"2",items:location.state.items }})
+    localStorage.setItem("checkoutPage",JSON.stringify(location))
+    navigate("/products/checkout/?page=2", { state: {items:location.state.items }})
   };
+  useEffect(()=>{
+    if(query?.page==="2"){
+      products=JSON.parse(localStorage.getItem("checkoutPage"))
+    }
+  },[])  
+  
 
   return (
     <div className="pb-16">
@@ -66,7 +75,7 @@ function Checkout() {
               </svg>
               <li className="flex items-center space-x-3 text-left sm:space-x-4">
                 <p
-                  className={`${location.state.page==="2"?"flex h-6 w-6 items-center justify-center rounded-full bg-emerald-200 text-xs font-semibold text-emerald-700":"flex h-6 w-6 items-center justify-center rounded-full bg-gray-600 text-xs font-semibold text-white ring ring-gray-600 ring-offset-2"}`}
+                  className={`${query?.page==="2"?"flex h-6 w-6 items-center justify-center rounded-full bg-emerald-200 text-xs font-semibold text-emerald-700":"flex h-6 w-6 items-center justify-center rounded-full bg-gray-600 text-xs font-semibold text-white ring ring-gray-600 ring-offset-2"}`}
                 >
                   2
                 </p>
@@ -100,7 +109,7 @@ function Checkout() {
         </div>
       </div>
 
-      {location.state.page=== "2" ? (
+      {query?.page=== "2" ? (
        <div className="lg:grid sm:px-5 lg:grid-cols-12 lg:w-11/12   lg:gap-x-5 space-y-5 mx-auto  justify-between items-start ">
        <div className="px-4 pt-8 lg:col-span-5 lg:sticky top-[0vh] ">
          <p className="text-xl font-medium">Order Summary</p>

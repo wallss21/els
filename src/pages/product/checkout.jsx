@@ -5,6 +5,7 @@ import numeral from "numeral";
 import { Title } from "../../components/text";
 import { Panel, PanelGroup, Placeholder } from "rsuite";
 import { BiLock } from "react-icons/bi";
+import BillingAddFormInput from "../../components/billing_address_input";
 
 function Checkout() {
   const location = useLocation();
@@ -128,6 +129,7 @@ function Checkout() {
           <form className="mt-5 grid gap-6">
 
 {/* SHIPPING ADDRESS INPUT FIELD */}
+<BillingAddFormInput/>
 
 <div className="form_group">
   <label htmlFor="state" >State</label>

@@ -6,18 +6,24 @@ import Showcase from "../sections/showcase";
 import Product from "../components/product";
 import { useEffect, useState } from "react";
 import MyCarousel, { MoCarousel } from "../sections/carousel";
-import { Title } from "../components/text";
+import { Button, Title } from "../components/text";
 import { featureProducts } from "../features/products/product_listSlice";
 
+const ReloadFeaturedP = () => {
+  return (
+    <div className="py-10 text-[#282828] text-center px-5 ">
+      <p className="text-sm font-light font-mont">
+        Something went wrong Please refresh to Load items
+      </p>
+      <Button title={"Refresh"} />
+    </div>
+  );
+};
+
 function Home() {
-  const topProductss = useSelector((state) => state.products.topProducts);
-  const [topProducts, setTopproducts] = useState([]);
-
-  useEffect(() => {
-    setTopproducts(topProductss);
-  }, [topProductss]);
-
   const dispatch = useDispatch();
+  const topProducts = useSelector((state) => state.products.topProducts);
+
   useEffect(() => {
     dispatch(featureProducts());
   }, [dispatch]);
@@ -30,21 +36,29 @@ function Home() {
         <MoCarousel />
       </div>
       <div className="container mt-5 mx-auto lg:px-0">
-        <div className="header_title py-3 text-center">
-          <Title title={" most loved Treasures"}/>       </div>
-        <div className="grid grid-cols-2 lg:grid-cols-5 gap-y-10 px-2 gap-x-3 lg:gap-5 ">
-          {topProducts.map((product, ) => (
-            <div key={product.id} className="border-gray-200 border  rounded-md shadow-md relative">
-              {product.new_arrival && (
-                <span className="bg-[#2828] absolute z-30 text-white text-xs font-medium me-2 px-2.5 py-0.5 ">
-                  New Arrival
-                </span>
-              )}
-
-              <Product id={product.id} product={product} />
-            </div>
-          ))}
+        <div className="header_title  py-3 text-center">
+          <Title text_s={"text-xs"} title={" most loved Treasures"} />
         </div>
+        {topProducts.length > 0 ? (
+          <div className="grid grid-cols-2 lg:grid-cols-5 gap-y-10 px-2 gap-x-3 lg:gap-5 ">
+            {topProducts.map((product) => (
+              <div
+                key={product.id}
+                className="border-gray-200 border  rounded-md shadow-md relative"
+              >
+                {product.new_arrival && (
+                  <span className="bg-[#2828] absolute z-30 text-white text-xs font-medium me-2 px-2.5 py-0.5 ">
+                    New Arrival
+                  </span>
+                )}
+
+                <Product id={product.id} product={product} />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <ReloadFeaturedP />
+        )}
       </div>
       <div className="repair mt-20 relative lg:h-[60vh]  h-[50vh] overflow-hidden flex items-center justify-center ">
         <img
@@ -72,7 +86,7 @@ function Home() {
       <Gshock />
 
       <Showcase />
-      <div className="repair lg:mt-16 relative lg:h-[75vh]  h-[65vh] overflow-hidden flex items-center justify-center ">
+      <div className="repair lg:mt-16 relative mt-8 overflow-hidden flex items-center justify-center ">
         <img
           className=" w-full object-cover origin-bottom hidden lg:block"
           width={"100vw"}
@@ -85,7 +99,7 @@ function Home() {
           width={"100vw"}
           src="www.wallacebishop.com.au/cdn/shop/files/Untitled-2_1f710df1-b617-4b8d-83eb-ca8da11dd839.png?v=1705632543&amp;width=3000"
           alt=""
-          srcSet="//www.wallacebishop.com.au/cdn/shop/files/Untitled-2_1f710df1-b617-4b8d-83eb-ca8da11dd839.png?v=1705632543&amp;width=600 600w, //www.wallacebishop.com.au/cdn/shop/files/Untitled-2_1f710df1-b617-4b8d-83eb-ca8da11dd839.png?v=1705632543&amp;width=700 700w, //www.wallacebishop.com.au/cdn/shop/files/Untitled-2_1f710df1-b617-4b8d-83eb-ca8da11dd839.png?v=1705632543&amp;width=800 800w, //www.wallacebishop.com.au/cdn/shop/files/Untitled-2_1f710df1-b617-4b8d-83eb-ca8da11dd839.png?v=1705632543&amp;width=1000 1000w, //www.wallacebishop.com.au/cdn/shop/files/Untitled-2_1f710df1-b617-4b8d-83eb-ca8da11dd839.png?v=1705632543&amp;width=1200 1200w, //www.wallacebishop.com.au/cdn/shop/files/Untitled-2_1f710df1-b617-4b8d-83eb-ca8da11dd839.png?v=1705632543&amp;width=1400 1400w, //www.wallacebishop.com.au/cdn/shop/files/Untitled-2_1f710df1-b617-4b8d-83eb-ca8da11dd839.png?v=1705632543&amp;width=1600 1600w, //www.wallacebishop.com.au/cdn/shop/files/Untitled-2_1f710df1-b617-4b8d-83eb-ca8da11dd839.png?v=1705632543&amp;width=1800 1800w, //www.wallacebishop.com.au/cdn/shop/files/Untitled-2_1f710df1-b617-4b8d-83eb-ca8da11dd839.png?v=1705632543&amp;width=2000 2000w, //www.wallacebishop.com.au/cdn/shop/files/Untitled-2_1f710df1-b617-4b8d-83eb-ca8da11dd839.png?v=1705632543&amp;width=2200 2200w, //www.wallacebishop.com.au/cdn/shop/files/Untitled-2_1f710df1-b617-4b8d-83eb-ca8da11dd839.png?v=1705632543&amp;width=2400 2400w, //www.wallacebishop.com.au/cdn/shop/files/Untitled-2_1f710df1-b617-4b8d-83eb-ca8da11dd839.png?v=1705632543&amp;width=2600 2600w, //www.wallacebishop.com.au/cdn/shop/files/Untitled-2_1f710df1-b617-4b8d-83eb-ca8da11dd839.png?v=1705632543&amp;width=2800 2800w, //www.wallacebishop.com.au/cdn/shop/files/Untitled-2_1f710df1-b617-4b8d-83eb-ca8da11dd839.png?v=1705632543&amp;width=3000 3000w"
+          srcSet="//www.wallacebishop.com.au/cdn/shop/files/Untitled-2_1f710df1-b617-4b8d-83eb-ca8da11dd839.png?v=1705632543&amp;width=600 600w"
         />
       </div>
       <Footer />

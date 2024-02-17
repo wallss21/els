@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { products } from "../../assets/data";
 import axios from "axios";
-// const root_url = "http://127.0.0.1:8000/apiv1/shop/collections/";
-const root_url = "https://walse.pythonanywhere.com/apiv1/shop/collections/";
+const root_url = "http://127.0.0.1:8000/apiv1/shop/collections/";
+// const root_url = "https://walse.pythonanywhere.com/apiv1/shop/collections/";
 
 const initialState = {
   isLoading: false,
@@ -44,17 +44,18 @@ export const getProductDetail = createAsyncThunk(
 
 export const featureProducts = createAsyncThunk(
   "products/featuredProducts",
-  async (payload, { dispatch, rejectWithValue }) => {
+  async (payload, {  rejectWithValue }) => {
     try {
       let res= await axios.get(`${root_url}featured_products`);
       if(res.status===200){
 
         return res.data;
       }
-      rejectWithValue({ message: "Please try Again" });
+      return rejectWithValue();
 
     } catch (error) {
-      rejectWithValue({ message: "Please try Again" });
+      console.log(error)
+      return rejectWithValue();
     }
   }
 );
@@ -88,17 +89,17 @@ export const productListSlice = createSlice({
     //  top product
     builder.addCase(featureProducts.pending, (state) => {
       state.isLoading = true;
+      // state.topProducts=[]
       
     });
     builder.addCase(featureProducts.rejected, (state,action) => {
       state.isLoading = false;
-      state.product = [];
+      state.topProducts = [];
       // TODO display a retry message for the user to refresh the page for the product to come up
     });
     builder.addCase(featureProducts.fulfilled, (state,action) => {
       state.isLoading = false;
       state.topProducts = action.payload
-      console.log(typeof action.payload)
     });
   },
   initialState,

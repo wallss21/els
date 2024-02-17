@@ -5,7 +5,7 @@ import {
   australian_province as au,
 } from "../assets/country_json";
 import Select from "react-select";
-import { document } from "postcss";
+import { Link } from "react-router-dom";
 
 const FormInput = ({ type, id, name, value, onChange, placeholder }) => {
   return (
@@ -47,7 +47,7 @@ const BillingAddFormInput = ({ onSubmit }) => {
   });
 
   const handleChange = (data, field) => {
-    setErrors({})
+    setErrors({});
     setFormState({ ...formState, [field]: data });
   };
 
@@ -60,17 +60,17 @@ const BillingAddFormInput = ({ onSubmit }) => {
       }
     }
     Object.entries(formState).map((entry) => {
-       return entry[1] === "" ? setErrors({...errors,[entry[0]]:"can not be empty"}):console.log(entry[1])
-
-       
+      return entry[1] === ""
+        ? setErrors({ ...errors, [entry[0]]: "can not be empty" })
+        : console.log(entry[1]);
     });
-    console.log(errors)
-    Object.keys(errors).length===0&& onSubmit(formState);
+    console.log(errors);
+    Object.keys(errors).length === 0 && onSubmit(formState);
   };
 
   return (
-    <div className="py-10 px-5">
-      <form onSubmit={handleSubmit} action="/" method="post" className="px-2">
+    <div className="py-10 ">
+      <form onSubmit={handleSubmit} action="/" method="post">
         <FormInput
           message={errors}
           type={"email"}
@@ -221,8 +221,13 @@ const BillingAddFormInput = ({ onSubmit }) => {
         </div>
 
         <div className="flex justify-between items-center mt-5">
-          <p>return to cart</p>
-          <button className="bg-[#282828] text-white  py-3 px-10" type="submit">
+          <p className="text-xs underline">
+            <Link to={"/"}>shop more</Link>
+          </p>
+          <button
+            className="bg-[#282828] text-white  py-3 lg:px-10 px-5"
+            type="submit"
+          >
             Continue to Checkout
           </button>
         </div>

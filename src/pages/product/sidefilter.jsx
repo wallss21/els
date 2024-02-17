@@ -20,14 +20,15 @@ function Sidefilter({ visibility }) {
   const location = useLocation();
   const navigate = useNavigate();
   const parsed = queryString.parse(location.search);
+
+  // METHODS
+
   const handleBrand = (a, b) => {
     console.log(a);
-    console.log(b);
-    parsed.brand === undefined
-      ? (parsed.brand = b.replaceAll(" ", "-").trim())
-      : (parsed.brand += `brand=${b.replaceAll(" ", "-").trim()}`);
-    navigate(`${location.pathname}?${queryString.stringify(parsed)}`);
+   
   };
+
+  // END METHODS
 
   return (
     <div
@@ -68,6 +69,7 @@ function Sidefilter({ visibility }) {
                         handler={handleBrand}
                         data={brand}
                         id={id}
+
                       />
                     );
                   })

@@ -9,10 +9,7 @@ function CheckBoxInput({ handler, data, id }) {
         id={data.toLowerCase().replace("-", "_")}
         type="checkbox"
         checked={state}
-        onChange={(e) => {
-          handler(state, data);
-          setState(!state);
-        }}
+        onChange={handler}
         // value={state}
         className="w-4 h-4 accent-[#282828] text-[#282828] border-[#282828]  rounded-none "
       />

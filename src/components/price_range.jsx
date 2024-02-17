@@ -3,11 +3,13 @@ import { RangeSlider } from "rsuite";
 import queryString from "query-string";
 
 import { useLocation, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 function PriceRange() {
   const location = useLocation();
   const parsed = queryString.parse(location.search);
   const navigate = useNavigate();
+  const dispatch=useDispatch()
 
   return (
     <div className="">
@@ -19,6 +21,7 @@ function PriceRange() {
           let [min, max] = e; 
           parsed.minV = min;
           parsed.maxV = max;
+          
           navigate(`${location.pathname}?${queryString.stringify(parsed)}`);
         }}
         // renderMark={}

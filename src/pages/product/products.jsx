@@ -15,6 +15,31 @@ import CategoryBanner from "../../sections/categoryBanner";
 import Sidefilter from "./sidefilter";
 import { Button } from "../../components/text";
 
+
+
+
+
+
+const NotFoundCategory = () => {
+  const navigate = useNavigate();
+  return (
+    <div className="empty flex flex-col h-[50vh] justify-center items-center">
+      <p className="capitalize"> Category Not found</p>
+      <p
+        onClick={() => {
+          navigate("/collections/jewellery");
+        }}
+      >
+        <Button title={"CONTINUE SHOPING"}></Button>
+      </p>
+    </div>
+  );
+};
+
+
+
+
+
 function Products() {
   const dispatch = useDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -27,19 +52,18 @@ function Products() {
   );
 
   // const dispatch=useDispatc()
-
-  useEffect(() => {
-    const price_range = [
+ const price_range = [
       searchParams.get("minV") ? searchParams.get("minV") : "min",
       searchParams.get("maxV") ? searchParams.get("maxV") : "max",
     ];
+  useEffect(() => {
+   
 
     const filters = searchParams.getAll("filter");
     dispatch(
       getJewellery({
         category: category,
         current_page: current_page,
-        price_range: price_range,
         filters: filters,
         minv: price_range[0],
         maxv: price_range[1],
@@ -52,21 +76,7 @@ function Products() {
     window.scrollTo(0, 0);
   }, [searchParams]);
 
-  const NotFoundCategory = () => {
-    const navigate = useNavigate();
-    return (
-      <div className="empty flex flex-col h-[50vh] justify-center items-center">
-        <p className="capitalize"> Category Not found</p>
-        <p
-          onClick={() => {
-            navigate("/collections/jewellery");
-          }}
-        >
-          <Button title={"CONTINUE SHOPING"}></Button>
-        </p>
-      </div>
-    );
-  };
+  
 
   return (
     <div className="">

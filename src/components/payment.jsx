@@ -1,25 +1,50 @@
-import React from 'react'
-import { Title } from "./text"
-import numeral from "numeral"
-import { Panel, PanelGroup, Placeholder } from "rsuite"
-import { BiLock } from "react-icons/bi"
+import React from "react";
+import { Title } from "./text";
+import numeral from "numeral";
+import { Panel, PanelGroup, Placeholder } from "rsuite";
+import { BiLock } from "react-icons/bi";
+import PaypalBTN, { Cardpay, UnionPay } from "./paypalBTN";
 
-function Payment({total_price}) {
+function Payment({ total_price }) {
   return (
-    <div className="mt-10 bg-gray-50 px-4 pt-8 sticky top-[0vh] lg:col-span-5">
-    <div className="flex justify-between pb-4">
-      <p className="text-xl font-medium ">Payment Method</p>
+    <div className="mt-10 bg-gray-50 px-4 pt-8 sticky top-[0vh] xl:lg:w-10/12  mx-auto  lg:col-span-5">
+      <div className="flex justify-between pb-4">
+        <p className="text-xl font-medium ">Payment Method</p>
 
-      <p className="flex">
-        Secured connection
-        <BiLock size={20} />
+        <p className="flex">
+          Secured connection
+          <BiLock size={20} />
+        </p>
+      </div>
+      <p className="text-gray-400 pb-5">
+        Complete your order by providing your payment details.
       </p>
-    </div>
-    <p className="text-gray-400 pb-5">
-      Complete your order by providing your payment details.
-    </p>
-    <div className="">
-      <PanelGroup accordion defaultActiveKey={1} bordered>
+      <div className="">
+        <div className="mt-6 border-t border-b py-2">
+          <div className="flex items-center justify-between">
+            <p className="text-sm font-medium text-gray-900">Subtotal</p>
+            <p className="font-semibold text-gray-900">$399.00</p>
+          </div>
+          <div className="flex items-center justify-between">
+            <p className="text-sm font-medium text-gray-900">Shipping</p>
+            <p className="font-semibold text-gray-900">$8.00</p>
+          </div>
+          <div className="flex items-center justify-between">
+            <p className="text-sm font-medium text-gray-900">Discount</p>
+            <p className="font-semibold text-gray-900">$8.00</p>
+          </div>
+        </div>
+        <div className="mt-6 mb-5 flex items-center justify-between">
+          <p className="text-sm font-medium text-gray-900">Total</p>
+          <p className="text-2xl font-semibold text-gray-900">
+            ${numeral(total_price).format()}
+          </p>
+        </div>
+        <div className="flex flex-col justify-center  mx-auto gap-x-4 gap-y-4 text-center">
+            <Cardpay/>
+          <UnionPay/>
+          <PaypalBTN bg={"bg-slate-300"} />
+          {/* <PanelGroup accordion defaultActiveKey={1} bordered>
         <Panel
           className="text-bold text-lg"
           header={
@@ -179,48 +204,11 @@ function Payment({total_price}) {
         >
           <Placeholder.Paragraph />
         </Panel>
-      </PanelGroup>
-
-      <div className="billingAddressChoice mt-5">
-        <input
-          type="checkbox"
-          name="Defalut Shipping Address"
-          id="shipping_add"
-          className="accent-black"
-        />
-        <label
-          htmlFor="shipping_add "
-          className="pl-3 font-mont font-medium text-lg"
-        >
-          location
-        </label>
-      </div>
-
-      <div className="mt-6 border-t border-b py-2">
-        <div className="flex items-center justify-between">
-          <p className="text-sm font-medium text-gray-900">Subtotal</p>
-          <p className="font-semibold text-gray-900">$399.00</p>
+      </PanelGroup> */}
         </div>
-        <div className="flex items-center justify-between">
-          <p className="text-sm font-medium text-gray-900">Shipping</p>
-          <p className="font-semibold text-gray-900">$8.00</p>
-        </div>
-        <div className="flex items-center justify-between">
-          <p className="text-sm font-medium text-gray-900">Discount</p>
-          <p className="font-semibold text-gray-900">$8.00</p>
-        </div>
-      </div>
-      <div className="mt-6 flex items-center justify-between">
-        <p className="text-sm font-medium text-gray-900">Total</p>
-        <p className="text-2xl font-semibold text-gray-900">
-          ${numeral(total_price).format()}
-        </p>
       </div>
     </div>
-    <button className="mt-4 mb-8 w-full ripple-bg-neutral-800  bg-[#282828] px-6 py-5 font-medium text-white">
-      <Title title={" Place Order"} color={"text-white"} />
-    </button>
-  </div>  )
+  );
 }
 
-export default Payment
+export default Payment;

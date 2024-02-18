@@ -111,7 +111,7 @@ function Checkout() {
 
       {query?.page=== "2" ? (
        <div className="lg:grid sm:px-5 lg:grid-cols-12 lg:w-11/12   lg:gap-x-5 space-y-5 mx-auto  justify-between items-start ">
-       <div className="px-4 pt-8 lg:col-span-5 lg:sticky top-[0vh] ">
+       <div className="px-4 pt-8 lg:col-span-7 lg:sticky top-[0vh] ">
          <p className="text-xl font-medium">Order Summary</p>
          <p className="text-gray-400">
            Check your items. And select a suitable shipping method.
@@ -121,13 +121,13 @@ function Checkout() {
           header={
             <div className="flex items-center justify-start ">
               
-              <p className="font-semibold text-lg ">Product Summary</p>
+              <p className="text-xl font-medium  "> Items</p>
             </div>
           }
           eventKey={2}
           id="panel2"
         >
- <div className="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-6">
+ <div className="mt-5 space-y-3 rounded-lg  bg-white ">
            {products.map((product) => (
              <div className="flex justify-center items-center rounded-lg bg-white ">
                <div className="inline-flex relative ">
@@ -146,7 +146,7 @@ function Checkout() {
                    {product.name}
                  </span>
 
-                 <p className="font-bold">
+                 <p className="font-semibold font-mont">
                    ${numeral(product.price).format()}
                  </p>
                </div>
@@ -158,10 +158,8 @@ function Checkout() {
         
 
        </div>
-       <div className="mt-5 bg-gray-50 px-4 lg:col-span-7">
-         <p className="mt-8 text-lg font-medium">
-          Payment Method
-         </p>
+       <div className="mt-5 bg-gray-50 px-4 lg:col-span-5">
+        
          {/*PAYMENT SECTION */}
          <Payment/>
        </div>

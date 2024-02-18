@@ -86,7 +86,7 @@ export function UnionPay({ bg }) {
           fill="#3f3a39"
         />
       </svg>{" "}
-      <Title title={" may With Alipay"} color={"text-[white]"} /> &nbsp; &nbsp;
+      <Title title={" pay With Alipay"} color={"text-[white]"} /> &nbsp; &nbsp;
     </button>
   );
 }

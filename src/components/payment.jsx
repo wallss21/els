@@ -22,16 +22,16 @@ function Payment({ total_price }) {
       <div className="">
         <div className="mt-6 border-t border-b py-2">
           <div className="flex items-center justify-between">
-            <p className="text-sm font-medium text-gray-900">Subtotal</p>
-            <p className="font-semibold text-gray-900">$399.00</p>
+            <p className="text-sm font-light text-gray-900">Subtotal</p>
+            <p className=" text-gray-900">$399.00</p>
           </div>
           <div className="flex items-center justify-between">
-            <p className="text-sm font-medium text-gray-900">Shipping</p>
-            <p className="font-semibold text-gray-900">$8.00</p>
+            <p className="text-sm font-light text-gray-900">Shipping</p>
+            <p className=" text-gray-900">$8.00</p>
           </div>
           <div className="flex items-center justify-between">
-            <p className="text-sm font-medium text-gray-900">Discount</p>
-            <p className="font-semibold text-gray-900">$8.00</p>
+            <p className="text-sm font-light text-gray-900">Discount</p>
+            <p className=" text-gray-900">$8.00</p>
           </div>
         </div>
         <div className="mt-6 mb-5 flex items-center justify-between">

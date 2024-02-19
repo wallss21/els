@@ -1,8 +1,8 @@
 import React from "react";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Title } from "./text";
-import { useDispatch,  } from "react-redux";
-import { addToCart,  } from "../features/products/cartSlice";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../features/products/cartSlice";
 import numeral from "numeral";
 import { GoDotFill } from "react-icons/go";
 
@@ -104,15 +104,19 @@ function Product({ product, id }) {
           <p className="name  text-sm text-start font-mont mt-2">
             {product.name}
           </p>
-          {product.display_price<product.price &&
-           ( <span className="prices text-base font-mont text-red-600 line-through ">
-              ${numeral(product.price).format()}
-            </span>)
-          }
+
           <div className="pt-2">
-            <span className="prices  text-base font-mont ">
-              ${numeral(product.display_price).format()}
-            </span>
+            <div className="gap-x-4 flex justify-center  items-center">
+              {product.display_price < product.price && (
+                <p className="text-sm font-mont font-light text-red-600 line-through ">
+                  ${numeral(product.price).format()}
+                </p>
+              )}
+              <p className="text-sm font-light font-mont ">
+                ${numeral(product.display_price).format()}
+              </p>
+            </div>
+
             {product.number_in_stock < 4 && (
               <div className="pb-3 py-2 flex items-center space-x-2">
                 <GoDotFill color="#f14b4b" />

@@ -95,7 +95,7 @@ function Products() {
               <p className="py-7 font-mont text-sm font-semibold">
                 Total Items {displaylist.count}
               </p>
-              <div className="grid grid-cols-2 xl:grid-cols-3 gap-5 py-10">
+              <div className="grid grid-cols-2 xl:grid-cols-3 gap-5 pb-10">
                 {displaylist?.results?.map((product) => {
                   return <Product id={product.product_id} product={product} />;
                 })}

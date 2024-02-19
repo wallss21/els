@@ -18,7 +18,7 @@ const createAlert = (data) => {
     },
   });
 };
-const fInitial={
+const fInitial = {
   cart_updating: false,
   cartMessage: "",
   items: [],
@@ -26,7 +26,7 @@ const fInitial={
   total_amount: 0,
   userId: "",
 };
-const initialState = JSON.parse(localStorage.getItem("cartItems")) || fInitial
+const initialState = JSON.parse(localStorage.getItem("cartItems")) || fInitial;
 
 const add_remove_from_localStorage = (items) => {
   localStorage.removeItem("cartItems");
@@ -55,7 +55,7 @@ export const cartSlice = createSlice({
         state.count += count;
       };
       const total_price = (price) => {
-        console.log(price)
+        console.log(price);
         state.total_amount += price;
       };
 
@@ -139,16 +139,14 @@ export const cartSlice = createSlice({
     },
     reduceItemFromCart: (state, action) => {
       const removeItemCount = (count) => {
-       
-          state.count -= count;
-          console.log(state.count);
-        
+        state.count -= count;
+        console.log(state.count);
       };
       const minus_price = (price) => {
         state.total_amount -= price;
       };
 
-      if (state.count ) {
+      if (state.count) {
         let existingItem;
         let index;
         state.items = state.items.filter((item, i) => {
@@ -159,7 +157,7 @@ export const cartSlice = createSlice({
           // state.count = -item.count;
           return item.name !== action.payload.item.name;
         });
-        console.log(typeof JSON.parse(JSON.stringify(existingItem)))
+        console.log(typeof JSON.parse(JSON.stringify(existingItem)));
         if (existingItem?.count > 1) {
           existingItem.count -= 1;
           minus_price(existingItem.display_price);
@@ -173,8 +171,8 @@ export const cartSlice = createSlice({
         let ls = JSON.parse(JSON.stringify(state));
         add_remove_from_localStorage(ls);
       } else {
-        state = {...fInitial};
-        localStorage.removeItem("cartItems")
+        state = { ...fInitial };
+        localStorage.removeItem("cartItems");
 
         createAlert({
           message: "Can't remove item from an Empty cart",
@@ -182,7 +180,6 @@ export const cartSlice = createSlice({
           title: "Cart Error",
         });
       }
-     
     },
   },
   extraReducers: (builder) => {},

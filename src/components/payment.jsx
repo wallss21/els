@@ -4,17 +4,21 @@ import numeral from "numeral";
 import { Panel, PanelGroup, Placeholder } from "rsuite";
 import { BiLock } from "react-icons/bi";
 import PaypalBTN, { Cardpay, UnionPay } from "./paypalBTN";
+import { useDispatch, useSelector } from "react-redux";
+import { makePayment } from "../features/utils/modalSlice";
 
-function Payment({ total_price }) {
+function Payment() {
+  const total_price = useSelector((state) => state.cart.total_amount);
+  const dispatch = useDispatch();
+
+  const onMakePay = (payload) => {
+    dispatch(makePayment(payload));
+  };
+
   return (
     <div className="mt-10 bg-gray-50 px-4 pt-8 sticky top-[0vh] xl:lg:w-10/12  mx-auto  lg:col-span-5">
       <div className="flex justify-between pb-4">
         <p className="text-xl font-medium ">Payment Method</p>
-
-        <p className="flex">
-          Secured connection
-          <BiLock size={20} />
-        </p>
       </div>
       <p className="text-gray-400 pb-5">
         Complete your order by providing your payment details.
@@ -23,15 +27,15 @@ function Payment({ total_price }) {
         <div className="mt-6 border-t border-b py-2">
           <div className="flex items-center justify-between">
             <p className="text-sm font-light text-gray-900">Subtotal</p>
-            <p className=" text-gray-900">$399.00</p>
+            <p className=" text-gray-900"> ${numeral(total_price).format()}</p>
           </div>
           <div className="flex items-center justify-between">
             <p className="text-sm font-light text-gray-900">Shipping</p>
-            <p className=" text-gray-900">$8.00</p>
+            <p className=" text-gray-900">$0.00</p>
           </div>
           <div className="flex items-center justify-between">
             <p className="text-sm font-light text-gray-900">Discount</p>
-            <p className=" text-gray-900">$8.00</p>
+            <p className=" text-gray-900">$0.00</p>
           </div>
         </div>
         <div className="mt-6 mb-5 flex items-center justify-between">
@@ -41,10 +45,12 @@ function Payment({ total_price }) {
           </p>
         </div>
         <div className="flex flex-col justify-center  mx-auto gap-x-4 gap-y-4 text-center">
-            <Cardpay/>
-          <UnionPay/>
-          <PaypalBTN bg={"bg-slate-300"} />
-          {/* <PanelGroup accordion defaultActiveKey={1} bordered>
+          <Cardpay  onPay={onMakePay} />
+          <UnionPay onPay={onMakePay} />
+          <PaypalBTN bg={"bg-slate-300"} onPay={onMakePay} />
+
+          {/*
+           <PanelGroup accordion defaultActiveKey={1} bordered>
         <Panel
           className="text-bold text-lg"
           header={
@@ -96,8 +102,8 @@ function Payment({ total_price }) {
                 strokeWidth="2"
               >
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5zm6-10.125a1.875 1.875 0 11-3.75 0 1.875 1.875 0 013.75 0zm1.294 6.336a6.721 6.721 0 01-3.17.789 6.721 6.721 0 01-3.168-.789 3.376 3.376 0 016.338 0z"
                 />
               </svg>

@@ -16,96 +16,104 @@ const FormInput = ({ type, id, name, value, onChange, placeholder }) => {
         type={type}
         name={name}
         onChange={(e) => {
-          console.log(e.target.value);
-          onChange(e.target.value, "email");
+          onChange(e.target.value);
         }}
         value={value}
         placeholder={placeholder}
-        // aria-invalid={errors.firstName ? "true" : "false"}
-        className="w-full border border-gray-300 px-3 py-3 mt-2 mb-4 placeholder-[#282828] font-light text-[#282828] font-mont text-sm"
+        aria-invalid={"true"}
+        className="w-full border border-gray-300 px-3 py-3 mt-2 placeholder-[#282828] font-light text-[#282828] font-mont text-sm"
       />
-      {/* {errors[label]?.type === "required" && (
-        <p role="alert">First name is required</p>
-      )} */}
     </div>
   );
 };
 
-const BillingAddFormInput = ({ onSubmit }) => {
-  const [errors, setErrors] = useState({});
+const BillingAddFormInput = ({ error, onSubmit }) => {
   const [formState, setFormState] = useState({
-    country: "",
-    province: "",
     email: "",
     suburb: "",
     first_name: "",
     last_name: "",
     postcode: "",
     address: "",
+    country: "",
+    province: "",
     phone: "",
     delivery: "",
   });
 
   const handleChange = (data, field) => {
-    setErrors({});
-    setFormState({ ...formState, [field]: data });
+    setFormState({ ...formState, [field]: data.trim() });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    let deliElem = window.document.getElementsByName("delivery");
-    for (let i = 0; i < deliElem.length; i++) {
-      if (deliElem[i].checked) {
-        setFormState({ ...formState, delivery: deliElem[i].value });
-      }
-    }
-    Object.entries(formState).map((entry) => {
-      return entry[1] === ""
-        ? setErrors({ ...errors, [entry[0]]: "can not be empty" })
-        : console.log(entry[1]);
-    });
-    console.log(errors);
-    Object.keys(errors).length === 0 && onSubmit(formState);
+    onSubmit(formState);
   };
 
   return (
     <div className="py-10 ">
-      <form onSubmit={handleSubmit} action="/" method="post">
-        <FormInput
-          message={errors}
-          type={"email"}
-          id={"email"}
-          placeholder={"Email"}
-          name={"email"}
-          value={formState.email}
-          onChange={handleChange}
-        />
+      <form
+        onSubmit={handleSubmit}
+        action="/"
+        method="post"
+        className="xl:px-10"
+      >
+        <div className=" mb-4">
+          <FormInput
+            type={"email"}
+            id={"email"}
+            placeholder={"Email"}
+            name={"Email"}
+            value={formState.email}
+            onChange={(e) => handleChange(e, "email")}
+          />
+          {error.errors?.email && (
+            <p className=" capitalize text-red-400" role="alert">
+              {error.errors?.email}
+            </p>
+          )}
+        </div>
 
         {/* COUNTRY SELECT */}
         <div className="py-3">
-          {" "}
+          <label htmlFor="country" className="pb-2">
+            Country
+          </label>
           <Select
             options={countries}
             name="country"
             placeholder="Country"
             onChange={(e) => handleChange(e.label, "country")}
           />
+          {error.errors?.country && (
+            <p className=" capitalize text-red-400" role="alert">
+              {error.errors?.country}
+            </p>
+          )}
         </div>
         {formState.country === "United States" && (
           <div className="py-3">
-            {" "}
+            <label htmlFor="usProvince">Province</label>
             <Select
+              id="usProvince"
               options={usa}
               name="province"
               placeholder="Province"
               onChange={(e) => handleChange(e.label, "province")}
             />
+            {error.errors?.province && (
+              <p className=" capitalize text-red-400" role="alert">
+                {error.errors?.province}
+              </p>
+            )}
           </div>
         )}
         <div className="lg:grid gap-x-3 grid-cols-3">
           {formState.country === "Australia" && (
             <div className="py-3">
+              <label htmlFor="province">Province</label>
               <Select
+                id="province"
                 options={au}
                 placeholder="Province"
                 className={"py-4"}
@@ -113,72 +121,148 @@ const BillingAddFormInput = ({ onSubmit }) => {
                 name="province"
                 onChange={(e) => handleChange(e.label, "province")}
               />
+              {error.errors?.province && (
+                <p className=" capitalize text-red-400" role="alert">
+                  {error.errors?.province}
+                </p>
+              )}
             </div>
           )}
           {formState.country !== "Australia" &&
             formState.country !== "United States" && (
-              <FormInput
-                placeholder={"state/Teritory"}
-                id={"province"}
-                onChange={(e) => {
-                  handleChange(e, "province");
-                }}
-                name={"province"}
-              />
+              <div className="mb-3">
+                <FormInput
+                  placeholder={"state/Teritory"}
+                  id={"province"}
+                  onChange={(e) => {
+                    handleChange(e, "province");
+                  }}
+                  name={"Province"}
+                  value={formState.province}
+                />
+                {error.errors?.province && (
+                  <p className=" capitalize text-red-400" role="alert">
+                    {error.errors?.province}
+                  </p>
+                )}
+              </div>
             )}
-          <FormInput
-            name={"suburb"}
-            placeholder={"Postcode"}
-            onChange={(e) => handleChange(e, "suburb")}
-          />
-          <FormInput
-            name={"postcode"}
-            placeholder={"Suburb"}
-            onChange={(e) => handleChange(e, "postcode")}
-          />
+          <div className="mb-3">
+            <FormInput
+              name={"Suburb"}
+              placeholder={"Suburb"}
+              id={"suburb"}
+              value={formState.suburb}
+              onChange={(e) => handleChange(e, "suburb")}
+            />
+            {error.errors?.suburb && (
+              <p className=" capitalize text-red-400" role="alert">
+                {error.errors?.suburb}
+              </p>
+            )}
+          </div>
+          <div className="mb-3">
+            <FormInput
+              name={"Postcode"}
+              placeholder={"Postcode"}
+              id={"postcode"}
+              value={formState.postcode}
+              onChange={(e) => handleChange(e, "postcode")}
+            />{" "}
+            {error.errors?.postcode && (
+              <p className=" capitalize text-red-400" role="alert">
+                {error.errors?.postcode}
+              </p>
+            )}
+          </div>
         </div>
         <div className="lg:grid grid-cols-2 gap-x-4">
-          <FormInput
-            placeholder={"first_name"}
-            onChange={(e) => handleChange(e, "first_name")}
-          />
-
-          <FormInput
-            placeholder={"last_name"}
-            onChange={(e) => handleChange(e, "last_name")}
-          />
+          <div className="mb-3">
+            <FormInput
+              name={"First Name"}
+              id={"firt_name"}
+              placeholder={"First Name"}
+              value={formState.first_name}
+              onChange={(e) => handleChange(e, "first_name")}
+            />
+            {error.errors?.first_name && (
+              <p className=" capitalize text-red-400" role="alert">
+                {error.errors?.first_name}
+              </p>
+            )}
+          </div>
+          <div className="mb-3">
+            <FormInput
+              name={"Last Name"}
+              placeholder={"Last Name"}
+              id={"last_name"}
+              value={formState.last_name}
+              onChange={(e) => handleChange(e, "last_name")}
+            />
+            {error.errors?.last_name && (
+              <p className=" capitalize text-red-400" role="alert">
+                {error.errors?.last_name}
+              </p>
+            )}
+          </div>
         </div>
-
-        <FormInput
-          value={FormInput.address}
-          placeholder={"Address"}
-          onChange={(e) => handleChange(e, "address")}
-        />
-        <FormInput
-          value={FormInput.address2}
-          placeholder={"Address 2 Optional"}
-          onChange={(e) => handleChange(e, "address2")}
-        />
-        <FormInput
-          placeholder={"Phone"}
-          type={"number"}
-          value={FormInput.phone}
-          name={"phone"}
-          onChange={(e) => handleChange(e, "phone")}
-        />
+        <div className="mb-3">
+          <FormInput
+            id={"address"}
+            name={"Address"}
+            placeholder={"Address"}
+            value={FormInput.address}
+            onChange={(e) => handleChange(e, "address")}
+          />{" "}
+          {error.errors?.address && (
+            <p className=" capitalize text-red-400" role="alert">
+              {error.errors?.address}
+            </p>
+          )}
+        </div>
+        <div className="mb-3">
+          <FormInput
+            id={"address2"}
+            name={"Address "}
+            value={FormInput.address2}
+            placeholder={"Address 2 Optional"}
+            onChange={(e) => handleChange(e, "address2")}
+          />
+          {error.errors?.address2 && (
+            <p className=" capitalize text-red-400" role="alert">
+              {error.errors?.address2}
+            </p>
+          )}
+        </div>
+        <div className="mb-3">
+          <FormInput
+            placeholder={"Phone"}
+            type={"number"}
+            value={FormInput.phone}
+            id={"phone"}
+            name={"Phone"}
+            onChange={(e) => handleChange(e, "phone")}
+          />{" "}
+          {error.errors?.phone && (
+            <p className=" capitalize text-red-400" role="alert">
+              {error.errors?.phone}
+            </p>
+          )}
+        </div>
         <div className="relative py-3">
           <input
             className="peer hidden"
             id="radio_1"
             type="radio"
             name="delivery"
+            defaultChecked
             value={"standard"}
-            checked
+            onChange={(e) => handleChange(e.target.value, "delivery")}
           />
           <span className="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
           <label
             className="peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-4"
-            for="radio_1"
+            htmlFor="radio_1"
           >
             <img
               className="w-14 object-contain"
@@ -199,12 +283,13 @@ const BillingAddFormInput = ({ onSubmit }) => {
             id="radio_2"
             type="radio"
             name="delivery"
+            onChange={(e) => handleChange(e.target.value, "delivery")}
             value={"express"}
           />
           <span className="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
           <label
             className="peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-4"
-            for="radio_2"
+            htmlFor="radio_2"
           >
             <img
               className="w-14 object-contain"

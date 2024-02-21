@@ -1,35 +1,68 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import V from "max-validator";
 
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import numeral from "numeral";
 import { Title } from "../../components/text";
 import { Panel, PanelGroup, Placeholder } from "rsuite";
-import { BiLock } from "react-icons/bi";
 import BillingAddFormInput from "../../components/billing_address_input";
 import Payment from "../../components/payment";
 import queryString from "query-string";
 import { MyModal } from "../../components/Modal";
+import { validationScheme } from "../../dataSchema";
+import { verifyEmail } from "../../features/auth/authSlice";
+import { useDispatch } from "react-redux";
+import { createBillingAddres } from "../../features/products/billingSlice";
 
 function Checkout() {
   const location = useLocation();
   let products = location.state.items;
+  const [errors, setErrors] = useState({});
+  const dispatch=useDispatch()
 
   const navigate = useNavigate();
   const query = queryString.parse(location.search);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
+    let result = V.validate(e, validationScheme);
+
+    if (e.country === "") {
+      result.hasError = true;
+      result.errors.country = "Country is required";
+    }
+    if (e.province === "") {
+      result.hasError = true;
+      result.errors.province = "State/teritoty is required";
+    }
+    if (e.delivery === "") e.delivery = "standard";
+    if (e.email.trim() !== "") {
+      try {
+        let emailExist = await verifyEmail(e.email);
+        if (emailExist) {
+          result.errors.email =
+            "There is an account associated with this account";
+          result.hasError = true;
+        }
+      } catch (error) {}
+    }
     console.log(e);
+    if (result.hasError) {
+      console.log(result);
+      setErrors({ ...result });
+      return;
+    }
     localStorage.setItem("checkoutPage", JSON.stringify(location));
-    navigate("/products/checkout/?page=2", {
-      state: { items: location.state.items },
-    });
+    dispatch(createBillingAddres(e))
+    // navigate("/products/checkout?page=2", {
+    //   state: { items: location.state.items },
+    // });
   };
+
   useEffect(() => {
     if (query?.page === "2") {
       products = JSON.parse(localStorage.getItem("checkoutPage"));
     }
-  }, []);
-  console.log(products);
+  }, [query, location.state]);
 
   return (
     <div className="pb-16">
@@ -121,46 +154,80 @@ function Checkout() {
             <p className="text-gray-400">
               Check your items. And select a suitable shipping method.
             </p>
-            <PanelGroup accordion defaultActiveKey={1} bordered>
-              <Panel
-                header={
-                  <div className="flex items-center justify-start ">
-                    <p className="text-xl font-medium  "> Items</p>
-                  </div>
-                }
-                eventKey={2}
-                id="panel2"
-              >
-                <div className="mt-5 space-y-3 rounded-lg  bg-white ">
-                  {products.map((product) => (
-                    <div key={product.id} className="flex justify-center items-center rounded-lg bg-white ">
-                      <div className="inline-flex relative ">
-                        <img
-                          className="m-2 h-24 w-28 rounded-md border object-cover object-center"
-                          src={product.img1}
-                          alt={product.name}
-                        />
-                        <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-[#282828] border-2 border-white rounded-full top-4 end-0 dark:border-gray-900">
-                          {product.count}
+            <div className="lg:hidden">
+              <PanelGroup accordion defaultActiveKey={1} bordered>
+                <Panel
+                  header={
+                    <div className="flex items-center justify-start ">
+                      <p className="text-xl font-medium  "> Items</p>
+                    </div>
+                  }
+                  eventKey={2}
+                  id="panel2"
+                >
+                  <div className="mt-5 space-y-3 rounded-lg  bg-white ">
+                    {products.map((product) => (
+                      <div
+                        key={product.id}
+                        className="flex justify-center items-center rounded-lg bg-white "
+                      >
+                        <div className="inline-flex relative ">
+                          <img
+                            className="m-2 h-24 w-28 rounded-md border object-cover object-center"
+                            src={product.img1}
+                            alt={product.name}
+                          />
+                          <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-[#282828] border-2 border-white rounded-full top-4 end-0 dark:border-gray-900">
+                            {product.count}
+                          </div>
+                        </div>
+
+                        <div className="flex w-full flex-col px-5 py-2">
+                          <span className="font-light text-sm lg:w-9/12">
+                            {product.name}
+                          </span>
+
+                          <p className="font-semibold font-mont">
+                            ${numeral(product.price).format()}
+                          </p>
                         </div>
                       </div>
-
-                      <div className="flex w-full flex-col px-5 py-2">
-                        <span className="font-light text-sm lg:w-9/12">
-                          {product.name}
-                        </span>
-
-                        <p className="font-semibold font-mont">
-                          ${numeral(product.price).format()}
-                        </p>
-                      </div>
+                    ))}
+                  </div>{" "}
+                </Panel>
+              </PanelGroup>
+            </div>
+            <div className="mt-5 space-y-3 rounded-lg hidden lg:block bg-white ">
+              {products.map((product) => (
+                <div
+                  key={product.id}
+                  className="flex justify-center items-center rounded-lg bg-white "
+                >
+                  <div className="inline-flex relative ">
+                    <img
+                      className="m-2 h-24 w-28 rounded-md border object-cover object-center"
+                      src={product.img1}
+                      alt={product.name}
+                    />
+                    <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-[#282828] border-2 border-white rounded-full top-4 end-0 dark:border-gray-900">
+                      {product.count}
                     </div>
-                  ))}
-                </div>{" "}
-              </Panel>
-            </PanelGroup>
+                  </div>
+
+                  <div className="flex w-full flex-col px-5 py-2">
+                    <span className="font-light text-sm lg:w-9/12">
+                      {product.name}
+                    </span>
+
+                    <p className="font-semibold font-mont">
+                      ${numeral(product.price).format()}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
-          <div className="mt-5 bg-gray-50 px-4 lg:col-span-5">
+          <div className="mt-5 bg-slate-50 px-4 lg:col-span-5 lg:sticky top-[0vh]">
             {/*PAYMENT SECTION */}
             <Payment />
           </div>
@@ -175,7 +242,10 @@ function Checkout() {
 
             <div className="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-6">
               {products.map((product) => (
-                <div className="flex justify-center items-center rounded-lg bg-white ">
+                <div
+                  key={product.id}
+                  className="flex justify-center items-center rounded-lg bg-white "
+                >
                   <div className="inline-flex relative ">
                     <img
                       className="m-2 h-24 w-28 rounded-md border object-cover object-center"
@@ -205,7 +275,7 @@ function Checkout() {
               Shipping Address/ Methods
             </p>
             {/* SHIPPING ADDRESS INPUT Form */}
-            <BillingAddFormInput onSubmit={handleSubmit} />
+            <BillingAddFormInput error={errors} onSubmit={handleSubmit} />
           </div>
         </div>
       )}

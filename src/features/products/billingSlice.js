@@ -1,4 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
+
+const root_url = "http://127.0.0.1:8000/apiv1/shop/";
+// const root_url = "https://walse.pythonanywhere.com/apiv1/shop/";
 
 const initialState = {
   isLoading: false,
@@ -8,8 +12,14 @@ const initialState = {
 
 export const createBillingAddres = createAsyncThunk(
   "billingAddress/create",
-  async (userId, { extra }) => {
+  async (payload, { extra }) => {
     // TODO make axios request to create data and return success status if successful or reject with value if error occur
+    try {
+      let { data } = await axios.post(`${root_url}billing/create`,payload);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
   }
 );
 export const retriveBillingAddress = createAsyncThunk(

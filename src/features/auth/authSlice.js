@@ -4,8 +4,21 @@ import { Store as InfoStore } from "react-notifications-component";
 
 // import  jwt from "jsonwebtoken";
 
-// const root_url = "http://127.0.0.1:8000/apiv1/accounts/";
-const root_url = "https://walse.pythonanywhere.com/apiv1/accounts/";
+const root_url = "http://127.0.0.1:8000/apiv1/accounts/";
+// const root_url = "https://walse.pythonanywhere.com/apiv1/accounts/";
+
+export const verifyEmail = (email) =>
+  new Promise(async (resolve, reject) => {
+    try {
+      let { data } = await axios.get(`${root_url}${email}/verify`);
+      if (data.result) {
+        return resolve(true);
+      }
+      return resolve(false);
+    } catch (error) {
+      return reject(false);
+    }
+  });
 
 const createAlert = (data) => {
   return InfoStore.addNotification({

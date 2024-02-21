@@ -16,7 +16,7 @@ function Payment() {
   };
 
   return (
-    <div className="mt-10 bg-gray-50 px-4 pt-8 sticky top-[0vh] xl:lg:w-10/12  mx-auto  lg:col-span-5">
+    <div className="mt-10 bg-gray-50 px-4 py-8 sticky top-[0vh] xl:lg:w-10/12  mx-auto  lg:col-span-5">
       <div className="flex justify-between pb-4">
         <p className="text-xl font-medium ">Payment Method</p>
       </div>

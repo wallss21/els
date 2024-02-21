@@ -37,9 +37,9 @@ function MobileMainNav({ isNavOpen, setIsNavOpen, mobile_ref, navlinks }) {
             <div className="avatar px-5   flex flex-col items-center">
               {userDetails ? (
                 <div className="tit uppercase">
-                  <Link></Link>
+                  <Link to={"/account"} className="hover:text-[#282828]">
                   <Avatar circle />
-                  <Title title={"Username"} />
+                  <Title title={"Username"} /></Link>
                 </div>
               ) : (
                 <div className="signin">

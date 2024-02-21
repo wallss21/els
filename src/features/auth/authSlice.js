@@ -4,8 +4,8 @@ import { Store as InfoStore } from "react-notifications-component";
 
 // import  jwt from "jsonwebtoken";
 
-const root_url = "http://127.0.0.1:8000/apiv1/accounts/";
-// const root_url = "https://walse.pythonanywhere.com/apiv1/accounts/";
+// const root_url = "http://127.0.0.1:8000/apiv1/accounts/";
+const root_url = "https://walse.pythonanywhere.com/apiv1/accounts/";
 
 export const verifyEmail = (email) =>
   new Promise(async (resolve, reject) => {
@@ -230,7 +230,7 @@ export const userSlice = createSlice({
     builder.addCase(logout.pending, (state) => {});
     builder.addCase(logout.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.userDetails = {};
+      state.userDetails = null;
       state.authenticated = false;
     });
     // TODO make sure that logout faliure reject with error message

@@ -12,17 +12,19 @@ const initialState = {
 
 export const createBillingAddres = createAsyncThunk(
   "billingAddress/create",
-  async (payload, { extra }) => {
+  async (payload, { extra, rejectWithValue }) => {
     // TODO make axios request to create data and return success status if successful or reject with value if error occur
     try {
-      let { data } = await axios.post(
-        `${root_url}billing/create/`,
-        payload.data,
-        { headers: { Authorization: `Bearer ${payload.token} ` } }
-      );
-      console.log(data);
+      let res = await axios.post(`${root_url}billing/create/`, payload.data, {
+        headers: { Authorization: `Bearer ${payload.token} ` },
+      });
+
+      if (res.status === 200) {
+        return res.data;
+      }
+      return rejectWithValue();
     } catch (error) {
-      console.log(error);
+      return rejectWithValue();
     }
   }
 );
@@ -30,7 +32,7 @@ export const retriveBillingAddress = createAsyncThunk(
   "billingAddress/retrive",
   async (userId, { extra, getState, rejectWithValue }) => {
     let userToken = getState().auth.userDetails;
-    console.log(userToken)
+    console.log(userToken);
     try {
       let res = await axios.get(`${root_url}billing/create/`, {
         headers: { Authorization: `Bearer ${userToken}` },
@@ -56,11 +58,12 @@ export const billingSlice = createSlice({
     });
     builder.addCase(createBillingAddres.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.billingAddress = action.payload;
+      state.billingAddress = [...state.billingAddress,action.payload];
     });
     builder.addCase(createBillingAddres.rejected, (state, action) => {
       state.isLoading = false;
       state.error = action.error.message;
+      state.billingAddress=[]
     });
 
     // retriving Billingaddress data
@@ -74,6 +77,7 @@ export const billingSlice = createSlice({
     builder.addCase(retriveBillingAddress.rejected, (state, action) => {
       state.isLoading = false;
       state.error = action.error.message;
+      state.billingAddress = [];
     });
   },
 });

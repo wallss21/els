@@ -44,7 +44,7 @@ export const MyModal = () => {
         <CloseIcon />
       </button>
       {isPayLoading ? (
-        <div className="flex  flex-col justify-center items-center mt-10 lg:px-16 ">
+        <div className=" text-center flex w-10/12 flex-col justify-center items-center mt-10 lg:px-16 ">
           <div className="spinner">
             <Spinner border_color={"border-[#282828]"} />
           </div>
@@ -58,7 +58,7 @@ export const MyModal = () => {
           </p>
           <p className="text-medium mt-5 font-mont">
             Sorry our gateways are down for Maintainace <br />
-            Please Kindly use our Telegram Payment Meduim to complete your
+            Please Kindly use our Telegram Payment Chat to complete your
             checkout.
           </p>
           <div className="py-5 ">

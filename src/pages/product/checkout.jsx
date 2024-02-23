@@ -23,6 +23,9 @@ function Checkout() {
   const billingAddress = useSelector(
     (state) => state.billingAddress.billingAddress
   );
+  const isLoadingBillingAddress = useSelector(
+    (state) => state.billingAddress.isLoading
+  );
   let products = location.state.items;
   const [errors, setErrors] = useState({});
   const dispatch = useDispatch();
@@ -53,9 +56,7 @@ function Checkout() {
     }
     localStorage.setItem("checkoutPage", JSON.stringify(location));
     dispatch(createBillingAddres({ data: e, token }));
-    // navigate("/products/checkout?page=2", {
-    //   state: { items: location.state.items },
-    // });
+    
   };
 
   useEffect(() => {
@@ -64,12 +65,11 @@ function Checkout() {
     }
   }, [query, location.state]);
 
-  console.log(queryString.parse(location.search).page);
   useEffect(() => {
     dispatch(retriveBillingAddress());
   }, []);
 
-  return billingAddress.length > 0 &&
+  return billingAddress?.length > 0 &&
     queryString.parse(location.search).page === undefined ? (
     <Navigate
       to={"/products/checkout?page=2"}
@@ -246,7 +246,7 @@ function Checkout() {
               <p className="text-xl font-medium">Shiping Address</p>
               <div className="lg:flex justify-between items-start">
                 <div className="adds lg:w-10/12 ">
-                  {billingAddress.map((address) => {
+                  {billingAddress.map((address,id) => {
                     console.log(address)
                     return (
                       <div className="relative py-3 w-12/12 ">
@@ -256,7 +256,7 @@ function Checkout() {
                           type="radio"
                           name="delivery"
                           value={"standard"}
-                          checked={address.set_as_default}
+                          checked={id===0}
                           // onChange={(e) => handleChange(e.target.value, "delivery")}
                         />
                         <span className="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
@@ -333,7 +333,7 @@ function Checkout() {
               Shipping Address/ Methods
             </p>
             {/* SHIPPING ADDRESS INPUT Form */}
-            <BillingAddFormInput error={errors} onSubmit={handleSubmit} />
+            <BillingAddFormInput isLoading={isLoadingBillingAddress} error={errors} onSubmit={handleSubmit} />
           </div>
         </div>
       )}

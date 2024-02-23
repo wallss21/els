@@ -6,6 +6,7 @@ import {
 } from "../assets/country_json";
 import Select from "react-select";
 import { Link } from "react-router-dom";
+import Spinner from "./spinner";
 
 const FormInput = ({ type, id, name, value, onChange, placeholder }) => {
   return (
@@ -27,7 +28,7 @@ const FormInput = ({ type, id, name, value, onChange, placeholder }) => {
   );
 };
 
-const BillingAddFormInput = ({ error, onSubmit }) => {
+const BillingAddFormInput = ({ isLoading, error, onSubmit }) => {
   const [formState, setFormState] = useState({
     email: "",
     suburb: "",
@@ -42,11 +43,15 @@ const BillingAddFormInput = ({ error, onSubmit }) => {
   });
 
   const handleChange = (data, field) => {
-    setFormState({ ...formState, [field]: data.trim() });
+    console.log(field);
+    setFormState((prev) => {
+      return { ...prev, [field]: data.trim() };
+    });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(formState);
     onSubmit(formState);
   };
 
@@ -304,19 +309,20 @@ const BillingAddFormInput = ({ error, onSubmit }) => {
           </label>
         </div>
         {error.errors?.delivery && (
-            <p className=" capitalize text-red-400" role="alert">
-              {error.errors?.delivery}
-              </p>
-          )}
+          <p className=" capitalize text-red-400" role="alert">
+            {error.errors?.delivery}
+          </p>
+        )}
         <div className="flex justify-between items-center mt-5">
           <p className="text-xs underline">
             <Link to={"/"}>shop more</Link>
           </p>
           <button
+            disabled={isLoading}
             className="bg-[#282828] text-white  py-3 lg:px-10 px-5"
             type="submit"
           >
-            Continue to Checkout
+            {isLoading ? <Spinner /> : "Continue to Checkout"}
           </button>
         </div>
 

@@ -23,7 +23,7 @@ export const MyModal = () => {
       left: "50%",
       right: "auto",
       bottom: "auto",
-      marginRight: "-20%",
+      marginRight: "-50%",
 
       transform: "translate(-50%, -50%)",
     },

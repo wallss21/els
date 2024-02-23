@@ -255,7 +255,6 @@ const BillingAddFormInput = ({ error, onSubmit }) => {
             id="radio_1"
             type="radio"
             name="delivery"
-            defaultChecked
             value={"standard"}
             onChange={(e) => handleChange(e.target.value, "delivery")}
           />
@@ -304,7 +303,11 @@ const BillingAddFormInput = ({ error, onSubmit }) => {
             </div>
           </label>
         </div>
-
+        {error.errors?.delivery && (
+            <p className=" capitalize text-red-400" role="alert">
+              {error.errors?.delivery}
+              </p>
+          )}
         <div className="flex justify-between items-center mt-5">
           <p className="text-xs underline">
             <Link to={"/"}>shop more</Link>

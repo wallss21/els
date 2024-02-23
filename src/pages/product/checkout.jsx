@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import V from "max-validator";
 
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import numeral from "numeral";
 import { Title } from "../../components/text";
 import { Panel, PanelGroup, Placeholder } from "rsuite";
@@ -11,14 +11,21 @@ import queryString from "query-string";
 import { MyModal } from "../../components/Modal";
 import { validationScheme } from "../../dataSchema";
 import { verifyEmail } from "../../features/auth/authSlice";
-import { useDispatch } from "react-redux";
-import { createBillingAddres } from "../../features/products/billingSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  createBillingAddres,
+  retriveBillingAddress,
+} from "../../features/products/billingSlice";
 
 function Checkout() {
   const location = useLocation();
+  const token = useSelector((state) => state.auth.userDetails);
+  const billingAddress = useSelector(
+    (state) => state.billingAddress.billingAddress
+  );
   let products = location.state.items;
   const [errors, setErrors] = useState({});
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
   const query = queryString.parse(location.search);
@@ -34,25 +41,18 @@ function Checkout() {
       result.hasError = true;
       result.errors.province = "State/teritoty is required";
     }
-    if (e.delivery === "") e.delivery = "standard";
-    if (e.email.trim() !== "") {
-      try {
-        let emailExist = await verifyEmail(e.email);
-        if (emailExist) {
-          result.errors.email =
-            "There is an account associated with this account";
-          result.hasError = true;
-        }
-      } catch (error) {}
+    if (e.delivery === "") {
+      result.errors.delivery = "Please select a delivery method";
+      result.hasError = true;
     }
-    console.log(e);
+
     if (result.hasError) {
       console.log(result);
       setErrors({ ...result });
       return;
     }
     localStorage.setItem("checkoutPage", JSON.stringify(location));
-    dispatch(createBillingAddres(e))
+    dispatch(createBillingAddres({ data: e, token }));
     // navigate("/products/checkout?page=2", {
     //   state: { items: location.state.items },
     // });
@@ -64,7 +64,19 @@ function Checkout() {
     }
   }, [query, location.state]);
 
-  return (
+  console.log(queryString.parse(location.search).page);
+  useEffect(() => {
+    dispatch(retriveBillingAddress());
+  }, []);
+
+  return billingAddress.length > 0 &&
+    queryString.parse(location.search).page === undefined ? (
+    <Navigate
+      to={"/products/checkout?page=2"}
+      state={{ items: location.state.items }}
+      replace
+    />
+  ) : (
     <div className="pb-16">
       <MyModal />
       <div className="flex flex-col items-center border-b bg-white py-4 sm:flex-row sm:px-5 lg:w-11/12 mx-auto">
@@ -227,9 +239,55 @@ function Checkout() {
               ))}
             </div>
           </div>
-          <div className="mt-5 bg-slate-50 px-4 lg:col-span-5 lg:sticky top-[0vh]">
+          <div className="mt-5 px-4 lg:col-span-5 lg:sticky top-[0vh]">
             {/*PAYMENT SECTION */}
-            <Payment />
+
+            <div className="shipping  ">
+              <p className="text-xl font-medium">Shiping Address</p>
+              <div className="lg:flex justify-between items-start">
+                <div className="adds lg:w-10/12 ">
+                  {billingAddress.map((address) => {
+                    console.log(address)
+                    return (
+                      <div className="relative py-3 w-12/12 ">
+                        <input
+                          className="peer hidden"
+                          id={address.id}
+                          type="radio"
+                          name="delivery"
+                          value={"standard"}
+                          checked={address.set_as_default}
+                          // onChange={(e) => handleChange(e.target.value, "delivery")}
+                        />
+                        <span className="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
+                        <label
+                          className="peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-4"
+                          htmlFor={address.id}
+                        >
+                          <img
+                            className="w-14 object-contain"
+                            src="/images/naorrAeygcJzX0SyNI4Y0.png"
+                            alt=""
+                          />
+                          <div className="">
+                            <span className="mt-2 font-semibold">
+                             {address.country}
+                            </span>
+                            <p className="text-slate-500 text-sm leading-6">
+                             {address.province} / {address.postcode}
+                            </p>
+                          </div>
+                        </label>
+                      </div>
+                    );
+                  })}
+                </div>
+                <p className="py-3 text-end cursor-pointer ">Add new</p>
+              </div>
+            </div>
+            <div className="bg-slate-50">
+              <Payment />
+            </div>
           </div>
         </div>
       ) : (

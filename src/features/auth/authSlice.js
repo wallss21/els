@@ -1,11 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { Store as InfoStore } from "react-notifications-component";
+import { openAuthModal } from "../utils/modalSlice";
 
 // import  jwt from "jsonwebtoken";
 
-// const root_url = "http://127.0.0.1:8000/apiv1/accounts/";
-const root_url = "https://walse.pythonanywhere.com/apiv1/accounts/";
+const root_url = "http://127.0.0.1:8000/apiv1/accounts/";
+// const root_url = "https://walse.pythonanywhere.com/apiv1/accounts/";
 
 export const verifyEmail = (email) =>
   new Promise(async (resolve, reject) => {
@@ -20,7 +21,7 @@ export const verifyEmail = (email) =>
     }
   });
 
-const createAlert = (data) => {
+export const createAlert = (data) => {
   return InfoStore.addNotification({
     title: data.title,
     message: data.message,
@@ -40,6 +41,7 @@ const initialState = {
   error: null,
   authenticated: null,
   userDetails: null,
+  passwordReseted: null,
 
   userMessage: "",
   userMessageType: "",
@@ -125,7 +127,7 @@ export const register = createAsyncThunk(
 
 export const recoverAccount = createAsyncThunk(
   "auth/recoverAccount",
-  async (userData, { extra, rejectWithValue }) => {
+  async (userData, { extra, rejectWithValue, dispatch }) => {
     try {
       let res = await axios.post(`${root_url}recovery/`, userData);
       if (res.data.message) {
@@ -133,9 +135,25 @@ export const recoverAccount = createAsyncThunk(
           message: " Account not Found",
         });
       }
+      dispatch(
+        openAuthModal({
+          title: "password Recovery",
+          message:
+            "An Email has been sent to you with an Instruction on how to recover your account",
+        })
+      );
       return { message: "An email has been sent to you" };
     } catch (error) {
-      rejectWithValue({
+      dispatch(
+        openAuthModal({
+          title: "password Recovery",
+          message:
+            "An Email has been sent to you with an Instruction on how to recover your account",
+        })
+      );
+      console.log(error);
+      console.log("error");
+      return rejectWithValue({
         message: "Something went Wrong! Please try again",
       });
     }
@@ -154,11 +172,11 @@ export const resetPassword = createAsyncThunk(
       );
       console.log(res);
       if (res.status === 200) return { status: "success" };
-      return rejectWithValue({ status: res.data.message });
+      return rejectWithValue({ message: res.data.message });
     } catch (error) {
       if (error.response?.data.message)
-        return rejectWithValue({ status: error.response.data.message });
-      return rejectWithValue({ status: "failed" });
+        return rejectWithValue({ message: error.response.data.message });
+      return rejectWithValue({ message: "failed" });
     }
   }
 );
@@ -272,13 +290,14 @@ export const userSlice = createSlice({
       state.isLoading = false;
       createAlert({
         message:
-          "An e-mail has been sent to you. Please follow the instr=uction to reaet your password.",
+          "An e-mail has been sent to you. Please follow the instruction to reaet your password.",
         type: "info",
         title: "password Recovery",
       });
     });
     builder.addCase(recoverAccount.rejected, (state, action) => {
       state.isLoading = false;
+
       createAlert({
         message: "Please try again Something went wrong",
         type: "danger",
@@ -299,6 +318,7 @@ export const userSlice = createSlice({
       });
       // state.userMessageType = action.payload.type;
       state.isLoading = false;
+      state.passwordReseted = true;
     });
     builder.addCase(resetPassword.rejected, (state, action) => {
       createAlert({

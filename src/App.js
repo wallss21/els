@@ -3,11 +3,13 @@ import { router } from "./router";
 import { RouterProvider } from "react-router-dom";
 import { ReactNotifications } from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
+import { MyModal } from "./components/Modal";
 
 function App() {
   return (
     <div>
       <ReactNotifications />
+
       <RouterProvider router={router} fallbackElement={<p>Loading...</p>} />
     </div>
   );

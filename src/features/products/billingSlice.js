@@ -14,17 +14,23 @@ export const createBillingAddres = createAsyncThunk(
   "billingAddress/create",
   async (payload, { extra, rejectWithValue }) => {
     // TODO make axios request to create data and return success status if successful or reject with value if error occur
-    try {
-      let res = await axios.post(`${root_url}billing/create/`, payload.data, {
-        headers: { Authorization: `Bearer ${payload.token} ` },
-      });
+    if (payload.token) {
+      try {
+        let res = await axios.post(`${root_url}billing/create/`, payload.data, {
+          headers: { Authorization: `Bearer ${payload.token} ` },
+        });
 
-      if (res.status === 200) {
-        return res.data;
+        if (res.status === 200) {
+          return res.data;
+        }
+        return rejectWithValue();
+      } catch (error) {
+        return rejectWithValue();
       }
-      return rejectWithValue();
-    } catch (error) {
-      return rejectWithValue();
+    } else {
+      const { token, ...data } = payload;
+      localStorage.setItem("billingAddress", JSON.stringify(data));
+      return data;
     }
   }
 );
@@ -51,19 +57,23 @@ export const retriveBillingAddress = createAsyncThunk(
 export const billingSlice = createSlice({
   initialState,
   name: "billingAddress",
-  reducers: {},
+  reducers: {
+    getBillingAddressFromLS:(state,action)=>{
+      state.billingAddress=[JSON.parse(localStorage.getItem("billingAddress"))]
+    }
+  },
   extraReducers: (builder) => {
     builder.addCase(createBillingAddres.pending, (state) => {
       state.isLoading = true;
     });
     builder.addCase(createBillingAddres.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.billingAddress = [...state.billingAddress,action.payload];
+      state.billingAddress = [...state.billingAddress, action.payload];
     });
     builder.addCase(createBillingAddres.rejected, (state, action) => {
       state.isLoading = false;
       state.error = action.error.message;
-      state.billingAddress=[]
+      state.billingAddress = [];
     });
 
     // retriving Billingaddress data

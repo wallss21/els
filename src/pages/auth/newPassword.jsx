@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Header from "../../components/shared/header";
 import FormInput from "../../components/input";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate,Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { resetPassword } from "../../features/auth/authSlice";
 
@@ -13,6 +13,7 @@ function NewPassword() {
   let from = location.state?.from?.pathname || "/";
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const passwordChanged=useSelector(state=>state.auth.passwordReseted)
   const isLoading = useSelector((state) => state.auth.isLoading);
 
   const [pass, setPass] = useState({ password1: "", password2: "" });
@@ -57,7 +58,7 @@ function NewPassword() {
     // TODO  On the new page present the new password form, on submit , attach the that saved url and send to for verification and modification
   };
 
-  return (
+  return passwordChanged?<Navigate to={"/"}/>:( (
     <div>
       <Header />
       <section className="bg-white">
@@ -119,7 +120,7 @@ function NewPassword() {
         </div>
       </section>
     </div>
-  );
+  ))
 }
 
 export default NewPassword;

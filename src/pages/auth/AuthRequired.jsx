@@ -1,6 +1,6 @@
 import React, { Children, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { checkIfUserLogin, login, logout } from "../../features/auth/authSlice";
+import { checkIfUserLogin, createAlert, login, logout } from "../../features/auth/authSlice";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 
 function AuthRequired() {
@@ -44,6 +44,7 @@ function AuthRequired() {
     );
   }
   if (user.authenticated === false) {
+    createAlert({title:"Authenication Required",message:"Please Log in to continue",type:"info"})
     return (
       <Navigate
         to={"/accounts/login"}

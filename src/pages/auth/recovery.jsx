@@ -1,3 +1,4 @@
+import V from "max-validator"
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,6 +15,7 @@ function Recovery() {
 
   const dispatch = useDispatch();
   const onSubmit = (e) => {
+    // V.validate(e.,b)
     if (e.Email.trim() === "")
       return dispatch(
         showAlert({
@@ -35,8 +37,8 @@ function Recovery() {
         <div className="px-5 lg:px-0 container mx-auto t">
           <div className="text-center">
             {" "}
-            <h3 className="mt-16 pb-5 text-[44px] font-[500] font-mont ">
-              Login
+            <h3 className="mt-16 pb-5 text-[40px] font-[500] font-mont ">
+              Recover Account
             </h3>
             <p className="font-mont text-sm pb-10">
               Please enter your registered e-mail

@@ -44,9 +44,7 @@ const BillingAddFormInput = ({ isLoading, error, onSubmit }) => {
 
   const handleChange = (data, field) => {
     console.log(field);
-    setFormState((prev) => {
-      return { ...prev, [field]: data.trim() };
-    });
+    setFormState((prev) => ({ ...prev, [field]: data.trim() }));
   };
 
   const handleSubmit = (e) => {

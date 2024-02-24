@@ -30,7 +30,6 @@ function Checkout() {
   const [errors, setErrors] = useState({});
   const dispatch = useDispatch();
 
-  const navigate = useNavigate();
   const query = queryString.parse(location.search);
 
   const handleSubmit = async (e) => {
@@ -55,7 +54,9 @@ function Checkout() {
       return;
     }
     localStorage.setItem("checkoutPage", JSON.stringify(location));
-    dispatch(createBillingAddres({ data: e, token }));
+  
+      dispatch(createBillingAddres({ data: e, token }));
+    
     
   };
 
@@ -66,7 +67,12 @@ function Checkout() {
   }, [query, location.state]);
 
   useEffect(() => {
-    dispatch(retriveBillingAddress());
+    if(token){
+
+      dispatch(retriveBillingAddress());
+    }else{
+
+    }
   }, []);
 
   return billingAddress?.length > 0 &&

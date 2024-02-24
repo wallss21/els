@@ -3,6 +3,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 const initialState = {
   isPayModalOpen: false,
   isPayLoading: false,
+  isAuthMessageModalOpen:true
 };
 
 export const makePayment = createAsyncThunk(
@@ -33,6 +34,16 @@ export const modalSlice = createSlice({
     closePayModal: (state) => {
       state.isPayModalOpen = false;
     },
+    //  AUTH MODAL
+    openAuthModal: (state, action) => {
+      state.authMessage={...action.payload}
+      state.isAuthMessageModalOpen = true;
+    },
+    closeAuthModal: (state,action) => {
+      state.isAuthMessageModalOpen = false;
+      state.authMessage={...action.payload}
+
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(makePayment.pending, (state) => {
@@ -49,6 +60,6 @@ export const modalSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { openPayModal, closePayModal } = modalSlice.actions;
+export const { openPayModal, closePayModal,closeAuthModal,openAuthModal } = modalSlice.actions;
 
 export default modalSlice.reducer;

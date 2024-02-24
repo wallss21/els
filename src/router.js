@@ -13,6 +13,7 @@ import NewPassword from "./pages/auth/newPassword";
 import ToNewPassword from "./pages/auth/toNewPassword";
 import ProductDetail from "./pages/product/product_detail";
 import Checkout from "./pages/product/checkout";
+import AccountFrame from "./pages/auth/accountFrame";
 
 export const router = createBrowserRouter([
   {
@@ -24,11 +25,17 @@ export const router = createBrowserRouter([
   { path: "/collections/:category", element: <Products /> },
   { path: "/collections", element: <Collections /> },
 
-  { path: "/accounts/register", element: <Register /> },
-  { path: "/accounts/login", element: <Login /> },
-  { path: "/accounts/recovery", element: <Recovery/> },
-  { path: "/accounts/recovery/:email/:time", element: <ToNewPassword /> },
-  { path: "/accounts/recovery/reset-password", element: <NewPassword /> },
+  {
+    path: "/accounts/",
+    element: <AccountFrame />,
+    children: [
+      { path: "register", element: <Register /> },
+      { path: "login", element: <Login /> },
+      { path: "recovery", element: <Recovery /> },
+      { path: "recovery/:email/:time", element: <ToNewPassword /> },
+      { path: "recovery/reset-password", element: <NewPassword /> },
+    ],
+  },
 
   {
     path: "/account/",

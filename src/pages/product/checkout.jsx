@@ -282,7 +282,8 @@ function Checkout() {
                     );
                   })}
                 </div>
-                <p className="py-3 text-end cursor-pointer ">Add new</p>
+                <p className="py-3 text-end cursor-pointer "><Link to={"/accounts/new-billings"} className="underline underline-offset-2 text-sm text-[#282828] font-mont">Add new
+                </Link> </p>
               </div>
             </div>
             <div className="bg-slate-50">

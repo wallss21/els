@@ -5,8 +5,8 @@ import { openAuthModal } from "../utils/modalSlice";
 
 // import  jwt from "jsonwebtoken";
 
-const root_url = "http://127.0.0.1:8000/apiv1/accounts/";
-// const root_url = "https://walse.pythonanywhere.com/apiv1/accounts/";
+// const root_url = "http://127.0.0.1:8000/apiv1/accounts/";
+const root_url = "https://walse.pythonanywhere.com/apiv1/accounts/";
 
 export const verifyEmail = (email) =>
   new Promise(async (resolve, reject) => {

@@ -3,7 +3,8 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 const initialState = {
   isPayModalOpen: false,
   isPayLoading: false,
-  isAuthMessageModalOpen:true
+  isAuthMessageModalOpen:false,
+  authMessage:{},
 };
 
 export const makePayment = createAsyncThunk(

@@ -44,10 +44,10 @@ function AuthModal({ title, message }) {
       <div className="flex  flex-col justify-center w-11/12 mx-auto items-center mt-10 lg:px-16 ">
         <p className="font-semibold text-xl tracking-wide text-[red] flex justify-evenly gap-x-4 items-center">
           <IoLockClosed color="red" size={50} />
-          {data.title}
+          {data?.title?data.title:""}
         </p>
         <p className="text-medium mt-5 font-mont">
-          {data.message}
+          {data?.message?data.message:""}
           {""}
         </p>    
         <div className="py-5 ">

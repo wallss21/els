@@ -5,7 +5,7 @@ import { BiCloset, BiErrorAlt } from "react-icons/bi";
 import { PiTelegramLogoFill } from "react-icons/pi";
 import { Link, useNavigate } from "react-router-dom";
 import { closeAuthModal } from "../../features/utils/modalSlice";
-import { GoSignIn } from "react-icons/go";
+import { GoLock, GoSignIn } from "react-icons/go";
 import { CiLock } from "react-icons/ci";
 import { IoLockClosed } from "react-icons/io5";
 
@@ -41,13 +41,14 @@ function AuthModal({ title, message }) {
       style={customStyles}
       contentLabel="Example Modal"
     >
-      <div className="flex  flex-col justify-center w-11/12 mx-auto items-center mt-10 lg:px-16 ">
-        <p className="font-semibold text-xl tracking-wide text-[red] flex justify-evenly gap-x-4 items-center">
-          <IoLockClosed color="red" size={50} />
-          {data?.title?data.title:""}
+      <div className="flex  flex-col justify-center min-w-11/12 mx-auto items-center mt-10 lg:px-16 ">
+        <p className="font-semibold text-xl tracking-wide text-gray-500 flex justify-evenly gap-x-4 items-center">
+         
+          <GoLock color="gray" size={50}/>
+          {data?.title?data.title:"Test Authentication Message"}
         </p>
         <p className="text-medium mt-5 font-mont">
-          {data?.message?data.message:""}
+          {data?.message?data.message:"Sorry ! just testing"}
           {""}
         </p>    
         <div className="py-5 ">

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Header from "../../components/shared/header";
 import Footer from "../../components/shared/footer";
 import { Navigate, useLocation } from "react-router-dom";
@@ -10,6 +10,9 @@ function Register() {
   const auth = useSelector((state) => state.auth.authenticated);
   const justReg = useSelector((state) => state.auth.new_reg);
   let from = location.state?.from?.pathname || "/";
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   if (!auth) {
     return justReg ? (

@@ -101,7 +101,7 @@ function Product({ product, id }) {
               title={"El Classic Jewelry"}
             />
           </div>
-          <p className="name  text-sm text-start font-mont mt-2">
+          <p className="name  text-sm text-start font-mont mt-2 line-clamp-3">
             {product.name}
           </p>
 
@@ -117,7 +117,7 @@ function Product({ product, id }) {
               </p>
             </div>
 
-            {product.number_in_stock < 4 && (
+            {product.number_in_stock < 4 ? (
               <div className="pb-3 py-2 flex items-center space-x-2">
                 <GoDotFill color="#f14b4b" />
                 <span className=" absolute z-30 text-[#f14b4b] text-xs font-medium me-2 px-2.5  ">
@@ -127,7 +127,18 @@ function Product({ product, id }) {
                   />
                 </span>
               </div>
-            )}
+            ):(<div className="pb-3 py-2 flex items-center space-x-2">
+            <GoDotFill color="#4dce6f" />
+            <span className=" absolute z-30 text-white text-xs font-medium me-2 px-2.5  ">
+              <Title
+                title={`In stock`}
+                color={"text-[#f14b4b]"}
+              />
+            </span>
+          </div>)}
+            <div className="addtocart py-1 lg:hidden">
+            <button onClick={e=> dispatch(addToCart({ item: { ...product, count: 1 } }))} className="w-full bg-[#282828] rounded-md text-white py-3" >&plus; add to cart </button>
+            </div>
           </div>
         </div>
       </div>

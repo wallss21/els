@@ -9,7 +9,6 @@ function App() {
   return (
     <div>
       <ReactNotifications />
-
       <RouterProvider router={router} fallbackElement={<p>Loading...</p>} />
     </div>
   );

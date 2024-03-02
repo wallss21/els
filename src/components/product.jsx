@@ -62,7 +62,7 @@ function Product({ product, id }) {
           />
           {product.discount_percent > 0 && (
             <span className="text-red-600   absolute top-1 right-1 float-end px-2 py-2 bg-red-100">
-              {product.discount_percent}% off{" "}
+              -{product.discount_percent}% 
             </span>
           )}
           <div className="hidden w-full z-[100]  absolute bottom-2 add_to_cart_btn   ">

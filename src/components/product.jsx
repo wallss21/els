@@ -62,7 +62,7 @@ function Product({ product, id }) {
           />
           {product.discount_percent > 0 && (
             <span className="text-red-600   absolute top-1 right-1 float-end px-2 py-2 bg-red-100">
-              -{product.discount_percent}% 
+              -{product.discount_percent}%
             </span>
           )}
           <div className="hidden w-full z-[100]  absolute bottom-2 add_to_cart_btn   ">
@@ -127,17 +127,23 @@ function Product({ product, id }) {
                   />
                 </span>
               </div>
-            ):(<div className="pb-3 py-2 flex items-center space-x-2">
-            <GoDotFill color="#4dce6f" />
-            <span className=" absolute z-30 text-white text-xs font-medium me-2 px-2.5  ">
-              <Title
-                title={`In stock`}
-                color="text-green-600"
-              />
-            </span>
-          </div>)}
-            <div className="addtocart py-1 lg:hidden">
-            <button onClick={e=> dispatch(addToCart({ item: { ...product, count: 1 } }))} className="w-full bg-[#282828] rounded-md text-white py-3" >&plus; add to cart </button>
+            ) : (
+              <div className="pb-3 py-2 flex items-center space-x-2">
+                <GoDotFill color="#4dce6f" />
+                <span className=" absolute z-30 text-white text-xs font-medium me-2 px-2.5  ">
+                  <Title title={`In stock`} color="text-green-600" />
+                </span>
+              </div>
+            )}
+            <div className="addtocart pt-1 lg:hidden">
+              <button
+                onClick={(e) =>
+                  dispatch(addToCart({ item: { ...product, count: 1 } }))
+                }
+                className="w-full bg-[#282828] rounded text-white py-4"
+              >
+                + add to cart
+              </button>
             </div>
           </div>
         </div>

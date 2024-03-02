@@ -132,7 +132,7 @@ function Product({ product, id }) {
             <span className=" absolute z-30 text-white text-xs font-medium me-2 px-2.5  ">
               <Title
                 title={`In stock`}
-                color={"text-[#65f37d]"}
+                color="text-green-600"
               />
             </span>
           </div>)}

@@ -137,9 +137,10 @@ function Product({ product, id }) {
             )}
             <div className="addtocart pt-1 lg:hidden">
               <button
-                onClick={(e) =>
-                  dispatch(addToCart({ item: { ...product, count: 1 } }))
-                }
+                onClick={(e) => {
+                  e.stopPropagation();
+                  dispatch(addToCart({ item: { ...product, count: 1 } }));
+                }}
                 className="w-full bg-[#282828] rounded text-white py-4"
               >
                 + add to cart

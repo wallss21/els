@@ -1,7 +1,7 @@
 import { Navigate, createBrowserRouter, useParams } from "react-router-dom";
 import Collections from "./pages/collections";
 import Products from "./pages/product/products";
-import ErrorPage from "./pages/errorPage";
+import ErrorPage from "./pages/404Page";
 import Home from "./pages/home";
 import Register from "./pages/auth/register";
 import Login from "./pages/auth/login";

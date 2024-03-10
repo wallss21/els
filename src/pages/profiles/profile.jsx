@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink,useNavigate } from "react-router-dom";
 import { Title } from "../../components/text";
 import Header from "../../components/shared/header";
 import { useDispatch } from "react-redux";
@@ -9,6 +9,7 @@ function Profile() {
   const dispatch = useDispatch();
 
   const links = ["order", "Addresses", "Logout"];
+  const navigate=useNavigate()
   return (
     <div className="page">
       <Header />
@@ -29,7 +30,7 @@ function Profile() {
                         </NavLink>
                       ) : (
                         <NavLink
-                          to={"/"}
+                          to={""}
                           className="block py-2 px-3 font-mont font-[400]  rounded  md:p-0 capitalize"
                         >
                           {link}
@@ -45,14 +46,16 @@ function Profile() {
                 <h3 className="text-2xl .text-[#282828].text-light flex justify-center items-center ">
                   Orders
                   <span className="py-2 px-3 ml-3  text-xs rounded-full  bg-[#282828] text-white ">
-                    9
+                    0
                   </span>
                 </h3>{" "}
                 <p className="txt-sm font-mont font-light">
                   You have not placed any orders yet.
                 </p>
                 <div className="btn mt-10">
-                  <button
+                  <button onClick={e=>{
+                    navigate("/jewelleries")
+                  }}
                     type="button"
                     className="bg-[#282828] py-5 px-7 text-white "
                   >

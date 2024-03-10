@@ -22,7 +22,7 @@ const ErrorPage = () => {
   useEffect(() => {}, []);
 
   return (
-    <div className="">
+    <div className="px-5">
       <div className="flex flex-col justify-center items-center h-[100vh]">
         <div className="text-center font-mont font-light text-8xl mb-10">Oops! </div>
         <div className="text font-mont font-light text-5xl text-center ">

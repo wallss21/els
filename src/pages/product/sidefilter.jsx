@@ -1,25 +1,18 @@
 import React from "react";
-import { sidenav } from "../../assets/sidenav";
+import { sidenav } from "../../assets/data";
 import { Gemstone_Cut, Gemstone_Type, Ring_brand } from "../../assets/rings";
 import CheckBoxInput from "../../components/checkBok";
-import { GoArrowLeft, GoArrowRight, GoPlus } from "react-icons/go";
+import { GoPlus } from "react-icons/go";
 import {
-  Link,
-  NavLink,
   useLocation,
   useNavigate,
-  useParams,
-  useSearchParams,
 } from "react-router-dom";
 import { Jewellery_material } from "../../assets/data";
-import { Plus } from "../../components/icons";
 import PriceRange from "../../components/price_range";
-import queryString from "query-string";
 
 function Sidefilter({ visibility }) {
-  const location = useLocation();
+  // const location = useLocation();
   const navigate = useNavigate();
-  const parsed = queryString.parse(location.search);
 
   // METHODS
 

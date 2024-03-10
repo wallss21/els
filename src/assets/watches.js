@@ -112,15 +112,15 @@ export const collections = [
   "True",
 ];
 
-export const watche_movement_type = [
-  "Automatic",
-  "Quartz",
-  "Chronograph",
-  "Analogue",
-  "Digital",
-  "Men's Watches",
-  "Women's Watches",
-];
+// export const watche_movement_type = [
+//   "Automatic",
+//   "Quartz",
+//   "Chronograph",
+//   "Analogue",
+//   "Digital",
+//   "Men's Watches",
+//   "Women's Watches",
+// ];
 
 export const watch_brand = [
   {

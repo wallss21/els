@@ -10,19 +10,29 @@ function Login() {
   const location = useLocation();
   const auth = useSelector((state) => state.auth.authenticated);
   let from = location.state?.from?.pathname || "/";
-  let message=location.state?.message
-
+  
   useEffect(() => {
     window.scrollTo(0, 0);
-    message.title!=""&&createAlert({title:message.title ,message:message.message,type:message.type})
-
+    let message = location.state?.message;
+    message?.title  &&
+      createAlert({
+        title: message.title,
+        message: message.message,
+        type: message.type,
+      });
+      return ()=> {
+        
+       if(message?.title){ location.state.message=null
+        message=null
+       }
+      }
   }, []);
   if (!auth) {
     return (
       <div className="page bg-white">
         <Header />
-        
-        <LoginForm  />
+
+        <LoginForm />
         <Footer />
       </div>
     );

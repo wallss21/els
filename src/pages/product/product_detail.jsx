@@ -18,6 +18,7 @@ import { ProductCarousel } from "../../sections/carousel";
 import PaypalBTN from "../../components/paypalBTN";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { CiShare2 } from "react-icons/ci";
+import { makePayment } from "../../features/utils/modalSlice";
 
 const AddToCart = ({ className, product }) => {
   const [item_count, setItem_count] = useState(1);
@@ -31,6 +32,11 @@ const AddToCart = ({ className, product }) => {
     newstate === "decrement" && item_count > 1 && setItem_count(item_count - 1);
   };
   const dispatch = useDispatch();
+
+  const onMakePay = (payload) => {
+    dispatch(makePayment(payload));
+  };
+
   return (
     <div className={`add_to_cart lg:col-span-5 ${className}`}>
       <div className="  border-gray-200   bg-white lg:sticky top-[20vh] rounded ">

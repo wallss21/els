@@ -27,9 +27,11 @@ export const getJewellery = createAsyncThunk(
 export const getProductDetail = createAsyncThunk(
   "products/getProdctDetail",
   async (payload, { extra, rejectWithValue }) => {
+    console.log(payload)
     let url = `${root_url}products/${payload}?}`;
     try {
       let res = await axios.get(url);
+      console.log(res)
       if (res.status===200){
 
         return res.data;

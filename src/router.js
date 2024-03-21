@@ -1,4 +1,4 @@
-import { Navigate, createBrowserRouter, useParams } from "react-router-dom";
+import { Navigate, createBrowserRouter, useLoaderData,  } from "react-router-dom";
 import Collections from "./pages/collections";
 import Products from "./pages/product/products";
 import ErrorPage from "./pages/404Page";
@@ -14,6 +14,7 @@ import ToNewPassword from "./pages/auth/toNewPassword";
 import ProductDetail from "./pages/product/product_detail";
 import Checkout from "./pages/product/checkout";
 import AccountFrame from "./pages/auth/accountFrame";
+import axios from "axios";
 
 export const router = createBrowserRouter([
   {
@@ -22,6 +23,24 @@ export const router = createBrowserRouter([
     children: [{ index: true, element: <Checkout />, path: "" }],
   },
   { path: "/products/:product_name", element: <ProductDetail /> },
+
+  {
+    path: "/products/id/:product_id",
+    loader: async ({ params }) => {
+      const { data } = await axios.get(`https://walse.pythonanywhere.com/apiv1/shop/collections/products/${params.product_id}`)
+      return data
+    },
+    Component() {
+      let data = useLoaderData()
+      if(data.name){
+
+        return <Navigate to={`/products/${encodeURI( data.name.replaceAll(" ","-"))}`} state={{ product_id: data.product_id }} />
+      }
+      return <ErrorPage/>
+    },
+    
+  },
+
   { path: "/collections/:category", element: <Products /> },
   { path: "/collections", element: <Collections /> },
 

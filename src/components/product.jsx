@@ -4,7 +4,8 @@ import { Title } from "./text";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../features/products/cartSlice";
 import numeral from "numeral";
-import { GoDotFill } from "react-icons/go";
+import { GoDotFill, GoPlus } from "react-icons/go";
+import { BiPlusCircle } from "react-icons/bi";
 
 function Product({ product, id }) {
   const dispatch = useDispatch();
@@ -106,7 +107,7 @@ function Product({ product, id }) {
           </p>
 
           <div className="pt-2">
-            <div className="gap-x-4 flex justify-center  items-center">
+            <div className="gap-x-4 flex items-baseline justify-center  ">
               {product.display_price < product.price && (
                 <p className="text-sm font-mont font-light text-red-600 line-through ">
                   ${numeral(product.price).format()}
@@ -141,9 +142,9 @@ function Product({ product, id }) {
                   e.stopPropagation();
                   dispatch(addToCart({ item: { ...product, count: 1 } }));
                 }}
-                className="w-full bg-[#282828] rounded text-white py-4"
+                className="w-full bg-[#282828] rounded text-white py-3 flex justify-center items-center"
               >
-                + add to cart
+             Add to cart
               </button>
             </div>
           </div>

@@ -6,16 +6,18 @@ import IncreamentDecreamentQuantity from "../../components/increament_decreament
 import Footer from "../../components/shared/footer";
 import { useLocation } from "react-router-dom";
 import numeral from "numeral";
-import { getProductDetail } from "../../features/products/product_listSlice";
+import {
+  getProductDetail,
+  getProductDetailByName,
+} from "../../features/products/product_listSlice";
 import PlaceholderGrid from "rsuite/esm/Placeholder/PlaceholderGrid";
 import PlaceholderGraph from "rsuite/esm/Placeholder/PlaceholderGraph";
-import { addToCart, addToCartdb } from "../../features/products/cartSlice";
+import { addToCart } from "../../features/products/cartSlice";
 import { PiDotFill } from "react-icons/pi";
 import { ProductCarousel } from "../../sections/carousel";
-import { BiHeart, BiShare } from "react-icons/bi";
 import PaypalBTN from "../../components/paypalBTN";
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import { CiShare1, CiShare2 } from "react-icons/ci";
+import { CiShare2 } from "react-icons/ci";
 
 const AddToCart = ({ className, product }) => {
   const [item_count, setItem_count] = useState(1);
@@ -29,7 +31,6 @@ const AddToCart = ({ className, product }) => {
     newstate === "decrement" && item_count > 1 && setItem_count(item_count - 1);
   };
   const dispatch = useDispatch();
-  console.log(product);
   return (
     <div className={`add_to_cart lg:col-span-5 ${className}`}>
       <div className="  border-gray-200   bg-white lg:sticky top-[20vh] rounded ">
@@ -79,8 +80,12 @@ const AddToCart = ({ className, product }) => {
               <Title title={"ADD TO Cart"} color={"text-white"} />
             </button>
             <div className="flex justify-stretch gap-x-4 gap-y-4">
-              <PaypalBTN />
-              <CopyToClipboard text={`${window.location.href}`}>
+              <PaypalBTN onPay={() => {}} />
+              <CopyToClipboard
+                text={`${decodeURI(window.location.origin)}/products/id/${
+                  product.product_id
+                }`}
+              >
                 <button className="lg:flex-inline flex basis-2/12 ripple-bg-neutral-100 border text-[#282828] bg-slate-50   text-lg uppercase py-3 justify-center items-center ">
                   <CiShare2 strokeWidth={0.4} size={30} />
                 </button>
@@ -294,17 +299,15 @@ const Content = ({ product }) => {
 
 function ProductDetail() {
   const dispatch = useDispatch();
-  const { state } = useLocation();
+  const location = useLocation();
   const product = useSelector((state) => state.products.product);
-  console.log(state);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
   useEffect(() => {
-    dispatch(getProductDetail(state.product_id));
-  }, [dispatch, state]);
+    dispatch(getProductDetail(location.state?.product_id));
+  }, [dispatch, location.state, location.pathname]);
 
   if (product?.name) {
     return (

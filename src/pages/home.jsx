@@ -10,12 +10,13 @@ import { Button, Title } from "../components/text";
 import { featureProducts } from "../features/products/product_listSlice";
 
 const ReloadFeaturedP = () => {
+  const dispatch=useDispatch()
   return (
     <div className="py-10 text-[#282828] text-center px-5 ">
       <p className="text-sm font-light font-mont">
         Something went wrong Please refresh to Load items
       </p>
-      <Button title={"Refresh"} />
+      <Button onClicked={    dispatch(featureProducts())} title={"Refresh"}  />
     </div>
   );
 };
@@ -41,7 +42,7 @@ function Home() {
         </div>
         {topProducts.length > 0 ? (
           <div className="grid grid-cols-2 lg:grid-cols-5 gap-y-10 px-2 gap-x-3 lg:gap-5 ">
-            {topProducts.map((product) => (
+            {topProducts.map((product) =>{ console.log(product); return(
               <div
                 key={product.id}
                 className="border-gray-200 border  rounded-md shadow-md relative"
@@ -54,7 +55,7 @@ function Home() {
 
                 <Product id={product.id} product={product} />
               </div>
-            ))}
+            )})}
           </div>
         ) : (
           <ReloadFeaturedP />

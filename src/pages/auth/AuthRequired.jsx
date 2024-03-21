@@ -44,12 +44,12 @@ function AuthRequired() {
     );
   }
   if (user.authenticated === false) {
-    createAlert({title:"Authenication Required",message:"Please Log in to continue",type:"info"})
+    // createAlert({title:"Authenication Required",message:"Please Log in to continue",type:"info"})
     return (
       <Navigate
         to={"/accounts/login"}
-        state={{ from: location ,other:location.state}}
-        replace={false}
+        state={{ from: location ,other:location.state,message:{title:"Authenication Required",message:"Please Log in to continue",type:"info"}}}
+        replace={true}
       />
     );
   }

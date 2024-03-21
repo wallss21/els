@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 const root_url = "https://walse.pythonanywhere.com/apiv1/shop/collections/";
 
+
 const initialState = {
   isLoading: false,
   displaylist: [],
@@ -23,6 +24,7 @@ export const getJewellery = createAsyncThunk(
     }
   }
 );
+
 
 export const getProductDetail = createAsyncThunk(
   "products/getProdctDetail",
